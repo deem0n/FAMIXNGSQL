@@ -168,7 +168,7 @@ FmxSQLStructuralMetamodelGenerator >> defineStructuralEntitiesRelations [
 FmxSQLStructuralMetamodelGenerator >> defineStructuralHierarchy [
 	"Abstract entities inheritance relations."
 	structuralEntity --|> namedEntity.
-	structuralEntity --|> #TNamespaceEntity.
+	structuralEntity --|> #TNamedEntity.
 	
 	constraint --|> structuralEntity.
 	constraint --|> tWithColumnReference.
