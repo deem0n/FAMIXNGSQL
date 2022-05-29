@@ -4,8 +4,8 @@ I am an abstract superclass for structural entities. A structural entity is an e
 Class {
 	#name : #FmxSQLStructuralEntity,
 	#superclass : #FmxSQLNamedEntity,
-	#traits : 'FamixTNamespaceEntity',
-	#classTraits : 'FamixTNamespaceEntity classTrait',
+	#traits : 'FamixTNamedEntity',
+	#classTraits : 'FamixTNamedEntity classTrait',
 	#category : 'FamixNGSQL-Entities'
 }
 

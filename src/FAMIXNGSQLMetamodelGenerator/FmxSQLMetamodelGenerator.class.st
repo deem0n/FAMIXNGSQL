@@ -309,7 +309,7 @@ FmxSQLMetamodelGenerator >> defineBehaviouralHierarchy [
 	view --|> tAbstractType.
 	view --|> tColumnsContainer.
 	view --|> tQueryContainer.
-	view --|> #TNamespaceEntity.
+	view --|> #TNamedEntity.
 	view --|> #TWithImmediateSource.
 	view --|> namedEntity.
 	
@@ -321,7 +321,7 @@ FmxSQLMetamodelGenerator >> defineBehaviouralHierarchy [
 	storedProcedure --|> behaviouralEntity.
 	storedProcedure --|> tQueryContainer.
 	storedProcedure --|> namedEntity.
-	storedProcedure--|> #TNamespaceEntity.
+	storedProcedure--|> #TNamedEntity.
 	storedProcedure --|> #TWithReferences.
 	storedProcedure --|> #TInvocable.
 	storedProcedure --|> #TWithInvocations.
@@ -341,7 +341,7 @@ FmxSQLMetamodelGenerator >> defineBehaviouralHierarchy [
 	
 	trigger --|> namedEntity.
 	trigger --|> behaviouralEntity.
-	trigger --|> #TNamespaceEntity.
+	trigger --|> #TNamedEntity.
 	
 	selectQuery --|> crudQuery.
 	selectQuery --|> tDefiningDerivedTables.

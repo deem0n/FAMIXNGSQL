@@ -4,8 +4,8 @@ I am a view. I can be used transparently as a table but I do not hold data. My d
 Class {
 	#name : #FmxSQLView,
 	#superclass : #FmxSQLNamedEntity,
-	#traits : 'FamixTNamespaceEntity + FamixTWithImmediateSource + FmxSQLAbstractType + FmxSQLBehaviouralEntity + FmxSQLColumnsContainer + FmxSQLTQueryContainer',
-	#classTraits : 'FamixTNamespaceEntity classTrait + FamixTWithImmediateSource classTrait + FmxSQLAbstractType classTrait + FmxSQLBehaviouralEntity classTrait + FmxSQLColumnsContainer classTrait + FmxSQLTQueryContainer classTrait',
+	#traits : 'FamixTNamedEntity + FamixTWithImmediateSource + FmxSQLAbstractType + FmxSQLBehaviouralEntity + FmxSQLColumnsContainer + FmxSQLTQueryContainer',
+	#classTraits : 'FamixTNamedEntity classTrait + FamixTWithImmediateSource classTrait + FmxSQLAbstractType classTrait + FmxSQLBehaviouralEntity classTrait + FmxSQLColumnsContainer classTrait + FmxSQLTQueryContainer classTrait',
 	#instVars : [
 		'#query => FMOne type: #FmxSQLSelectQuery opposite: #viewDefining',
 		'#references => FMMany type: #FmxSQLViewReference opposite: #view'

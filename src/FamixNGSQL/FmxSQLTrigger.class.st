@@ -4,8 +4,8 @@ I am a trigger. A trigger allows to define actions to performs when a specific e
 Class {
 	#name : #FmxSQLTrigger,
 	#superclass : #FmxSQLNamedEntity,
-	#traits : 'FamixTNamespaceEntity + FmxSQLBehaviouralEntity',
-	#classTraits : 'FamixTNamespaceEntity classTrait + FmxSQLBehaviouralEntity classTrait',
+	#traits : 'FamixTNamedEntity + FmxSQLBehaviouralEntity',
+	#classTraits : 'FamixTNamedEntity classTrait + FmxSQLBehaviouralEntity classTrait',
 	#instVars : [
 		'#firingAction => FMProperty',
 		'#when => FMProperty',
