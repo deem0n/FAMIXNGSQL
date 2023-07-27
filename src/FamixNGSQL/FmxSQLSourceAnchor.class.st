@@ -9,7 +9,7 @@ Class {
 { #category : #meta }
 FmxSQLSourceAnchor class >> annotation [
 
-	<MSEClass: #SourceAnchor super: #FmxSQLEntity>
+	<FMClass: #SourceAnchor super: #FmxSQLEntity>
 	<package: #FamixNGSQL>
 	<generated>
 	^self

@@ -3,13 +3,13 @@ Class {
 	#superclass : #FmxSQLSourcedEntity,
 	#traits : 'FamixTComment',
 	#classTraits : 'FamixTComment classTrait',
-	#category : 'FamixNGSQL-Entities'
+	#category : #'FamixNGSQL-Entities'
 }
 
 { #category : #meta }
 FmxSQLComment class >> annotation [
 
-	<MSEClass: #Comment super: #FmxSQLSourcedEntity>
+	<FMClass: #Comment super: #FmxSQLSourcedEntity>
 	<package: #FamixNGSQL>
 	<generated>
 	^self

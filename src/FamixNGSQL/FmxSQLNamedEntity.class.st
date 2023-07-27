@@ -1,15 +1,15 @@
 Class {
 	#name : #FmxSQLNamedEntity,
-	#superclass : #FmxSQLSourcedEntity,
-	#traits : 'FamixTNamed + TDependencyQueries + TEntityMetaLevelDependency',
-	#classTraits : 'FamixTNamed classTrait + TDependencyQueries classTrait + TEntityMetaLevelDependency classTrait',
-	#category : 'FamixNGSQL-Entities'
+	#superclass : #FmxSQLEntity,
+	#traits : 'FamixTNamedEntity',
+	#classTraits : 'FamixTNamedEntity classTrait',
+	#category : #'FamixNGSQL-Entities'
 }
 
 { #category : #meta }
 FmxSQLNamedEntity class >> annotation [
 
-	<MSEClass: #NamedEntity super: #FmxSQLSourcedEntity>
+	<FMClass: #NamedEntity super: #FmxSQLEntity>
 	<package: #FamixNGSQL>
 	<generated>
 	^self

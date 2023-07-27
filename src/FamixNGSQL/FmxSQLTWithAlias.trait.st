@@ -3,20 +3,20 @@ Trait {
 	#instVars : [
 		'#aliases => FMMany type: #FmxSQLAlias opposite: #parentBehaviouralEntity'
 	],
-	#category : 'FamixNGSQL-Traits'
+	#category : #'FamixNGSQL-Traits'
 }
 
 { #category : #meta }
 FmxSQLTWithAlias classSide >> annotation [
 
-	<MSEClass: #TWithAlias super: #Trait>
+	<FMClass: #TWithAlias super: #Object>
 	<package: #FamixNGSQL>
 	<generated>
 	^self
 ]
 
 { #category : #adding }
-FmxSQLTWithAlias >> addAliases: anObject [
+FmxSQLTWithAlias >> addAliase: anObject [
 	<generated>
 	^ self aliases add: anObject
 ]
@@ -26,6 +26,7 @@ FmxSQLTWithAlias >> aliases [
 	"Relation named: #aliases type: #FmxSQLAlias opposite: #parentBehaviouralEntity"
 
 	<generated>
+	<derived>
 	^ aliases
 ]
 
@@ -34,12 +35,11 @@ FmxSQLTWithAlias >> aliases: anObject [
 
 	<generated>
 	aliases value: anObject
-
 ]
 
 { #category : #navigation }
 FmxSQLTWithAlias >> aliasesGroup [
 	<generated>
 	<navigation: 'Aliases'>
-	^ MooseGroup withAll: self aliases asSet
+	^ MooseSpecializedGroup withAll: self aliases asSet
 ]

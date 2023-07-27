@@ -16,7 +16,7 @@ Class {
 { #category : #meta }
 FmxSQLTableReference class >> annotation [
 
-	<MSEClass: #TableReference super: #FmxSQLReference>
+	<FMClass: #TableReference super: #FmxSQLReference>
 	<package: #FamixNGSQL>
 	<generated>
 	^self
@@ -36,7 +36,6 @@ FmxSQLTableReference >> source: anObject [
 
 	<generated>
 	source := anObject
-
 ]
 
 { #category : #accessing }
@@ -53,5 +52,4 @@ FmxSQLTableReference >> table: anObject [
 
 	<generated>
 	table := anObject
-
 ]

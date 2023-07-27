@@ -9,13 +9,13 @@ Class {
 	#instVars : [
 		'#queryBoundTo => FMOne type: #FmxSQLSelectQuery opposite: #recordLocalVariables'
 	],
-	#category : 'FamixNGSQL-Entities'
+	#category : #'FamixNGSQL-Entities'
 }
 
 { #category : #meta }
 FmxSQLRecordLocalVariable class >> annotation [
 
-	<MSEClass: #RecordLocalVariable super: #FmxSQLLocalVariable>
+	<FMClass: #RecordLocalVariable super: #FmxSQLLocalVariable>
 	<package: #FamixNGSQL>
 	<generated>
 	^self
@@ -34,5 +34,4 @@ FmxSQLRecordLocalVariable >> queryBoundTo: anObject [
 
 	<generated>
 	queryBoundTo := anObject
-
 ]

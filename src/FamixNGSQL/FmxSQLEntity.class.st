@@ -1,13 +1,13 @@
 Class {
 	#name : #FmxSQLEntity,
 	#superclass : #MooseEntity,
-	#category : 'FamixNGSQL-Entities'
+	#category : #'FamixNGSQL-Entities'
 }
 
 { #category : #meta }
 FmxSQLEntity class >> annotation [
 
-	<MSEClass: #Entity super: #MooseEntity>
+	<FMClass: #Entity super: #MooseEntity>
 	<package: #FamixNGSQL>
 	<generated>
 	^self
@@ -17,7 +17,7 @@ FmxSQLEntity class >> annotation [
 FmxSQLEntity class >> metamodel [
 
 	<generated>
-	^ (self class environment at: #FmxSQLMetamodelGenerator) metamodel
+	^ FmxSQLModel metamodel
 ]
 
 { #category : #testing }
@@ -38,11 +38,6 @@ FmxSQLEntity >> isAlias [
 FmxSQLEntity >> isAliasAccess [
 
 	<generated>
-	^ false
-]
-
-{ #category : #testing }
-FmxSQLEntity >> isAnyBelongerSourced [
 	^ false
 ]
 
@@ -107,12 +102,6 @@ FmxSQLEntity >> isExclusionConstraint [
 
 	<generated>
 	^ false
-]
-
-{ #category : #testing }
-FmxSQLEntity >> isForeignKey [
-	self deprecated: 'Use #isForeignKeyConstraint instead.' transformWith: '`@receiver isForeignKey' -> '`@receiver isForeignKeyConstraint'.
-	^ self isForeignKeyConstraint
 ]
 
 { #category : #testing }
@@ -211,12 +200,6 @@ FmxSQLEntity >> isParameterAccess [
 
 	<generated>
 	^ false
-]
-
-{ #category : #testing }
-FmxSQLEntity >> isPrimaryKey [
-	self deprecated: 'Use #isPrimaryKeyConstraint instead.' transformWith: '`@receiver isPrimaryKey' -> '`@receiver isPrimaryKeyConstraint'.
-	^ self isPrimaryKeyConstraint
 ]
 
 { #category : #testing }

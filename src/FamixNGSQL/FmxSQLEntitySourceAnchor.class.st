@@ -17,7 +17,7 @@ Class {
 { #category : #meta }
 FmxSQLEntitySourceAnchor class >> annotation [
 
-	<MSEClass: #EntitySourceAnchor super: #FmxSQLEntity>
+	<FMClass: #EntitySourceAnchor super: #FmxSQLEntity>
 	<package: #FamixNGSQL>
 	<generated>
 	^self
@@ -26,17 +26,15 @@ FmxSQLEntitySourceAnchor class >> annotation [
 { #category : #accessing }
 FmxSQLEntitySourceAnchor >> end [
 
-	<MSEProperty: #end type: #Number>
+	<FMProperty: #end type: #Number>
 	<generated>
 	^ end
 ]
 
 { #category : #accessing }
 FmxSQLEntitySourceAnchor >> end: anObject [
-
 	<generated>
 	end := anObject
-
 ]
 
 { #category : #accessing }
@@ -52,17 +50,6 @@ FmxSQLEntitySourceAnchor >> entity: anObject [
 
 	<generated>
 	entity := anObject
-
-]
-
-{ #category : #accessing }
-FmxSQLEntitySourceAnchor >> extractString [
-	^ self entity source copyFrom: self start to: self end
-]
-
-{ #category : #accessing }
-FmxSQLEntitySourceAnchor >> interval [
-	^ self start to: self end
 ]
 
 { #category : #testing }
@@ -73,27 +60,15 @@ FmxSQLEntitySourceAnchor >> isEntitySourceAnchor [
 ]
 
 { #category : #accessing }
-FmxSQLEntitySourceAnchor >> sourceAnchor [
-	^ self
-]
-
-{ #category : #accessing }
-FmxSQLEntitySourceAnchor >> sourceAnchorOrReferenceGroupSourceAnchor [
-	^ self
-]
-
-{ #category : #accessing }
 FmxSQLEntitySourceAnchor >> start [
 
-	<MSEProperty: #start type: #Number>
+	<FMProperty: #start type: #Number>
 	<generated>
 	^ start
 ]
 
 { #category : #accessing }
 FmxSQLEntitySourceAnchor >> start: anObject [
-
 	<generated>
 	start := anObject
-
 ]

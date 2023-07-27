@@ -6,27 +6,22 @@ Trait {
 	#instVars : [
 		'#columns => FMMany type: #FmxSQLTColumn opposite: #columnsContainer'
 	],
-	#category : 'FamixNGSQL-Traits'
+	#category : #'FamixNGSQL-Traits'
 }
 
 { #category : #meta }
 FmxSQLColumnsContainer classSide >> annotation [
 
-	<MSEClass: #ColumnsContainer super: #Trait>
+	<FMClass: #ColumnsContainer super: #Object>
 	<package: #FamixNGSQL>
 	<generated>
 	^self
 ]
 
 { #category : #adding }
-FmxSQLColumnsContainer >> addColumns: anObject [
+FmxSQLColumnsContainer >> addColumn: anObject [
 	<generated>
 	^ self columns add: anObject
-]
-
-{ #category : #accessing }
-FmxSQLColumnsContainer >> columnNamed: aString [
-	^ self columns detect: [ :column | column name = aString ]
 ]
 
 { #category : #accessing }
@@ -34,6 +29,7 @@ FmxSQLColumnsContainer >> columns [
 	"Relation named: #columns type: #FmxSQLTColumn opposite: #columnsContainer"
 
 	<generated>
+	<derived>
 	^ columns
 ]
 
@@ -42,12 +38,11 @@ FmxSQLColumnsContainer >> columns: anObject [
 
 	<generated>
 	columns value: anObject
-
 ]
 
 { #category : #navigation }
 FmxSQLColumnsContainer >> columnsGroup [
 	<generated>
 	<navigation: 'Columns'>
-	^ MooseGroup withAll: self columns asSet
+	^ MooseSpecializedGroup withAll: self columns asSet
 ]

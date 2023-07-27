@@ -9,39 +9,16 @@ Class {
 	#instVars : [
 		'#columnsContainerAlias => FMOne type: #FmxSQLColumnsContainerAlias opposite: #columnAliases'
 	],
-	#category : 'FamixNGSQL-Entities'
+	#category : #'FamixNGSQL-Entities'
 }
 
 { #category : #meta }
 FmxSQLColumnAlias class >> annotation [
 
-	<MSEClass: #ColumnAlias super: #FmxSQLAlias>
+	<FMClass: #ColumnAlias super: #FmxSQLAlias>
 	<package: #FamixNGSQL>
 	<generated>
 	^self
-]
-
-{ #category : #meta }
-FmxSQLColumnAlias class >> requirements [
-
-	<generated>
-	^ { FmxSQLDerivedTable. FmxSQLNewLocalVariable. FmxSQLOldLocalVariable. FmxSQLRecordLocalVariable. FmxSQLTable. FmxSQLView }
-]
-
-{ #category : #accessing }
-FmxSQLColumnAlias >> belongsTo [
-
-	<generated>
-	^ self columnsContainer
-
-]
-
-{ #category : #accessing }
-FmxSQLColumnAlias >> belongsTo: anObject [
-
-	<generated>
-	self columnsContainer: anObject
-
 ]
 
 { #category : #accessing }
@@ -57,5 +34,4 @@ FmxSQLColumnAlias >> columnsContainerAlias: anObject [
 
 	<generated>
 	columnsContainerAlias := anObject
-
 ]

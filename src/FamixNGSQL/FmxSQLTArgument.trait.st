@@ -6,7 +6,7 @@ Trait {
 { #category : #meta }
 FmxSQLTArgument classSide >> annotation [
 
-	<MSEClass: #TArgument super: #Trait>
+	<FMClass: #TArgument super: #Object>
 	<package: #FamixNGSQL>
 	<generated>
 	^self

@@ -3,20 +3,20 @@ Trait {
 	#instVars : [
 		'#cursors => FMMany type: #FmxSQLCursor opposite: #parentBehaviouralEntity'
 	],
-	#category : 'FamixNGSQL-Traits'
+	#category : #'FamixNGSQL-Traits'
 }
 
 { #category : #meta }
 FmxSQLTWithCursor classSide >> annotation [
 
-	<MSEClass: #TWithCursor super: #Trait>
+	<FMClass: #TWithCursor super: #Object>
 	<package: #FamixNGSQL>
 	<generated>
 	^self
 ]
 
 { #category : #adding }
-FmxSQLTWithCursor >> addCursors: anObject [
+FmxSQLTWithCursor >> addCursor: anObject [
 	<generated>
 	^ self cursors add: anObject
 ]
@@ -26,6 +26,7 @@ FmxSQLTWithCursor >> cursors [
 	"Relation named: #cursors type: #FmxSQLCursor opposite: #parentBehaviouralEntity"
 
 	<generated>
+	<derived>
 	^ cursors
 ]
 
@@ -34,12 +35,11 @@ FmxSQLTWithCursor >> cursors: anObject [
 
 	<generated>
 	cursors value: anObject
-
 ]
 
 { #category : #navigation }
 FmxSQLTWithCursor >> cursorsGroup [
 	<generated>
 	<navigation: 'Cursors'>
-	^ MooseGroup withAll: self cursors asSet
+	^ MooseSpecializedGroup withAll: self cursors asSet
 ]

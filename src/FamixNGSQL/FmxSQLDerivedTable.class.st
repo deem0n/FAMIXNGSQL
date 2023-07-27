@@ -17,38 +17,16 @@ Class {
 { #category : #meta }
 FmxSQLDerivedTable class >> annotation [
 
-	<MSEClass: #DerivedTable super: #FmxSQLNamedEntity>
+	<FMClass: #DerivedTable super: #FmxSQLNamedEntity>
 	<package: #FamixNGSQL>
 	<generated>
 	^self
 ]
 
-{ #category : #meta }
-FmxSQLDerivedTable class >> requirements [
-
+{ #category : #adding }
+FmxSQLDerivedTable >> addReference: anObject [
 	<generated>
-	^ { FmxSQLDeleteQuery. FmxSQLInsertQuery. FmxSQLSelectQuery. FmxSQLUpdateQuery }
-]
-
-{ #category : #accessing }
-FmxSQLDerivedTable >> belongsTo [
-
-	<generated>
-	^ self parentQuery
-
-]
-
-{ #category : #accessing }
-FmxSQLDerivedTable >> belongsTo: anObject [
-
-	<generated>
-	self parentQuery: anObject
-
-]
-
-{ #category : #testing }
-FmxSQLDerivedTable >> isAnyBelongerSourced [
-	^ self parentQuery isAnyBelongerSourced
+	^ self references add: anObject
 ]
 
 { #category : #accessing }
@@ -65,14 +43,13 @@ FmxSQLDerivedTable >> parentQuery: anObject [
 
 	<generated>
 	parentQuery := anObject
-
 ]
 
 { #category : #navigation }
 FmxSQLDerivedTable >> parentQueryGroup [
 	<generated>
 	<navigation: 'ParentQuery'>
-	^ MooseGroup with: self parentQuery
+	^ MooseSpecializedGroup with: self parentQuery
 ]
 
 { #category : #accessing }
@@ -88,14 +65,13 @@ FmxSQLDerivedTable >> query: anObject [
 
 	<generated>
 	query := anObject
-
 ]
 
 { #category : #navigation }
 FmxSQLDerivedTable >> queryGroup [
 	<generated>
 	<navigation: 'Query'>
-	^ MooseGroup with: self query
+	^ MooseSpecializedGroup with: self query
 ]
 
 { #category : #accessing }
@@ -103,6 +79,7 @@ FmxSQLDerivedTable >> references [
 	"Relation named: #references type: #FmxSQLDerivedTableReference opposite: #derivedTable"
 
 	<generated>
+	<derived>
 	^ references
 ]
 
@@ -111,10 +88,4 @@ FmxSQLDerivedTable >> references: anObject [
 
 	<generated>
 	references value: anObject
-
-]
-
-{ #category : #accessing }
-FmxSQLDerivedTable >> sourcedBelonger [
-	^ self parentQuery sourcedBelonger
 ]

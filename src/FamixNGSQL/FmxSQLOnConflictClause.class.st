@@ -10,7 +10,7 @@ Class {
 { #category : #meta }
 FmxSQLOnConflictClause class >> annotation [
 
-	<MSEClass: #OnConflictClause super: #FmxSQLClause>
+	<FMClass: #OnConflictClause super: #FmxSQLClause>
 	<package: #FamixNGSQL>
 	<generated>
 	^self

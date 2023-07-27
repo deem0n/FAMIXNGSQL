@@ -7,13 +7,13 @@ Class {
 	#instVars : [
 		'#type => FMOne type: #FmxSQLType opposite: #references'
 	],
-	#category : 'FamixNGSQL-Entities'
+	#category : #'FamixNGSQL-Entities'
 }
 
 { #category : #meta }
 FmxSQLTypeReference class >> annotation [
 
-	<MSEClass: #TypeReference super: #FmxSQLReference>
+	<FMClass: #TypeReference super: #FmxSQLReference>
 	<package: #FamixNGSQL>
 	<generated>
 	^self
@@ -33,5 +33,4 @@ FmxSQLTypeReference >> type: anObject [
 
 	<generated>
 	type := anObject
-
 ]

@@ -16,17 +16,16 @@ Class {
 { #category : #meta }
 FmxSQLSelectQuery class >> annotation [
 
-	<MSEClass: #SelectQuery super: #FmxSQLCRUDQuery>
+	<FMClass: #SelectQuery super: #FmxSQLCRUDQuery>
 	<package: #FamixNGSQL>
 	<generated>
 	^self
 ]
 
-{ #category : #meta }
-FmxSQLSelectQuery class >> requirements [
-
+{ #category : #adding }
+FmxSQLSelectQuery >> addRecordLocalVariable: anObject [
 	<generated>
-	^ { FmxSQLView }
+	^ self recordLocalVariables add: anObject
 ]
 
 { #category : #accessing }
@@ -34,6 +33,7 @@ FmxSQLSelectQuery >> recordLocalVariables [
 	"Relation named: #recordLocalVariables type: #FmxSQLRecordLocalVariable opposite: #queryBoundTo"
 
 	<generated>
+	<derived>
 	^ recordLocalVariables
 ]
 
@@ -42,12 +42,6 @@ FmxSQLSelectQuery >> recordLocalVariables: anObject [
 
 	<generated>
 	recordLocalVariables value: anObject
-
-]
-
-{ #category : #accessing }
-FmxSQLSelectQuery >> selectClause [
-	^ self clauses detect: [ :clause | clause class = FmxSQLSelectClause ]
 ]
 
 { #category : #accessing }
@@ -56,6 +50,7 @@ FmxSQLSelectQuery >> viewDefining [
 
 	<generated>
 	<container>
+	<derived>
 	^ viewDefining
 ]
 
@@ -64,12 +59,11 @@ FmxSQLSelectQuery >> viewDefining: anObject [
 
 	<generated>
 	viewDefining := anObject
-
 ]
 
 { #category : #navigation }
 FmxSQLSelectQuery >> viewDefiningGroup [
 	<generated>
 	<navigation: 'ViewDefining'>
-	^ MooseGroup with: self viewDefining
+	^ MooseSpecializedGroup with: self viewDefining
 ]

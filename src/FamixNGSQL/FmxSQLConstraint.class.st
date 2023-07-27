@@ -9,39 +9,16 @@ Class {
 	#instVars : [
 		'#table => FMOne type: #FmxSQLTable opposite: #constraints'
 	],
-	#category : 'FamixNGSQL-Entities'
+	#category : #'FamixNGSQL-Entities'
 }
 
 { #category : #meta }
 FmxSQLConstraint class >> annotation [
 
-	<MSEClass: #Constraint super: #FmxSQLStructuralEntity>
+	<FMClass: #Constraint super: #FmxSQLStructuralEntity>
 	<package: #FamixNGSQL>
 	<generated>
 	^self
-]
-
-{ #category : #meta }
-FmxSQLConstraint class >> requirements [
-
-	<generated>
-	^ { FmxSQLTable }
-]
-
-{ #category : #accessing }
-FmxSQLConstraint >> belongsTo [
-
-	<generated>
-	^ self table
-
-]
-
-{ #category : #accessing }
-FmxSQLConstraint >> belongsTo: anObject [
-
-	<generated>
-	self table: anObject
-
 ]
 
 { #category : #testing }
@@ -65,12 +42,11 @@ FmxSQLConstraint >> table: anObject [
 
 	<generated>
 	table := anObject
-
 ]
 
 { #category : #navigation }
 FmxSQLConstraint >> tableGroup [
 	<generated>
 	<navigation: 'Table'>
-	^ MooseGroup with: self table
+	^ MooseSpecializedGroup with: self table
 ]

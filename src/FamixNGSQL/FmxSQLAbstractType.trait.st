@@ -12,10 +12,34 @@ Trait {
 { #category : #meta }
 FmxSQLAbstractType classSide >> annotation [
 
-	<MSEClass: #AbstractType super: #Trait>
+	<FMClass: #AbstractType super: #Object>
 	<package: #FamixNGSQL>
 	<generated>
 	^self
+]
+
+{ #category : #adding }
+FmxSQLAbstractType >> addCursorParameter: anObject [
+	<generated>
+	^ self cursorParameters add: anObject
+]
+
+{ #category : #adding }
+FmxSQLAbstractType >> addLocalVariable: anObject [
+	<generated>
+	^ self localVariables add: anObject
+]
+
+{ #category : #adding }
+FmxSQLAbstractType >> addParameter: anObject [
+	<generated>
+	^ self parameters add: anObject
+]
+
+{ #category : #adding }
+FmxSQLAbstractType >> addStoredProceduresReturning: anObject [
+	<generated>
+	^ self storedProceduresReturning add: anObject
 ]
 
 { #category : #accessing }
@@ -23,6 +47,7 @@ FmxSQLAbstractType >> cursorParameters [
 	"Relation named: #cursorParameters type: #FmxSQLCursorParameter opposite: #type"
 
 	<generated>
+	<derived>
 	^ cursorParameters
 ]
 
@@ -31,7 +56,6 @@ FmxSQLAbstractType >> cursorParameters: anObject [
 
 	<generated>
 	cursorParameters value: anObject
-
 ]
 
 { #category : #accessing }
@@ -39,6 +63,7 @@ FmxSQLAbstractType >> localVariables [
 	"Relation named: #localVariables type: #FmxSQLLocalVariable opposite: #type"
 
 	<generated>
+	<derived>
 	^ localVariables
 ]
 
@@ -47,7 +72,6 @@ FmxSQLAbstractType >> localVariables: anObject [
 
 	<generated>
 	localVariables value: anObject
-
 ]
 
 { #category : #accessing }
@@ -55,6 +79,7 @@ FmxSQLAbstractType >> parameters [
 	"Relation named: #parameters type: #FmxSQLParameter opposite: #type"
 
 	<generated>
+	<derived>
 	^ parameters
 ]
 
@@ -63,7 +88,6 @@ FmxSQLAbstractType >> parameters: anObject [
 
 	<generated>
 	parameters value: anObject
-
 ]
 
 { #category : #accessing }
@@ -71,6 +95,7 @@ FmxSQLAbstractType >> storedProceduresReturning [
 	"Relation named: #storedProceduresReturning type: #FmxSQLStoredProcedure opposite: #returnType"
 
 	<generated>
+	<derived>
 	^ storedProceduresReturning
 ]
 
@@ -79,5 +104,4 @@ FmxSQLAbstractType >> storedProceduresReturning: anObject [
 
 	<generated>
 	storedProceduresReturning value: anObject
-
 ]

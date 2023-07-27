@@ -9,16 +9,22 @@ Class {
 	#instVars : [
 		'#columnAliases => FMMany type: #FmxSQLColumnAlias opposite: #columnsContainerAlias'
 	],
-	#category : 'FamixNGSQL-Entities'
+	#category : #'FamixNGSQL-Entities'
 }
 
 { #category : #meta }
 FmxSQLColumnsContainerAlias class >> annotation [
 
-	<MSEClass: #ColumnsContainerAlias super: #FmxSQLAlias>
+	<FMClass: #ColumnsContainerAlias super: #FmxSQLAlias>
 	<package: #FamixNGSQL>
 	<generated>
 	^self
+]
+
+{ #category : #adding }
+FmxSQLColumnsContainerAlias >> addColumnAliase: anObject [
+	<generated>
+	^ self columnAliases add: anObject
 ]
 
 { #category : #accessing }
@@ -26,6 +32,7 @@ FmxSQLColumnsContainerAlias >> columnAliases [
 	"Relation named: #columnAliases type: #FmxSQLColumnAlias opposite: #columnsContainerAlias"
 
 	<generated>
+	<derived>
 	^ columnAliases
 ]
 
@@ -34,5 +41,4 @@ FmxSQLColumnsContainerAlias >> columnAliases: anObject [
 
 	<generated>
 	columnAliases value: anObject
-
 ]

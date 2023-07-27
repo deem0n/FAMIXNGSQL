@@ -1,15 +1,13 @@
 Class {
 	#name : #FmxSQLAssociation,
-	#superclass : #FmxSQLSourcedEntity,
-	#traits : 'FamixTAssociation + TAssociationMetaLevelDependency',
-	#classTraits : 'FamixTAssociation classTrait + TAssociationMetaLevelDependency classTrait',
-	#category : 'FamixNGSQL-Entities'
+	#superclass : #FmxSQLEntity,
+	#category : #'FamixNGSQL-Entities'
 }
 
 { #category : #meta }
 FmxSQLAssociation class >> annotation [
 
-	<MSEClass: #Association super: #FmxSQLSourcedEntity>
+	<FMClass: #Association super: #FmxSQLEntity>
 	<package: #FamixNGSQL>
 	<generated>
 	^self

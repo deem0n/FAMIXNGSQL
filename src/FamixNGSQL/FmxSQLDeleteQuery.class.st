@@ -6,13 +6,13 @@ Class {
 	#superclass : #FmxSQLCRUDQuery,
 	#traits : 'FmxSQLTDefiningDerivedTables',
 	#classTraits : 'FmxSQLTDefiningDerivedTables classTrait',
-	#category : 'FamixNGSQL-Entities'
+	#category : #'FamixNGSQL-Entities'
 }
 
 { #category : #meta }
 FmxSQLDeleteQuery class >> annotation [
 
-	<MSEClass: #DeleteQuery super: #FmxSQLCRUDQuery>
+	<FMClass: #DeleteQuery super: #FmxSQLCRUDQuery>
 	<package: #FamixNGSQL>
 	<generated>
 	^self

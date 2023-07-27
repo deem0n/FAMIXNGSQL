@@ -24,10 +24,16 @@ Class {
 { #category : #meta }
 FmxSQLQualifiedReference class >> annotation [
 
-	<MSEClass: #QualifiedReference super: #FmxSQLEntity>
+	<FMClass: #QualifiedReference super: #FmxSQLEntity>
 	<package: #FamixNGSQL>
 	<generated>
 	^self
+]
+
+{ #category : #adding }
+FmxSQLQualifiedReference >> addReference: anObject [
+	<generated>
+	^ self references add: anObject
 ]
 
 { #category : #accessing }
@@ -35,6 +41,7 @@ FmxSQLQualifiedReference >> references [
 	"Relation named: #references type: #FmxSQLTWithQualifiedReference opposite: #qualifiedReference"
 
 	<generated>
+	<derived>
 	^ references
 ]
 
@@ -43,5 +50,4 @@ FmxSQLQualifiedReference >> references: anObject [
 
 	<generated>
 	references value: anObject
-
 ]

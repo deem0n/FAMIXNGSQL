@@ -15,14 +15,14 @@ Class {
 { #category : #meta }
 FmxSQLStoredProcedureCall class >> annotation [
 
-	<MSEClass: #StoredProcedureCall super: #FmxSQLReference>
+	<FMClass: #StoredProcedureCall super: #FmxSQLReference>
 	<package: #FamixNGSQL>
 	<generated>
 	^self
 ]
 
 { #category : #adding }
-FmxSQLStoredProcedureCall >> addArguments: anObject [
+FmxSQLStoredProcedureCall >> addArgument: anObject [
 	<generated>
 	^ self arguments add: anObject
 ]
@@ -32,6 +32,7 @@ FmxSQLStoredProcedureCall >> arguments [
 	"Relation named: #arguments type: #FmxSQLReference opposite: #storedProcedureContainer"
 
 	<generated>
+	<derived>
 	^ arguments
 ]
 
@@ -40,14 +41,13 @@ FmxSQLStoredProcedureCall >> arguments: anObject [
 
 	<generated>
 	arguments value: anObject
-
 ]
 
 { #category : #navigation }
 FmxSQLStoredProcedureCall >> argumentsGroup [
 	<generated>
 	<navigation: 'Arguments'>
-	^ MooseGroup withAll: self arguments asSet
+	^ MooseSpecializedGroup withAll: self arguments asSet
 ]
 
 { #category : #testing }
@@ -55,13 +55,4 @@ FmxSQLStoredProcedureCall >> isStoredProcedureCall [
 
 	<generated>
 	^ true
-]
-
-{ #category : #accessing }
-FmxSQLStoredProcedureCall >> stop [
-	"Returns the last position of the stored procedure name in the source code (without parentheses and args)."
-	| sourceCode |
-	sourceCode := self source sourcedBelonger source copyFrom: self start to: sourceCode size.
-	self flag: #TODO. "This heuristic might be wrong. We need more data in the model..."
-	^ self start + sourceCode detectIndex: [ :c | c = $( ]
 ]

@@ -15,10 +15,16 @@ Class {
 { #category : #meta }
 FmxSQLNamespace class >> annotation [
 
-	<MSEClass: #Namespace super: #FmxSQLStructuralEntity>
+	<FMClass: #Namespace super: #FmxSQLStructuralEntity>
 	<package: #FamixNGSQL>
 	<generated>
 	^self
+]
+
+{ #category : #adding }
+FmxSQLNamespace >> addReference: anObject [
+	<generated>
+	^ self references add: anObject
 ]
 
 { #category : #accessing }
@@ -26,6 +32,7 @@ FmxSQLNamespace >> references [
 	"Relation named: #references type: #FmxSQLNamespaceReference opposite: #namespace"
 
 	<generated>
+	<derived>
 	^ references
 ]
 
@@ -34,5 +41,4 @@ FmxSQLNamespace >> references: anObject [
 
 	<generated>
 	references value: anObject
-
 ]

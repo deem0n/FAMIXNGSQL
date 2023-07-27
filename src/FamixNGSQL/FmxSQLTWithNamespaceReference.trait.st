@@ -9,10 +9,16 @@ Trait {
 { #category : #meta }
 FmxSQLTWithNamespaceReference classSide >> annotation [
 
-	<MSEClass: #TWithNamespaceReference super: #Trait>
+	<FMClass: #TWithNamespaceReference super: #Object>
 	<package: #FamixNGSQL>
 	<generated>
 	^self
+]
+
+{ #category : #adding }
+FmxSQLTWithNamespaceReference >> addOutgoingNamespaceReference: anObject [
+	<generated>
+	^ self outgoingNamespaceReference add: anObject
 ]
 
 { #category : #accessing }
@@ -20,6 +26,7 @@ FmxSQLTWithNamespaceReference >> outgoingNamespaceReference [
 	"Relation named: #outgoingNamespaceReference type: #FmxSQLNamespaceReference opposite: #source"
 
 	<generated>
+	<derived>
 	^ outgoingNamespaceReference
 ]
 
@@ -28,5 +35,4 @@ FmxSQLTWithNamespaceReference >> outgoingNamespaceReference: anObject [
 
 	<generated>
 	outgoingNamespaceReference value: anObject
-
 ]

@@ -10,7 +10,7 @@ Class {
 { #category : #meta }
 FmxSQLValuesQuery class >> annotation [
 
-	<MSEClass: #ValuesQuery super: #FmxSQLCRUDQuery>
+	<FMClass: #ValuesQuery super: #FmxSQLCRUDQuery>
 	<package: #FamixNGSQL>
 	<generated>
 	^self

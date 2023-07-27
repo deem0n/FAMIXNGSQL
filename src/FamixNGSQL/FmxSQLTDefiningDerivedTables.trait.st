@@ -3,13 +3,13 @@ Trait {
 	#instVars : [
 		'#derivedTablesDefined => FMMany type: #FmxSQLDerivedTable opposite: #parentQuery'
 	],
-	#category : 'FamixNGSQL-Traits'
+	#category : #'FamixNGSQL-Traits'
 }
 
 { #category : #meta }
 FmxSQLTDefiningDerivedTables classSide >> annotation [
 
-	<MSEClass: #TDefiningDerivedTables super: #Trait>
+	<FMClass: #TDefiningDerivedTables super: #Object>
 	<package: #FamixNGSQL>
 	<generated>
 	^self
@@ -26,6 +26,7 @@ FmxSQLTDefiningDerivedTables >> derivedTablesDefined [
 	"Relation named: #derivedTablesDefined type: #FmxSQLDerivedTable opposite: #parentQuery"
 
 	<generated>
+	<derived>
 	^ derivedTablesDefined
 ]
 
@@ -34,12 +35,11 @@ FmxSQLTDefiningDerivedTables >> derivedTablesDefined: anObject [
 
 	<generated>
 	derivedTablesDefined value: anObject
-
 ]
 
 { #category : #navigation }
 FmxSQLTDefiningDerivedTables >> derivedTablesDefinedGroup [
 	<generated>
 	<navigation: 'DerivedTablesDefined'>
-	^ MooseGroup withAll: self derivedTablesDefined asSet
+	^ MooseSpecializedGroup withAll: self derivedTablesDefined asSet
 ]

@@ -10,39 +10,22 @@ Class {
 		'#parentBehaviouralEntity => FMOne type: #FmxSQLTWithCursor opposite: #cursors',
 		'#references => FMMany type: #FmxSQLCursorReference opposite: #cursor'
 	],
-	#category : 'FamixNGSQL-Entities'
+	#category : #'FamixNGSQL-Entities'
 }
 
 { #category : #meta }
 FmxSQLCursor class >> annotation [
 
-	<MSEClass: #Cursor super: #FmxSQLNamedEntity>
+	<FMClass: #Cursor super: #FmxSQLNamedEntity>
 	<package: #FamixNGSQL>
 	<generated>
 	^self
 ]
 
-{ #category : #meta }
-FmxSQLCursor class >> requirements [
-
+{ #category : #adding }
+FmxSQLCursor >> addReference: anObject [
 	<generated>
-	^ { FmxSQLStoredProcedure }
-]
-
-{ #category : #accessing }
-FmxSQLCursor >> belongsTo [
-
-	<generated>
-	^ self parentBehaviouralEntity
-
-]
-
-{ #category : #accessing }
-FmxSQLCursor >> belongsTo: anObject [
-
-	<generated>
-	self parentBehaviouralEntity: anObject
-
+	^ self references add: anObject
 ]
 
 { #category : #testing }
@@ -66,14 +49,13 @@ FmxSQLCursor >> parentBehaviouralEntity: anObject [
 
 	<generated>
 	parentBehaviouralEntity := anObject
-
 ]
 
 { #category : #navigation }
 FmxSQLCursor >> parentBehaviouralEntityGroup [
 	<generated>
 	<navigation: 'ParentBehaviouralEntity'>
-	^ MooseGroup with: self parentBehaviouralEntity
+	^ MooseSpecializedGroup with: self parentBehaviouralEntity
 ]
 
 { #category : #accessing }
@@ -81,6 +63,7 @@ FmxSQLCursor >> references [
 	"Relation named: #references type: #FmxSQLCursorReference opposite: #cursor"
 
 	<generated>
+	<derived>
 	^ references
 ]
 
@@ -89,5 +72,4 @@ FmxSQLCursor >> references: anObject [
 
 	<generated>
 	references value: anObject
-
 ]

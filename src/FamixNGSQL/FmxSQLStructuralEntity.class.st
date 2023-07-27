@@ -4,15 +4,15 @@ I am an abstract superclass for structural entities. A structural entity is an e
 Class {
 	#name : #FmxSQLStructuralEntity,
 	#superclass : #FmxSQLNamedEntity,
-	#traits : 'FamixTNamedEntity',
-	#classTraits : 'FamixTNamedEntity classTrait',
-	#category : 'FamixNGSQL-Entities'
+	#traits : 'FmxSQLTNamedEntity',
+	#classTraits : 'FmxSQLTNamedEntity classTrait',
+	#category : #'FamixNGSQL-Entities'
 }
 
 { #category : #meta }
 FmxSQLStructuralEntity class >> annotation [
 
-	<MSEClass: #StructuralEntity super: #FmxSQLNamedEntity>
+	<FMClass: #StructuralEntity super: #FmxSQLNamedEntity>
 	<package: #FamixNGSQL>
 	<generated>
 	^self

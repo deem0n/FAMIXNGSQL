@@ -10,39 +10,16 @@ Class {
 		'#belongsToGroup => FMOne type: #FmxSQLReferencesGroup opposite: #references',
 		'#storedProcedureContainer => FMOne type: #FmxSQLStoredProcedureCall opposite: #arguments'
 	],
-	#category : 'FamixNGSQL-Entities'
+	#category : #'FamixNGSQL-Entities'
 }
 
 { #category : #meta }
 FmxSQLReference class >> annotation [
 
-	<MSEClass: #Reference super: #FmxSQLAssociation>
+	<FMClass: #Reference super: #FmxSQLAssociation>
 	<package: #FamixNGSQL>
 	<generated>
 	^self
-]
-
-{ #category : #meta }
-FmxSQLReference class >> requirements [
-
-	<generated>
-	^ { FmxSQLReferencesGroup. FmxSQLStoredProcedureCall }
-]
-
-{ #category : #accessing }
-FmxSQLReference >> belongsTo [
-
-	<generated>
-	^ self belongsToGroup
-
-]
-
-{ #category : #accessing }
-FmxSQLReference >> belongsTo: anObject [
-
-	<generated>
-	self belongsToGroup: anObject
-
 ]
 
 { #category : #accessing }
@@ -59,68 +36,13 @@ FmxSQLReference >> belongsToGroup: anObject [
 
 	<generated>
 	belongsToGroup := anObject
-
 ]
 
 { #category : #navigation }
 FmxSQLReference >> belongsToGroupGroup [
 	<generated>
 	<navigation: 'BelongsToGroup'>
-	^ MooseGroup with: self belongsToGroup
-]
-
-{ #category : #testing }
-FmxSQLReference >> isInReferencesGroup [
-	^ self belongsToGroup isNotNil
-]
-
-{ #category : #testing }
-FmxSQLReference >> isReference [
-	^ true
-]
-
-{ #category : #testing }
-FmxSQLReference >> isWildCardReference [
-	^ false
-]
-
-{ #category : #accessing }
-FmxSQLReference >> sourceAnchor [
-	^ super sourceAnchor
-		ifNil: [ 
-			self belongsToGroup
-				ifNil: [ FmxSQLNoSourceAnchor signalForEntityWithoutSourceAnchor: self ]
-				ifNotNil: #sourceAnchor ]
-]
-
-{ #category : #accessing }
-FmxSQLReference >> sourceAnchorIfNone: aBlock [
-	^ [ self sourceAnchor ]
-		on: FmxSQLNoSourceAnchor
-		do: [ aBlock value ]
-]
-
-{ #category : #accessing }
-FmxSQLReference >> sourceAnchorOrReferenceGroupSourceAnchor [
-	^ self sourceAnchor
-		ifNil: [ 
-			self belongsToGroup
-				ifNotNil: #sourceAnchor
-				ifNil: [ nil ] ]
-]
-
-{ #category : #accessing }
-FmxSQLReference >> start [
-	"Returns the first position of myself in the source code.
-	 I simply return the result of #start method sent to my #sourceAnchor."
-	^ self sourceAnchor start
-]
-
-{ #category : #accessing }
-FmxSQLReference >> stop [
-	"Returns the last position of myself in the source code.
-	 I return the result of #stop method sent to my #sourceAnchor except for the stored procedure call (see method)."
-	^ self sourceAnchor end
+	^ MooseSpecializedGroup with: self belongsToGroup
 ]
 
 { #category : #accessing }
@@ -137,12 +59,11 @@ FmxSQLReference >> storedProcedureContainer: anObject [
 
 	<generated>
 	storedProcedureContainer := anObject
-
 ]
 
 { #category : #navigation }
 FmxSQLReference >> storedProcedureContainerGroup [
 	<generated>
 	<navigation: 'StoredProcedureContainer'>
-	^ MooseGroup with: self storedProcedureContainer
+	^ MooseSpecializedGroup with: self storedProcedureContainer
 ]

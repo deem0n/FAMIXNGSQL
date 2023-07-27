@@ -9,13 +9,13 @@ Class {
 	#instVars : [
 		'#table => FMOne type: #FmxSQLTable opposite: #updateQueries'
 	],
-	#category : 'FamixNGSQL-Entities'
+	#category : #'FamixNGSQL-Entities'
 }
 
 { #category : #meta }
 FmxSQLUpdateQuery class >> annotation [
 
-	<MSEClass: #UpdateQuery super: #FmxSQLCRUDQuery>
+	<FMClass: #UpdateQuery super: #FmxSQLCRUDQuery>
 	<package: #FamixNGSQL>
 	<generated>
 	^self
@@ -34,5 +34,4 @@ FmxSQLUpdateQuery >> table: anObject [
 
 	<generated>
 	table := anObject
-
 ]

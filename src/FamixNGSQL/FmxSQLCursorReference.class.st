@@ -7,8 +7,8 @@ Class {
 	#traits : 'FmxSQLTWithQualifiedReference',
 	#classTraits : 'FmxSQLTWithQualifiedReference classTrait',
 	#instVars : [
-		'#cursor => FMOne type: #FmxSQLCursor opposite: #references',
-		'#source => FMOne type: #FmxSQLTWithCursorReference opposite: #outgoingCursorReferences'
+		'#source => FMOne type: #FmxSQLTWithCursorReference opposite: #outgoingCursorReferences',
+		'#cursor => FMOne type: #FmxSQLCursor opposite: #references'
 	],
 	#category : #'FamixNGSQL-Entities'
 }
@@ -16,7 +16,7 @@ Class {
 { #category : #meta }
 FmxSQLCursorReference class >> annotation [
 
-	<MSEClass: #CursorReference super: #FmxSQLReference>
+	<FMClass: #CursorReference super: #FmxSQLReference>
 	<package: #FamixNGSQL>
 	<generated>
 	^self
@@ -36,7 +36,6 @@ FmxSQLCursorReference >> cursor: anObject [
 
 	<generated>
 	cursor := anObject
-
 ]
 
 { #category : #accessing }
@@ -53,5 +52,4 @@ FmxSQLCursorReference >> source: anObject [
 
 	<generated>
 	source := anObject
-
 ]

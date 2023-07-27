@@ -6,13 +6,13 @@ Class {
 	#superclass : #FmxSQLCRUDQuery,
 	#traits : 'FmxSQLTDefiningDerivedTables',
 	#classTraits : 'FmxSQLTDefiningDerivedTables classTrait',
-	#category : 'FamixNGSQL-Entities'
+	#category : #'FamixNGSQL-Entities'
 }
 
 { #category : #meta }
 FmxSQLInsertQuery class >> annotation [
 
-	<MSEClass: #InsertQuery super: #FmxSQLCRUDQuery>
+	<FMClass: #InsertQuery super: #FmxSQLCRUDQuery>
 	<package: #FamixNGSQL>
 	<generated>
 	^self

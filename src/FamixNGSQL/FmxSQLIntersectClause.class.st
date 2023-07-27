@@ -12,7 +12,7 @@ Class {
 { #category : #meta }
 FmxSQLIntersectClause class >> annotation [
 
-	<MSEClass: #IntersectClause super: #FmxSQLClause>
+	<FMClass: #IntersectClause super: #FmxSQLClause>
 	<package: #FamixNGSQL>
 	<generated>
 	^self

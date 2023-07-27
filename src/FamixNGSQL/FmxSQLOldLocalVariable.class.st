@@ -6,13 +6,13 @@ Class {
 	#superclass : #FmxSQLLocalVariable,
 	#traits : 'FmxSQLColumnsContainer',
 	#classTraits : 'FmxSQLColumnsContainer classTrait',
-	#category : 'FamixNGSQL-Entities'
+	#category : #'FamixNGSQL-Entities'
 }
 
 { #category : #meta }
 FmxSQLOldLocalVariable class >> annotation [
 
-	<MSEClass: #OldLocalVariable super: #FmxSQLLocalVariable>
+	<FMClass: #OldLocalVariable super: #FmxSQLLocalVariable>
 	<package: #FamixNGSQL>
 	<generated>
 	^self

@@ -15,7 +15,7 @@ Class {
 { #category : #meta }
 FmxSQLLocalVariableAccess class >> annotation [
 
-	<MSEClass: #LocalVariableAccess super: #FmxSQLReference>
+	<FMClass: #LocalVariableAccess super: #FmxSQLReference>
 	<package: #FamixNGSQL>
 	<generated>
 	^self
@@ -42,5 +42,4 @@ FmxSQLLocalVariableAccess >> localVariable: anObject [
 
 	<generated>
 	localVariable := anObject
-
 ]

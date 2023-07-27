@@ -6,13 +6,13 @@ Class {
 	#superclass : #FmxSQLReference,
 	#traits : 'FamixTAccess',
 	#classTraits : 'FamixTAccess classTrait',
-	#category : 'FamixNGSQL-Entities'
+	#category : #'FamixNGSQL-Entities'
 }
 
 { #category : #meta }
 FmxSQLParameterAccess class >> annotation [
 
-	<MSEClass: #ParameterAccess super: #FmxSQLReference>
+	<FMClass: #ParameterAccess super: #FmxSQLReference>
 	<package: #FamixNGSQL>
 	<generated>
 	^self
@@ -23,9 +23,4 @@ FmxSQLParameterAccess >> isParameterAccess [
 
 	<generated>
 	^ true
-]
-
-{ #category : #accessing }
-FmxSQLParameterAccess >> source [
-	^ self from
 ]

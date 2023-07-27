@@ -4,23 +4,18 @@ I am a select clause
 Class {
 	#name : #FmxSQLSelectClause,
 	#superclass : #FmxSQLClause,
-	#traits : 'FamixTWithAccesses + FamixTWithInvocations + FmxSQLTWithColumnReference + FmxSQLTWithDerivedTableReference + FmxSQLTWithNamespaceReference + FmxSQLTWithTableReference + FmxSQLTWithViewReference',
-	#classTraits : 'FamixTWithAccesses classTrait + FamixTWithInvocations classTrait + FmxSQLTWithColumnReference classTrait + FmxSQLTWithDerivedTableReference classTrait + FmxSQLTWithNamespaceReference classTrait + FmxSQLTWithTableReference classTrait + FmxSQLTWithViewReference classTrait',
+	#traits : 'FamixTWithInvocations + FmxSQLTWithAccesses + FmxSQLTWithColumnReference + FmxSQLTWithDerivedTableReference + FmxSQLTWithNamespaceReference + FmxSQLTWithTableReference + FmxSQLTWithViewReference',
+	#classTraits : 'FamixTWithInvocations classTrait + FmxSQLTWithAccesses classTrait + FmxSQLTWithColumnReference classTrait + FmxSQLTWithDerivedTableReference classTrait + FmxSQLTWithNamespaceReference classTrait + FmxSQLTWithTableReference classTrait + FmxSQLTWithViewReference classTrait',
 	#category : #'FamixNGSQL-Entities'
 }
 
 { #category : #meta }
 FmxSQLSelectClause class >> annotation [
 
-	<MSEClass: #SelectClause super: #FmxSQLClause>
+	<FMClass: #SelectClause super: #FmxSQLClause>
 	<package: #FamixNGSQL>
 	<generated>
 	^self
-]
-
-{ #category : #testing }
-FmxSQLSelectClause >> isClauseAbleToReferenceColumn [
-	^ true
 ]
 
 { #category : #testing }

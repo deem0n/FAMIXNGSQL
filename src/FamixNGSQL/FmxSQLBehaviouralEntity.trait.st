@@ -8,7 +8,7 @@ Trait {
 { #category : #meta }
 FmxSQLBehaviouralEntity classSide >> annotation [
 
-	<MSEClass: #BehaviouralEntity super: #Trait>
+	<FMClass: #BehaviouralEntity super: #Object>
 	<package: #FamixNGSQL>
 	<generated>
 	^self

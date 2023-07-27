@@ -10,7 +10,7 @@ Trait {
 { #category : #meta }
 FmxSQLTReferencesGroupReference classSide >> annotation [
 
-	<MSEClass: #TReferencesGroupReference super: #Trait>
+	<FMClass: #TReferencesGroupReference super: #Object>
 	<package: #FamixNGSQL>
 	<generated>
 	^self
@@ -29,7 +29,6 @@ FmxSQLTReferencesGroupReference >> referencesGroup: anObject [
 
 	<generated>
 	referencesGroup := anObject
-
 ]
 
 { #category : #accessing }
@@ -46,12 +45,11 @@ FmxSQLTReferencesGroupReference >> source: anObject [
 
 	<generated>
 	source := anObject
-
 ]
 
 { #category : #navigation }
 FmxSQLTReferencesGroupReference >> sourceGroup [
 	<generated>
 	<navigation: 'Source'>
-	^ MooseGroup with: self source
+	^ MooseSpecializedGroup with: self source
 ]

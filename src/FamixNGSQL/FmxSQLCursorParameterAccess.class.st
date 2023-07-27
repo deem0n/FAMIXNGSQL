@@ -12,7 +12,7 @@ Class {
 { #category : #meta }
 FmxSQLCursorParameterAccess class >> annotation [
 
-	<MSEClass: #CursorParameterAccess super: #FmxSQLReference>
+	<FMClass: #CursorParameterAccess super: #FmxSQLReference>
 	<package: #FamixNGSQL>
 	<generated>
 	^self

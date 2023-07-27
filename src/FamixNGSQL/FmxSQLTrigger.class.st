@@ -4,8 +4,8 @@ I am a trigger. A trigger allows to define actions to performs when a specific e
 Class {
 	#name : #FmxSQLTrigger,
 	#superclass : #FmxSQLNamedEntity,
-	#traits : 'FamixTNamedEntity + FmxSQLBehaviouralEntity',
-	#classTraits : 'FamixTNamedEntity classTrait + FmxSQLBehaviouralEntity classTrait',
+	#traits : 'FmxSQLBehaviouralEntity + FmxSQLTNamedEntity',
+	#classTraits : 'FmxSQLBehaviouralEntity classTrait + FmxSQLTNamedEntity classTrait',
 	#instVars : [
 		'#firingAction => FMProperty',
 		'#when => FMProperty',
@@ -18,59 +18,24 @@ Class {
 { #category : #meta }
 FmxSQLTrigger class >> annotation [
 
-	<MSEClass: #Trigger super: #FmxSQLNamedEntity>
+	<FMClass: #Trigger super: #FmxSQLNamedEntity>
 	<package: #FamixNGSQL>
 	<generated>
 	^self
 ]
 
-{ #category : #meta }
-FmxSQLTrigger class >> requirements [
-
-	<generated>
-	^ { FmxSQLTable }
-]
-
-{ #category : #accessing }
-FmxSQLTrigger >> allDependencies [
-	^ { self storedProcedure }
-]
-
-{ #category : #accessing }
-FmxSQLTrigger >> allDepending [
-	^ { }
-]
-
-{ #category : #accessing }
-FmxSQLTrigger >> belongsTo [
-
-	<generated>
-	^ self table
-
-]
-
-{ #category : #accessing }
-FmxSQLTrigger >> belongsTo: anObject [
-
-	<generated>
-	self table: anObject
-
-]
-
 { #category : #accessing }
 FmxSQLTrigger >> firingAction [
 
-	<MSEProperty: #firingAction type: #String>
+	<FMProperty: #firingAction type: #String>
 	<generated>
 	^ firingAction
 ]
 
 { #category : #accessing }
 FmxSQLTrigger >> firingAction: anObject [
-
 	<generated>
 	firingAction := anObject
-
 ]
 
 { #category : #accessing }
@@ -86,7 +51,6 @@ FmxSQLTrigger >> storedProcedure: anObject [
 
 	<generated>
 	storedProcedure := anObject
-
 ]
 
 { #category : #accessing }
@@ -103,28 +67,25 @@ FmxSQLTrigger >> table: anObject [
 
 	<generated>
 	table := anObject
-
 ]
 
 { #category : #navigation }
 FmxSQLTrigger >> tableGroup [
 	<generated>
 	<navigation: 'Table'>
-	^ MooseGroup with: self table
+	^ MooseSpecializedGroup with: self table
 ]
 
 { #category : #accessing }
 FmxSQLTrigger >> when [
 
-	<MSEProperty: #when type: #String>
+	<FMProperty: #when type: #String>
 	<generated>
 	^ when
 ]
 
 { #category : #accessing }
 FmxSQLTrigger >> when: anObject [
-
 	<generated>
 	when := anObject
-
 ]

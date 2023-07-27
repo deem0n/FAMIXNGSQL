@@ -16,17 +16,10 @@ Class {
 { #category : #meta }
 FmxSQLLocalVariable class >> annotation [
 
-	<MSEClass: #LocalVariable super: #FmxSQLNamedEntity>
+	<FMClass: #LocalVariable super: #FmxSQLNamedEntity>
 	<package: #FamixNGSQL>
 	<generated>
 	^self
-]
-
-{ #category : #meta }
-FmxSQLLocalVariable class >> requirements [
-
-	<generated>
-	^ { FmxSQLStoredProcedure }
 ]
 
 { #category : #accessing }
@@ -34,6 +27,7 @@ FmxSQLLocalVariable >> accesses [
 	"Relation named: #accesses type: #FmxSQLLocalVariableAccess opposite: #localVariable"
 
 	<generated>
+	<derived>
 	^ accesses
 ]
 
@@ -42,33 +36,12 @@ FmxSQLLocalVariable >> accesses: anObject [
 
 	<generated>
 	accesses value: anObject
-
 ]
 
-{ #category : #accessing }
-FmxSQLLocalVariable >> belongsTo [
-
+{ #category : #adding }
+FmxSQLLocalVariable >> addAccess: anObject [
 	<generated>
-	^ self parentBehaviouralEntity
-
-]
-
-{ #category : #accessing }
-FmxSQLLocalVariable >> belongsTo: anObject [
-
-	<generated>
-	self parentBehaviouralEntity: anObject
-
-]
-
-{ #category : #accessing }
-FmxSQLLocalVariable >> storedProcedure [
-	^ self parentBehaviouralEntity
-]
-
-{ #category : #accessing }
-FmxSQLLocalVariable >> storedProcedure: anObject [
-	self parentBehaviouralEntity: anObject
+	^ self accesses add: anObject
 ]
 
 { #category : #accessing }
@@ -84,5 +57,4 @@ FmxSQLLocalVariable >> type: anObject [
 
 	<generated>
 	type := anObject
-
 ]

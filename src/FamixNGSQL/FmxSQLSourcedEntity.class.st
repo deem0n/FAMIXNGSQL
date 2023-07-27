@@ -1,15 +1,15 @@
 Class {
 	#name : #FmxSQLSourcedEntity,
 	#superclass : #FmxSQLEntity,
-	#traits : 'FamixTSourceEntity + FamixTWithComments',
-	#classTraits : 'FamixTSourceEntity classTrait + FamixTWithComments classTrait',
+	#traits : 'FamixTSourceEntity',
+	#classTraits : 'FamixTSourceEntity classTrait',
 	#category : #'FamixNGSQL-Entities'
 }
 
 { #category : #meta }
 FmxSQLSourcedEntity class >> annotation [
 
-	<MSEClass: #SourcedEntity super: #FmxSQLEntity>
+	<FMClass: #SourcedEntity super: #FmxSQLEntity>
 	<package: #FamixNGSQL>
 	<generated>
 	^self

@@ -11,8 +11,8 @@ FROM table
 Class {
 	#name : #FmxSQLReferencesGroup,
 	#superclass : #FmxSQLEntity,
-	#traits : 'FamixTWithSourceAnchor + TDependencyQueries + TEntityMetaLevelDependency',
-	#classTraits : 'FamixTWithSourceAnchor classTrait + TDependencyQueries classTrait + TEntityMetaLevelDependency classTrait',
+	#traits : 'FamixTSourceAnchor + TEntityMetaLevelDependency',
+	#classTraits : 'FamixTSourceAnchor classTrait + TEntityMetaLevelDependency classTrait',
 	#instVars : [
 		'#references => FMMany type: #FmxSQLReference opposite: #belongsToGroup',
 		'#incomingReferencesGroupReference => FMMany type: #FmxSQLTReferencesGroupReference opposite: #referencesGroup'
@@ -23,14 +23,20 @@ Class {
 { #category : #meta }
 FmxSQLReferencesGroup class >> annotation [
 
-	<MSEClass: #ReferencesGroup super: #FmxSQLEntity>
+	<FMClass: #ReferencesGroup super: #FmxSQLEntity>
 	<package: #FamixNGSQL>
 	<generated>
 	^self
 ]
 
 { #category : #adding }
-FmxSQLReferencesGroup >> addReferences: anObject [
+FmxSQLReferencesGroup >> addIncomingReferencesGroupReference: anObject [
+	<generated>
+	^ self incomingReferencesGroupReference add: anObject
+]
+
+{ #category : #adding }
+FmxSQLReferencesGroup >> addReference: anObject [
 	<generated>
 	^ self references add: anObject
 ]
@@ -40,6 +46,7 @@ FmxSQLReferencesGroup >> incomingReferencesGroupReference [
 	"Relation named: #incomingReferencesGroupReference type: #FmxSQLTReferencesGroupReference opposite: #referencesGroup"
 
 	<generated>
+	<derived>
 	^ incomingReferencesGroupReference
 ]
 
@@ -48,7 +55,6 @@ FmxSQLReferencesGroup >> incomingReferencesGroupReference: anObject [
 
 	<generated>
 	incomingReferencesGroupReference value: anObject
-
 ]
 
 { #category : #accessing }
@@ -56,6 +62,7 @@ FmxSQLReferencesGroup >> references [
 	"Relation named: #references type: #FmxSQLReference opposite: #belongsToGroup"
 
 	<generated>
+	<derived>
 	^ references
 ]
 
@@ -64,12 +71,11 @@ FmxSQLReferencesGroup >> references: anObject [
 
 	<generated>
 	references value: anObject
-
 ]
 
 { #category : #navigation }
 FmxSQLReferencesGroup >> referencesGroup [
 	<generated>
 	<navigation: 'References'>
-	^ MooseGroup withAll: self references asSet
+	^ MooseSpecializedGroup withAll: self references asSet
 ]

@@ -6,20 +6,20 @@ Trait {
 	#instVars : [
 		'#queries => FMMany type: #FmxSQLCRUDQuery opposite: #container'
 	],
-	#category : 'FamixNGSQL-Traits'
+	#category : #'FamixNGSQL-Traits'
 }
 
 { #category : #meta }
 FmxSQLTQueryContainer classSide >> annotation [
 
-	<MSEClass: #TQueryContainer super: #Trait>
+	<FMClass: #TQueryContainer super: #Object>
 	<package: #FamixNGSQL>
 	<generated>
 	^self
 ]
 
 { #category : #adding }
-FmxSQLTQueryContainer >> addQueries: anObject [
+FmxSQLTQueryContainer >> addQuery: anObject [
 	<generated>
 	^ self queries add: anObject
 ]
@@ -36,6 +36,7 @@ FmxSQLTQueryContainer >> queries [
 	"Relation named: #queries type: #FmxSQLCRUDQuery opposite: #container"
 
 	<generated>
+	<derived>
 	^ queries
 ]
 
@@ -44,12 +45,11 @@ FmxSQLTQueryContainer >> queries: anObject [
 
 	<generated>
 	queries value: anObject
-
 ]
 
 { #category : #navigation }
 FmxSQLTQueryContainer >> queriesGroup [
 	<generated>
 	<navigation: 'Queries'>
-	^ MooseGroup withAll: self queries asSet
+	^ MooseSpecializedGroup withAll: self queries asSet
 ]

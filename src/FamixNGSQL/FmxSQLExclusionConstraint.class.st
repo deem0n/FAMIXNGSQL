@@ -1,5 +1,5 @@
 "
-I represent a EXCLUSION constraint as defined in SQL standard.
+I represent an EXCLUSION constraint as defined in SQL standard.
 "
 Class {
 	#name : #FmxSQLExclusionConstraint,
@@ -10,7 +10,7 @@ Class {
 { #category : #meta }
 FmxSQLExclusionConstraint class >> annotation [
 
-	<MSEClass: #ExclusionConstraint super: #FmxSQLConstraint>
+	<FMClass: #ExclusionConstraint super: #FmxSQLConstraint>
 	<package: #FamixNGSQL>
 	<generated>
 	^self

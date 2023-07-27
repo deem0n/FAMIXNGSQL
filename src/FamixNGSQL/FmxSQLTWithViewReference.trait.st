@@ -3,16 +3,22 @@ Trait {
 	#instVars : [
 		'#outgoingViewReferences => FMMany type: #FmxSQLViewReference opposite: #source'
 	],
-	#category : 'FamixNGSQL-Traits'
+	#category : #'FamixNGSQL-Traits'
 }
 
 { #category : #meta }
 FmxSQLTWithViewReference classSide >> annotation [
 
-	<MSEClass: #TWithViewReference super: #Trait>
+	<FMClass: #TWithViewReference super: #Object>
 	<package: #FamixNGSQL>
 	<generated>
 	^self
+]
+
+{ #category : #adding }
+FmxSQLTWithViewReference >> addOutgoingViewReference: anObject [
+	<generated>
+	^ self outgoingViewReferences add: anObject
 ]
 
 { #category : #accessing }
@@ -20,6 +26,7 @@ FmxSQLTWithViewReference >> outgoingViewReferences [
 	"Relation named: #outgoingViewReferences type: #FmxSQLViewReference opposite: #source"
 
 	<generated>
+	<derived>
 	^ outgoingViewReferences
 ]
 
@@ -28,5 +35,4 @@ FmxSQLTWithViewReference >> outgoingViewReferences: anObject [
 
 	<generated>
 	outgoingViewReferences value: anObject
-
 ]

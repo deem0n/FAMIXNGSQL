@@ -2,6 +2,7 @@ Class {
 	#name : #FmxSQLStructuralMetamodelGenerator,
 	#superclass : #FamixBasicInfrastructureGenerator,
 	#instVars : [
+		'association',
 		'uniqueConstraint',
 		'constraint',
 		'reference',
@@ -21,11 +22,13 @@ Class {
 		'tColumnsContainer',
 		'tAbstractType',
 		'tColumn',
+		'tArgument',
 		'tWithColumnReference',
 		'tWithTableReference',
 		'namespaceReference',
 		'tWithNamespaceReference',
-		'exclusionConstraint'
+		'exclusionConstraint',
+		'tNamedEntity'
 	],
 	#category : #FAMIXNGSQLMetamodelGenerator
 }
@@ -86,6 +89,8 @@ FmxSQLStructuralMetamodelGenerator >> defineRelations [
 
 { #category : #'definition - structural' }
 FmxSQLStructuralMetamodelGenerator >> defineStructuralEntities [
+	self flag: #TODO. "Add comment for association"
+	association := builder newClassNamed: #Association.
 	structuralEntity := builder
 		newClassNamed: #StructuralEntity
 		comment: self structuralEntityComment.
@@ -168,7 +173,7 @@ FmxSQLStructuralMetamodelGenerator >> defineStructuralEntitiesRelations [
 FmxSQLStructuralMetamodelGenerator >> defineStructuralHierarchy [
 	"Abstract entities inheritance relations."
 	structuralEntity --|> namedEntity.
-	structuralEntity --|> #TNamedEntity.
+	structuralEntity --|> tNamedEntity.
 	
 	constraint --|> structuralEntity.
 	constraint --|> tWithColumnReference.
@@ -222,7 +227,7 @@ FmxSQLStructuralMetamodelGenerator >> defineStructuralReferenceProperties [
 { #category : #'definition - structural' }
 FmxSQLStructuralMetamodelGenerator >> defineStructuralReferencesHierarchy [
 	reference --|> association.
-	reference --|> #TArgument.
+	reference --|> tArgument.
 	tableReference --|> reference.
 	columnReference --|> reference.
 	typeReference --|> reference.
@@ -232,6 +237,7 @@ FmxSQLStructuralMetamodelGenerator >> defineStructuralReferencesHierarchy [
 { #category : #'definition - structural' }
 FmxSQLStructuralMetamodelGenerator >> defineStructuralTraits [
 	tAbstractType := builder newTraitNamed: #AbstractType.
+	tArgument := builder newTraitNamed: #TArgument.
 	tColumn := builder newTraitNamed: #TColumn.
 	tColumnsContainer := builder
 		newTraitNamed: #ColumnsContainer
@@ -242,7 +248,9 @@ FmxSQLStructuralMetamodelGenerator >> defineStructuralTraits [
 	tQueryContainer withTesting.
 	tWithColumnReference := builder newTraitNamed: #TWithColumnReference.
 	tWithTableReference := builder newTraitNamed: #TWithTableReference.
-	tWithNamespaceReference := builder newTraitNamed: #TWithNamespaceReference
+	tWithNamespaceReference := builder newTraitNamed: #TWithNamespaceReference.
+	
+   tNamedEntity := builder newTraitNamed: #TNamedEntity.
 ]
 
 { #category : #'definition - structural' }

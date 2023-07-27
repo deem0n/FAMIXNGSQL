@@ -9,54 +9,16 @@ Class {
 	#instVars : [
 		'#type => FMOne type: #FmxSQLAbstractType opposite: #parameters'
 	],
-	#category : 'FamixNGSQL-Entities'
+	#category : #'FamixNGSQL-Entities'
 }
 
 { #category : #meta }
 FmxSQLParameter class >> annotation [
 
-	<MSEClass: #Parameter super: #FmxSQLNamedEntity>
+	<FMClass: #Parameter super: #FmxSQLNamedEntity>
 	<package: #FamixNGSQL>
 	<generated>
 	^self
-]
-
-{ #category : #meta }
-FmxSQLParameter class >> requirements [
-
-	<generated>
-	^ { FmxSQLCursor. FmxSQLStoredProcedure }
-]
-
-{ #category : #accessing }
-FmxSQLParameter >> belongsTo [
-
-	<generated>
-	^ self parentBehaviouralEntity
-
-]
-
-{ #category : #accessing }
-FmxSQLParameter >> belongsTo: anObject [
-
-	<generated>
-	self parentBehaviouralEntity: anObject
-
-]
-
-{ #category : #accessing }
-FmxSQLParameter >> maximalImpactSet [
-	^ self query: #in with: FmxSQLParameterAccess 
-]
-
-{ #category : #accessing }
-FmxSQLParameter >> storedProcedure [
-	^ self parentBehaviouralEntity
-]
-
-{ #category : #accessing }
-FmxSQLParameter >> storedProcedure: anObject [
-	self parentBehaviouralEntity: anObject
 ]
 
 { #category : #accessing }
@@ -72,5 +34,4 @@ FmxSQLParameter >> type: anObject [
 
 	<generated>
 	type := anObject
-
 ]

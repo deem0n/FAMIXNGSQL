@@ -10,7 +10,7 @@ Class {
 { #category : #meta }
 FmxSQLForeignTable class >> annotation [
 
-	<MSEClass: #ForeignTable super: #FmxSQLTable>
+	<FMClass: #ForeignTable super: #FmxSQLTable>
 	<package: #FamixNGSQL>
 	<generated>
 	^self

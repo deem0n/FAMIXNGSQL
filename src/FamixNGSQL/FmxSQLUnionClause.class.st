@@ -12,7 +12,7 @@ Class {
 { #category : #meta }
 FmxSQLUnionClause class >> annotation [
 
-	<MSEClass: #UnionClause super: #FmxSQLClause>
+	<FMClass: #UnionClause super: #FmxSQLClause>
 	<package: #FamixNGSQL>
 	<generated>
 	^self

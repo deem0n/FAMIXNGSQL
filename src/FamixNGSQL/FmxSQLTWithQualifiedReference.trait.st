@@ -9,7 +9,7 @@ Trait {
 { #category : #meta }
 FmxSQLTWithQualifiedReference classSide >> annotation [
 
-	<MSEClass: #TWithQualifiedReference super: #Trait>
+	<FMClass: #TWithQualifiedReference super: #Object>
 	<package: #FamixNGSQL>
 	<generated>
 	^self
@@ -28,5 +28,4 @@ FmxSQLTWithQualifiedReference >> qualifiedReference: anObject [
 
 	<generated>
 	qualifiedReference := anObject
-
 ]

@@ -10,7 +10,7 @@ Class {
 { #category : #meta }
 FmxSQLLimitClause class >> annotation [
 
-	<MSEClass: #LimitClause super: #FmxSQLClause>
+	<FMClass: #LimitClause super: #FmxSQLClause>
 	<package: #FamixNGSQL>
 	<generated>
 	^self

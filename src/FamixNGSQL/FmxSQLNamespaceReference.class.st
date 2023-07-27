@@ -7,8 +7,8 @@ Class {
 	#traits : 'FmxSQLTWithQualifiedReference',
 	#classTraits : 'FmxSQLTWithQualifiedReference classTrait',
 	#instVars : [
-		'#namespace => FMOne type: #FmxSQLNamespace opposite: #references',
-		'#source => FMOne type: #FmxSQLTWithNamespaceReference opposite: #outgoingNamespaceReference'
+		'#source => FMOne type: #FmxSQLTWithNamespaceReference opposite: #outgoingNamespaceReference',
+		'#namespace => FMOne type: #FmxSQLNamespace opposite: #references'
 	],
 	#category : #'FamixNGSQL-Entities'
 }
@@ -16,7 +16,7 @@ Class {
 { #category : #meta }
 FmxSQLNamespaceReference class >> annotation [
 
-	<MSEClass: #NamespaceReference super: #FmxSQLReference>
+	<FMClass: #NamespaceReference super: #FmxSQLReference>
 	<package: #FamixNGSQL>
 	<generated>
 	^self
@@ -36,7 +36,6 @@ FmxSQLNamespaceReference >> namespace: anObject [
 
 	<generated>
 	namespace := anObject
-
 ]
 
 { #category : #accessing }
@@ -52,5 +51,4 @@ FmxSQLNamespaceReference >> source: anObject [
 
 	<generated>
 	source := anObject
-
 ]

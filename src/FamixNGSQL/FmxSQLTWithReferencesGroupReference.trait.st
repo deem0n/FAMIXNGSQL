@@ -3,20 +3,20 @@ Trait {
 	#instVars : [
 		'#outgoingReferencesGroupReferences => FMMany type: #FmxSQLTReferencesGroupReference opposite: #source'
 	],
-	#category : 'FamixNGSQL-Traits'
+	#category : #'FamixNGSQL-Traits'
 }
 
 { #category : #meta }
 FmxSQLTWithReferencesGroupReference classSide >> annotation [
 
-	<MSEClass: #TWithReferencesGroupReference super: #Trait>
+	<FMClass: #TWithReferencesGroupReference super: #Object>
 	<package: #FamixNGSQL>
 	<generated>
 	^self
 ]
 
 { #category : #adding }
-FmxSQLTWithReferencesGroupReference >> addOutgoingReferencesGroupReferences: anObject [
+FmxSQLTWithReferencesGroupReference >> addOutgoingReferencesGroupReference: anObject [
 	<generated>
 	^ self outgoingReferencesGroupReferences add: anObject
 ]
@@ -26,6 +26,7 @@ FmxSQLTWithReferencesGroupReference >> outgoingReferencesGroupReferences [
 	"Relation named: #outgoingReferencesGroupReferences type: #FmxSQLTReferencesGroupReference opposite: #source"
 
 	<generated>
+	<derived>
 	^ outgoingReferencesGroupReferences
 ]
 
@@ -34,12 +35,11 @@ FmxSQLTWithReferencesGroupReference >> outgoingReferencesGroupReferences: anObje
 
 	<generated>
 	outgoingReferencesGroupReferences value: anObject
-
 ]
 
 { #category : #navigation }
 FmxSQLTWithReferencesGroupReference >> outgoingReferencesGroupReferencesGroup [
 	<generated>
 	<navigation: 'OutgoingReferencesGroupReferences'>
-	^ MooseGroup withAll: self outgoingReferencesGroupReferences asSet
+	^ MooseSpecializedGroup withAll: self outgoingReferencesGroupReferences asSet
 ]

@@ -16,7 +16,7 @@ Class {
 { #category : #meta }
 FmxSQLViewReference class >> annotation [
 
-	<MSEClass: #ViewReference super: #FmxSQLReference>
+	<FMClass: #ViewReference super: #FmxSQLReference>
 	<package: #FamixNGSQL>
 	<generated>
 	^self
@@ -36,7 +36,6 @@ FmxSQLViewReference >> source: anObject [
 
 	<generated>
 	source := anObject
-
 ]
 
 { #category : #accessing }
@@ -53,5 +52,4 @@ FmxSQLViewReference >> view: anObject [
 
 	<generated>
 	view := anObject
-
 ]

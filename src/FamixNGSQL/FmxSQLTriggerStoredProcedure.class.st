@@ -16,7 +16,7 @@ Class {
 { #category : #meta }
 FmxSQLTriggerStoredProcedure class >> annotation [
 
-	<MSEClass: #TriggerStoredProcedure super: #FmxSQLStoredProcedure>
+	<FMClass: #TriggerStoredProcedure super: #FmxSQLStoredProcedure>
 	<package: #FamixNGSQL>
 	<generated>
 	^self
@@ -28,9 +28,10 @@ FmxSQLTriggerStoredProcedure >> addColumnsReferenced: anObject [
 	^ self columnsReferenced add: anObject
 ]
 
-{ #category : #accessing }
-FmxSQLTriggerStoredProcedure >> allDepending [
-	^ super allDepending , self triggersDepending
+{ #category : #adding }
+FmxSQLTriggerStoredProcedure >> addTrigger: anObject [
+	<generated>
+	^ self triggers add: anObject
 ]
 
 { #category : #accessing }
@@ -38,6 +39,7 @@ FmxSQLTriggerStoredProcedure >> columnsReferenced [
 	"Relation named: #columnsReferenced type: #FmxSQLColumnReference opposite: #triggerStoredProceduresReferencing"
 
 	<generated>
+	<derived>
 	^ columnsReferenced
 ]
 
@@ -46,14 +48,13 @@ FmxSQLTriggerStoredProcedure >> columnsReferenced: anObject [
 
 	<generated>
 	columnsReferenced value: anObject
-
 ]
 
 { #category : #navigation }
 FmxSQLTriggerStoredProcedure >> columnsReferencedGroup [
 	<generated>
 	<navigation: 'ColumnsReferenced'>
-	^ MooseGroup withAll: self columnsReferenced asSet
+	^ MooseSpecializedGroup withAll: self columnsReferenced asSet
 ]
 
 { #category : #testing }
@@ -68,6 +69,7 @@ FmxSQLTriggerStoredProcedure >> triggers [
 	"Relation named: #triggers type: #FmxSQLTrigger opposite: #storedProcedure"
 
 	<generated>
+	<derived>
 	^ triggers
 ]
 
@@ -76,11 +78,4 @@ FmxSQLTriggerStoredProcedure >> triggers: anObject [
 
 	<generated>
 	triggers value: anObject
-
-]
-
-{ #category : #accessing }
-FmxSQLTriggerStoredProcedure >> triggersDepending [
-	"Returns the triggers that depends on myself directly (they call me directly)."
-	^ self triggers
 ]

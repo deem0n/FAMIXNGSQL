@@ -12,7 +12,7 @@ Class {
 { #category : #meta }
 FmxSQLExceptClause class >> annotation [
 
-	<MSEClass: #ExceptClause super: #FmxSQLClause>
+	<FMClass: #ExceptClause super: #FmxSQLClause>
 	<package: #FamixNGSQL>
 	<generated>
 	^self

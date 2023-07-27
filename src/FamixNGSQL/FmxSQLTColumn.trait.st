@@ -3,13 +3,13 @@ Trait {
 	#instVars : [
 		'#columnsContainer => FMOne type: #FmxSQLColumnsContainer opposite: #columns'
 	],
-	#category : 'FamixNGSQL-Traits'
+	#category : #'FamixNGSQL-Traits'
 }
 
 { #category : #meta }
 FmxSQLTColumn classSide >> annotation [
 
-	<MSEClass: #TColumn super: #Trait>
+	<FMClass: #TColumn super: #Object>
 	<package: #FamixNGSQL>
 	<generated>
 	^self
@@ -29,12 +29,11 @@ FmxSQLTColumn >> columnsContainer: anObject [
 
 	<generated>
 	columnsContainer := anObject
-
 ]
 
 { #category : #navigation }
 FmxSQLTColumn >> columnsContainerGroup [
 	<generated>
 	<navigation: 'ColumnsContainer'>
-	^ MooseGroup with: self columnsContainer
+	^ MooseSpecializedGroup with: self columnsContainer
 ]

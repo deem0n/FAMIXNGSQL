@@ -12,7 +12,7 @@ Class {
 { #category : #meta }
 FmxSQLAliasAccess class >> annotation [
 
-	<MSEClass: #AliasAccess super: #FmxSQLReference>
+	<FMClass: #AliasAccess super: #FmxSQLReference>
 	<package: #FamixNGSQL>
 	<generated>
 	^self

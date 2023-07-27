@@ -10,7 +10,7 @@ Class {
 { #category : #meta }
 FmxSQLWithClause class >> annotation [
 
-	<MSEClass: #WithClause super: #FmxSQLClause>
+	<FMClass: #WithClause super: #FmxSQLClause>
 	<package: #FamixNGSQL>
 	<generated>
 	^self

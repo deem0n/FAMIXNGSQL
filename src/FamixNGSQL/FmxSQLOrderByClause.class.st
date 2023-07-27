@@ -4,23 +4,18 @@ I am an order by clause
 Class {
 	#name : #FmxSQLOrderByClause,
 	#superclass : #FmxSQLClause,
-	#traits : 'FamixTWithAccesses + FamixTWithInvocations + FmxSQLTWithColumnReference + FmxSQLTWithNamespaceReference + FmxSQLTWithReferencesGroupReference + FmxSQLTWithTableReference + FmxSQLTWithViewReference',
-	#classTraits : 'FamixTWithAccesses classTrait + FamixTWithInvocations classTrait + FmxSQLTWithColumnReference classTrait + FmxSQLTWithNamespaceReference classTrait + FmxSQLTWithReferencesGroupReference classTrait + FmxSQLTWithTableReference classTrait + FmxSQLTWithViewReference classTrait',
+	#traits : 'FamixTWithInvocations + FmxSQLTWithAccesses + FmxSQLTWithColumnReference + FmxSQLTWithNamespaceReference + FmxSQLTWithReferencesGroupReference + FmxSQLTWithTableReference + FmxSQLTWithViewReference',
+	#classTraits : 'FamixTWithInvocations classTrait + FmxSQLTWithAccesses classTrait + FmxSQLTWithColumnReference classTrait + FmxSQLTWithNamespaceReference classTrait + FmxSQLTWithReferencesGroupReference classTrait + FmxSQLTWithTableReference classTrait + FmxSQLTWithViewReference classTrait',
 	#category : #'FamixNGSQL-Entities'
 }
 
 { #category : #meta }
 FmxSQLOrderByClause class >> annotation [
 
-	<MSEClass: #OrderByClause super: #FmxSQLClause>
+	<FMClass: #OrderByClause super: #FmxSQLClause>
 	<package: #FamixNGSQL>
 	<generated>
 	^self
-]
-
-{ #category : #testing }
-FmxSQLOrderByClause >> isClauseAbleToReferenceColumn [
-	^ true
 ]
 
 { #category : #testing }

@@ -3,16 +3,22 @@ Trait {
 	#instVars : [
 		'#anchorsOnIntervalsOfCode => FMMany type: #FmxSQLEntitySourceAnchor opposite: #entity'
 	],
-	#category : 'FamixNGSQL-Traits'
+	#category : #'FamixNGSQL-Traits'
 }
 
 { #category : #meta }
 FmxSQLTWithEntitySourceAnchor classSide >> annotation [
 
-	<MSEClass: #TWithEntitySourceAnchor super: #Trait>
+	<FMClass: #TWithEntitySourceAnchor super: #Object>
 	<package: #FamixNGSQL>
 	<generated>
 	^self
+]
+
+{ #category : #adding }
+FmxSQLTWithEntitySourceAnchor >> addAnchorsOnIntervalsOfCode: anObject [
+	<generated>
+	^ self anchorsOnIntervalsOfCode add: anObject
 ]
 
 { #category : #accessing }
@@ -20,6 +26,7 @@ FmxSQLTWithEntitySourceAnchor >> anchorsOnIntervalsOfCode [
 	"Relation named: #anchorsOnIntervalsOfCode type: #FmxSQLEntitySourceAnchor opposite: #entity"
 
 	<generated>
+	<derived>
 	^ anchorsOnIntervalsOfCode
 ]
 
@@ -28,5 +35,4 @@ FmxSQLTWithEntitySourceAnchor >> anchorsOnIntervalsOfCode: anObject [
 
 	<generated>
 	anchorsOnIntervalsOfCode value: anObject
-
 ]
