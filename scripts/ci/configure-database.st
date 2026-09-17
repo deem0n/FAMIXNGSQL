@@ -3,7 +3,7 @@
 (Smalltalk version beginsWith: 'Pharo13.') ifFalse: [
 	self error: 'This CI target requires Pharo 13' ].
 Smalltalk globals at: #MooseVersion ifPresent: [ :versionClass |
-	versionClass current major = 13 ifFalse: [
+	versionClass current major asString = '13' ifFalse: [
 		self error: 'The prebuilt Moose CI target requires Moose 13' ] ].
 environment := Smalltalk os environment.
 required := [ :name |
