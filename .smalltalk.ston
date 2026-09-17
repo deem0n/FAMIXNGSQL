@@ -1,5 +1,5 @@
 SmalltalkCISpec {
-    #name : 'FAMIXNGSQL 2 - Pharo 13 / Moose 13 core',
+    #name : 'FAMIXNGSQL-2-Pharo13-Moose13',
     #loading : [
         SCIMetacelloLoadSpec {
             #baseline : 'FAMIXNGSQL',
