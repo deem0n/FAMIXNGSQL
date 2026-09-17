@@ -1,6 +1,27 @@
 Extension { #name : #FmxSQLModel }
 
 { #category : #'*FamixNGSQL-Importer' }
+FmxSQLModel >> ensureRelationMembers [
+	"Partial analysis can leave an entity linked before it is registered.
+	Include the complete relation graph so MSE does not lose anchors or targets."
+	| fame known pending |
+	fame := FMModel withMetamodel: self metamodel.
+	known := self entities asIdentitySet.
+	pending := self entities asOrderedCollection copy.
+	[ pending isEmpty ] whileFalse: [ | entity |
+		entity := pending removeLast.
+		(fame metaDescriptionOf: entity) allProperties do: [ :property |
+			property type isPrimitive ifFalse: [
+				(fame get: property element: entity) do: [ :related |
+					((related isKindOf: MooseEntity) and: [ (known includes: related) not ]) ifTrue: [
+						(related mooseModel notNil and: [ related mooseModel ~~ self ]) ifTrue: [
+							self error: 'SQL relation points to an entity in another model' ].
+						known add: related.
+						pending add: related.
+						related mooseModel: self ] ] ] ] ]
+]
+
+{ #category : #'*FamixNGSQL-Importer' }
 FmxSQLModel >> analysisReport [
 	"Serializable companion to MSE: analysis caches are not part of the metamodel."
 	| describe routines views counts |

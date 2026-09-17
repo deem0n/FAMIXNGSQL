@@ -104,6 +104,7 @@ FmxSQLView >> query [
 
 	<ignoreForCoverage>
 	<generated>
+	<derived>
 	^ query
 ]
 

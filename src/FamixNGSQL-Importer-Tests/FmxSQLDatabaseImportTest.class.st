@@ -42,5 +42,6 @@ CREATE TRIGGER view_insert INSTEAD OF INSERT ON {1}.account_view FOR EACH ROW EX
 	self assert: trigger table identicalTo: view.
 	self assert: trigger storedProcedure queries isNotEmpty.
 	self assert: (trigger storedProcedure triggers includes: trigger).
+	self assert: model entities size equals: model entities asIdentitySet size.
 	self assert: model errorReport errors isEmpty
 ]

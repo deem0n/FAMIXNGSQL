@@ -37,6 +37,10 @@ analysis.
 - Moose 13 no longer has `withoutPrimaryContainer`. Preserve both relation
   endpoints and composition through the existing `<>-`/`<>-*` commands.
   There is no replacement that disables the relation or drops its inverse.
+  For the one-to-one view/query and derived-table/query relations, explicitly
+  mark the owner query property derived and its container inverse not derived.
+  This preserves composition while exporting each query once; retaining the
+  default direction produces duplicate MSE IDs.
 - Use a trigger-owner trait shared by tables and views, preserving the public
   `table` / `triggers` relation names.
 - Keep the CHECK/routine relation and add the requested exclusion/routine
@@ -60,24 +64,25 @@ P3 master was fast-forwarded to upstream `d45f0d358f41ff809fd85f26046a63630a3a7b
 and pushed; its 95 tests passed against a disposable database. PgMetadata's 24
 tests passed, including constraint/routine links and the read-only extraction
 transaction. PostgreSQLParser passed 133 grammar tests, 103 AST-builder tests,
-7 facade tests, and 3 AST tests. The importer has 38 passing tests (including a
+7 facade tests, and 3 AST tests. The importer has 40 passing tests (including a
 real PostgreSQL integration scenario and MSE source-anchor export).
 
 The regenerated metamodel was exported to an empty directory and reloaded
 successfully. No generated definition refers to `FamixTUnknownSourceLanguage`.
 The production importer and its tests now have separate packages.
 
-The full local database build produced 81,488 model entities. Application catalog
-counts were independently checked with SQL: 47 schemas, 359 tables, 5 foreign
+The final model contains 70,143 unique entities. The earlier raw count included
+duplicate registrations and has been superseded. Application catalog counts
+were independently checked with SQL: 47 schemas, 359 tables, 5 foreign
 tables, 85 ordinary/materialized views, 2,461 routines, and 569 triggers.
 Generated system stubs are additional model entities.
 
-Routine statuses: 938 visited, 286 partial, 717 failed, 7 timed out, 511 in
+Routine statuses: 937 visited, 286 partial, 718 failed, 7 timed out, 511 in
 unsupported languages, and 2 aggregate catalog objects. View statuses: 42
 visited, 12 partial, 31 failed. Syntax failures across routines/views fell from
 799 to 520 after the schema-qualified call, declaration, and EXECUTE repairs.
-The larger model exposes more unresolved references; there are 1,833 recorded
-errors and 346 warnings overall. These counts are observations, not a claim of
+The larger model exposes more unresolved references; there are 1,836 recorded
+errors and 347 warnings overall. These counts are observations, not a claim of
 complete PostgreSQL semantics or dependency coverage.
 
 The MSE artifact retains source and structural/reference relations. A separate
@@ -97,3 +102,19 @@ been performed.
 - Remove remaining visitor Halts with supported semantics and regression tests;
   the importer currently records them as failures and continues.
 - Pin/validate the complete dependency stack in a fresh image before a release.
+
+## Export integrity fixes
+
+Reference factories already register their entities in the model. Remove the
+second registration in the visitor and in trigger-column linking. Register
+synthetic tableoid columns and copied trigger source anchors as model members.
+A final relation-graph pass also includes entities linked before a visitor failed.
+Round-trip tests check query identity, inverse relationships, entity counts, and
+source-anchor text, beyond checking that the MSE parser accepts the file.
+
+Final MSE verification: 70,143 records, 70,143 distinct IDs, zero undefined
+reference IDs. Reloaded model counts match: 70,143 entities, 569 triggers,
+2,461 application routines, 18,457 source anchors, and 13,386 anchored references.
+Routine and view source text was checked for exact equality after reloading.
+The snapshots are `artifacts/mi-20260917.mse` and
+`artifacts/mi-20260917-analysis.json` in the local working repository.

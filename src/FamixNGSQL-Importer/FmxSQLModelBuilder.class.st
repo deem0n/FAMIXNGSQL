@@ -85,6 +85,7 @@ FmxSQLModelBuilder >> buildModel [
 		visitStoredProceduresFor: mooseModel;
 		linkColumnReferencesToNewAndOldLocalVariableFor: mooseModel;
 		createSourceAnchorsOfQualifiedNamesFor: mooseModel.
+	mooseModel ensureRelationMembers.
 	mooseModel
 		errorReport: self errorReport.
 	pgToFamixEntities := nil.
@@ -147,6 +148,8 @@ FmxSQLModelBuilder >> createForeignTablesIn: mooseModel [
 		"Add special columns."
 		FmxSQLColumn new
 			name: 'tableoid';
+			isStub: true;
+			mooseModel: mooseModel;
 			columnsContainer: table ] displayingProgress: 'Creating foreign tables'
 ]
 
@@ -250,6 +253,8 @@ FmxSQLModelBuilder >> createTablesIn: mooseModel [
 		"Add special columns."
 		FmxSQLColumn new
 			name: 'tableoid';
+			isStub: true;
+			mooseModel: mooseModel;
 			columnsContainer: table ] displayingProgress: 'Creating tables'
 ]
 
@@ -355,6 +360,7 @@ FmxSQLModelBuilder >> linkColumnReferencesToNewAndOldLocalVariableFor: model [
 					varCol references do: [ :varColRef |
 						|copiedSourceAnchor|
 						copiedSourceAnchor := FmxSQLEntitySourceAnchor new
+														mooseModel: model;
 														entity: varColRef sourceAnchor entity;
 														start: varColRef sourceAnchor start;
 														end: varColRef sourceAnchor end;
@@ -362,8 +368,7 @@ FmxSQLModelBuilder >> linkColumnReferencesToNewAndOldLocalVariableFor: model [
 						(tableCol createReferenceEntityFrom: varColRef source)
 							isWildCardReference: varColRef isWildCardReference;
 							sourceAnchor: copiedSourceAnchor;
-							isCertain: false;
-							mooseModel: newLocalVariable mooseModel ] ]
+							isCertain: false ] ]
 				ifNone: [ self recordLinkingError: (Error new
 					messageText: 'Trigger column ', varCol name, ' not found in ', table name)
 					for: newLocalVariable parentBehaviouralEntity ] ] ] ]

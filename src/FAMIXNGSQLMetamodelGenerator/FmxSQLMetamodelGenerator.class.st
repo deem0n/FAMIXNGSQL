@@ -233,6 +233,7 @@ FmxSQLMetamodelGenerator >> defineBehaviouralEntitiesProperties [
 
 { #category : #'definition - behavioural' }
 FmxSQLMetamodelGenerator >> defineBehaviouralEntitiesRelations [
+	| queryRelation |
 	"A CheckConstraint can call StoredProcedures"
 	(checkConstraint property: #storedProceduresCalled)
 		*-*
@@ -243,14 +244,16 @@ FmxSQLMetamodelGenerator >> defineBehaviouralEntitiesRelations [
 		*-* (storedProcedure property: #exclusionConstraintsCalling).
 
 	"A View is defined as a SelectQuery."
-	((view property: #query)
-		<>-
-	(selectQuery property: #viewDefining)).
+	queryRelation := (view property: #query)
+		<>- (selectQuery property: #viewDefining).
+	queryRelation derived.
+	queryRelation oppositeSide notDerived.
 	
 	"A DerivedTable is defined as a CRUD query."
-	((derivedTable property: #query)
-		<>-
-	(crudQuery property: #derivedTableDefining)).
+	queryRelation := (derivedTable property: #query)
+		<>- (crudQuery property: #derivedTableDefining).
+	queryRelation derived.
+	queryRelation oppositeSide notDerived.
 	
 	"A SelectQuery can define multiple derived tables."
 	(tDefiningDerivedTables property: #derivedTablesDefined)

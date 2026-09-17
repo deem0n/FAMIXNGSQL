@@ -126,7 +126,6 @@ FmxSQLSymbolResolutionVisitor >> createReferenceTo: anEntity from: aPSQLASTNode 
 	anchor := self createSourceAnchorFrom: aPSQLASTNode.
 	reference := (anEntity value createReferenceEntityFrom: self currentEntity)
 		sourceAnchor: anchor;
-		mooseModel: self model;
 		yourself.
 		
 	reference isColumnReference

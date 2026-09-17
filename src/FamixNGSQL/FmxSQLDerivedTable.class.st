@@ -85,6 +85,7 @@ FmxSQLDerivedTable >> query [
 
 	<ignoreForCoverage>
 	<generated>
+	<derived>
 	^ query
 ]
 

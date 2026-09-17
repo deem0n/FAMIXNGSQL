@@ -78,7 +78,6 @@ FmxSQLSelectQuery >> viewDefining [
 	<ignoreForCoverage>
 	<generated>
 	<container>
-	<derived>
 	^ viewDefining
 ]
 

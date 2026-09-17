@@ -115,7 +115,6 @@ FmxSQLCRUDQuery >> derivedTableDefining [
 	<ignoreForCoverage>
 	<generated>
 	<container>
-	<derived>
 	^ derivedTableDefining
 ]
 
