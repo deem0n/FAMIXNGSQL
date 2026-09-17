@@ -1,78 +1,366 @@
 # FAMIXNGSQL
 
-A FAMIX model of PostgreSQL databases, including schemas, tables, views,
-constraints, routines, triggers, and source-level references.
+FAMIXNGSQL builds a FAMIX model of a PostgreSQL database: schemas, tables, views,
+constraints, routines, triggers, source code and references between entities.
+The current `master` includes the Pharo 13 / Moose 13 migration and the updated
+PgMetadata and PostgreSQLParser integrations.
 
-## Pharo 13 / Moose 13 integration
+The import has two stages:
 
-The `pharo13-pgmetadata-integration` branch restores the original metamodel
-relationships on current Moose and integrates the updated PgMetadata and parser.
-See [the migration audit](docs/pharo13-migration-audit.md) for changes and limits.
+1. [PgMetadata](https://github.com/deem0n/PgMetadata) reads PostgreSQL catalogs
+   through [P3](https://github.com/deem0n/P3) and builds a metadata model.
+2. FAMIXNGSQL creates `FmxSQL*` entities, parses supported SQL/PL/pgSQL source
+   with [PostgreSQLParser](https://github.com/deem0n/PostgreSQLParser), and resolves
+   references into the model. It records incomplete analysis explicitly.
 
-The current validation uses an existing Moose 13 image on Pharo 13 and
-PostgreSQL 15.14. A fresh-image Metacello installation has not yet been validated.
-The core avoids the old GT/Telescope UI dependencies; `LegacyUI` is optional
-and has not been ported or validated.
+Catalog extraction and source analysis have different coverage. A successful
+import preserves objects and source even when parts of their code cannot be
+parsed or resolved. See [the migration audit](docs/pharo13-migration-audit.md)
+for the original-model comparison, validation evidence and remaining work.
+
+## Compatibility and dependencies
+
+Validated on **2026-09-17**:
+
+| Component | Tested version or revision |
+| --- | --- |
+| Pharo | **13.1.0SNAPSHOT** |
+| Moose | **13.0.0** |
+| PostgreSQL | **15.14** (Postgres.app) |
+| PgMetadata | `5abe3134238b4f84f7d1e02e28d9aee45aee5c61`, included in `deem0n/PgMetadata:master` |
+| PostgreSQLParser | `f9d1b0850cb7cde2839760d87f54f04ba9de315e`, group `core-no-gui` |
+| SymbolResolver | `c6eb29c46cd36cabb8dff5d19329085ee8fa38c7` |
+| P3 | `d45f0d358f41ff809fd85f26046a63630a3a7bef`, synchronized with upstream `svenvc/P3` |
+
+Tests ran in an **existing Pharo 13/Moose 13 image**. A complete Metacello install
+in a fresh image has not yet been validated. Pharo 7, Pharo 10, other Moose
+versions and other PostgreSQL versions are not certified by this migration.
+Historical implementations remain available in Git history and the
+[original upstream repository](https://github.com/juliendelplanque/FAMIXNGSQL).
+
+PgMetadata alone does not require Moose, but the FAMIXNGSQL importer does.
+The baseline pins PgMetadata, PostgreSQLParser and SymbolResolver to commits.
+Famix (`development`), PetitParser and the transitive P3 dependency (`master`)
+still use moving branches, so this is not yet a fully pinned dependency stack.
+Deleting this repository's merged development branches does not remove the
+pinned dependency commits.
+
+## Installation
+
+In a Pharo 13/Moose 13 Playground:
 
 ```smalltalk
 Metacello new
-  repository: 'github://deem0n/FAMIXNGSQL:pharo13-pgmetadata-integration/src';
-  baseline: 'FAMIXNGSQL';
-  load: 'Core'.
+    baseline: 'FAMIXNGSQL';
+    repository: 'github://deem0n/FAMIXNGSQL:master/src';
+    load: 'Core'.
 ```
 
-## Build a model
+Keep `/src` in this repository URL. The default group also loads `Core`.
+
+| Group | Purpose |
+| --- | --- |
+| `Core` | Generated SQL metamodel and importer with their dependencies |
+| `Tests` | Core, importer tests and PgMetadata scenario-test support |
+| `Generator` | Core and the metamodel generator |
+| `LegacyUI` | Historical GT Inspector, analysis, Telescope and connection-manager packages |
+
+`LegacyUI` has not been ported or validated on the current image. Core usage does
+not require those UI packages or a Genie MCP server. Loading modern Genie in a
+historical Pharo 7 image is not part of the installation procedure.
+
+## Connect and build a model
+
+This example models **all application schemas** in the local `mi` database,
+using role `bi` on port `5435`:
 
 ```smalltalk
-model := (FmxSQLModelBuilder new
-  databaseName: 'mi';
-  connection: (PgConnection hostname: 'localhost' port: 5435
-    database: 'mi' user: 'bi' password: nil);
-  analysisTimeout: 5 seconds;
-  yourself) buildModel.
+| connection builder model |
+connection := PgConnection
+    hostname: 'localhost'
+    port: 5435
+    database: 'mi'
+    user: 'bi'
+    password: nil.
+
+builder := FmxSQLModelBuilder new
+    databaseName: 'mi';
+    connection: connection;
+    analysisTimeout: 5 seconds;
+    yourself.
+
+model := builder buildModel.
 model inspect.
-model analysisReport inspect.
 ```
 
-Metadata extraction reads all application schemas, excluding `pg_*` and
-`information_schema`. It uses a read-only repeatable-read transaction. Internal
-routine stubs remain available for reference resolution.
+Replace the connection parameters for another server and keep both database
+names consistent. `password: nil` works with the existing local authentication
+used for validation; provide a password when required. It does not automatically
+read `.pgpass`. The role must be able to connect and read the required catalogs.
 
-SQL and PL/pgSQL source is parsed with the corresponding grammar. All routine
-source is retained, including unsupported languages. Analysis is bounded per
-entity and records `visited`, `partial`, `failed`, `timedOut`,
-`unsupportedLanguage`, or `catalogOnly`. **`visited` means the parser and visitor
-finished without a recorded issue, not proof that every SQL construct is modeled.**
-Dynamic SQL is reported as partial; its runtime targets are not inferred.
-Ambiguous routine overloads retain multiple invocation candidates. Unqualified
-names still need more accurate PostgreSQL `search_path` handling.
+Metadata extraction uses a **read-only, repeatable-read transaction** and closes
+the connection afterwards. Parsing and reference resolution then operate on the
+extracted source. The importer does not execute application routine bodies.
 
-Export both the model and its diagnostics (analysis caches are not serialized
-by MSE):
+Application schemas exclude names beginning with `pg_` and
+`information_schema`. Non-system extension and test schemas, such as `pgtap`,
+are included. There is currently no schema-allowlist option on the builder.
+System types and routines needed for reference resolution can appear as stubs.
+
+`analysisTimeout:` limits source analysis **per routine or view**, not the whole
+import or its database connection. Five seconds is the default. A large model
+can take time to build; raising this value does not add missing parser support.
+
+## What the model contains
+
+| Area | Entities and relationships |
+| --- | --- |
+| Schemas | `FmxSQLNamespace namespaceEntities` and inverse `parentNamespace` |
+| Tables | Ordinary, partitioned and foreign tables; columns, types and table inheritance |
+| Views | Ordinary and materialized views, columns and original source; `isMaterialized` distinguishes the latter |
+| Constraints | Primary/foreign keys, unique, not-null, CHECK and exclusion constraints |
+| Constraint calls | CHECK/exclusion `storedProceduresCalled` and inverse routine relations, extracted from catalog dependencies |
+| Routines | Functions/procedures, PostgreSQL OIDs, language, source, ordered parameters and parameter modes |
+| Triggers | Owning table/view, invoked trigger routine, event/timing metadata and NEW/OLD references where analysis succeeds |
+| Source analysis | Queries, clauses, variables, calls and structural references for supported syntax |
+| Source anchors | Original source ranges attached to queries, clauses and references |
+
+`FmxSQLStoredProcedure` is the model's historical name for general routines; it
+also represents PostgreSQL functions. Trigger routines specialize it. Names
+alone do not identify overloads: retain `postgresOid` and parameter information.
+All generated class names use **`FmxSQL`**. A workspace variable referring to a
+model of `mi` does not introduce a separate class prefix.
+
+The model preserves original routine/view source independently of whether the
+visitor could build a complete semantic representation. Unsupported languages
+remain represented as catalog entities with source.
+
+## Explore an imported model
+
+The following snippets run in the model Inspector, with `self` bound to the
+`FmxSQLModel` returned by `buildModel`.
+
+Count selected entity kinds:
+
+```smalltalk
+Dictionary new
+    at: #entities put: self entities size;
+    at: #namespaces put: (self allWithType: FmxSQLNamespace) size;
+    at: #tables put: (self allWithType: FmxSQLTable) size;
+    at: #foreignTables put: (self allWithType: FmxSQLForeignTable) size;
+    at: #views put: (self allWithType: FmxSQLView) size;
+    at: #routines put:
+        ((self allWithSubTypesOf: FmxSQLStoredProcedure) reject: #isStub) size;
+    at: #triggers put: (self allWithType: FmxSQLTrigger) size;
+    yourself.
+```
+
+Model counts can include synthetic/system stubs; they need not equal a direct
+count of application catalog rows. `allWithType:` selects the exact class,
+whereas `allWithSubTypesOf:` includes specialized entities.
+
+Inspect routines, including trigger routines, with their source and parameters:
+
+```smalltalk
+((self allWithSubTypesOf: FmxSQLStoredProcedure) reject: #isStub)
+    collect: [ :routine |
+        { routine parentNamespace name.
+          routine name.
+          routine postgresOid.
+          routine languageName.
+          routine source.
+          (routine parameters sorted: [ :a :b | a position < b position ]) } ].
+```
+
+Inspect each trigger's owner and invoked routine:
+
+```smalltalk
+(self allWithType: FmxSQLTrigger) collect: [ :trigger |
+    { trigger parentNamespace name.
+      trigger name.
+      trigger table name.
+      trigger storedProcedure name } ].
+```
+
+The `table` relation also accepts a view, including the owner of an
+`INSTEAD OF` trigger.
+
+## Understand analysis coverage
+
+In the model Inspector:
+
+```smalltalk
+| report |
+report := self analysisReport.
+{ report at: 'routineCounts'.
+  report at: 'viewCounts'.
+  report at: 'errorCount'.
+  report at: 'warningCount' }.
+```
+
+Inspect routines requiring further analysis:
+
+```smalltalk
+(self analysisReport at: 'routines') reject: [ :entry |
+    (entry at: 'status') = 'visited' ].
+```
+
+Each routine entry includes its schema, name, OID, language, status and
+individual diagnostics. Views have corresponding entries under `views`.
+
+| Status | Meaning |
+| --- | --- |
+| `visited` | Parser and visitor finished without a recorded issue; this does not prove all semantics were modeled |
+| `partial` | Analysis completed with recorded warnings/errors, including unresolved references or dynamic SQL |
+| `failed` | Parsing or visiting failed; the original source remains available |
+| `timedOut` | Analysis exceeded the per-entity time limit |
+| `unsupportedLanguage` | Routine language has no supported source-analysis path |
+| `catalogOnly` | Catalog entity intentionally not analyzed as a routine body, such as an aggregate |
+| `untracked` | No analysis status is present, for example on a manually created entity |
+
+Known limitations include incomplete PostgreSQL grammar coverage, CTE/recursive
+query handling, composite/record fields, accurate `search_path` resolution and
+routine overload selection. Ambiguous calls retain candidate routines instead
+of choosing one arbitrarily. Runtime-dependent dynamic SQL targets are not
+guessed. Visitor failures are recorded while the import continues.
+
+The measured `mi` run produced **70,143 unique entities** and retained **569
+triggers**, **2,461 application routines** and **85 views**. It still had **520
+syntax failures** in the Smalltalk parser. These are not PostgreSQL reporting
+invalid stored code. There were also other analysis errors and warnings; syntax
+failures alone are not the complete coverage report. See the
+[migration audit](docs/pharo13-migration-audit.md) for the dated status breakdown.
+
+## Export and reload
+
+Export both the model and its diagnostics from the model Inspector:
 
 ```smalltalk
 'mi.mse' asFileReference writeStreamDo: [ :stream |
-  model exportToMSEStream: stream ].
+    self exportToMSEStream: stream ].
 'mi-analysis.json' asFileReference writeStreamDo: [ :stream |
-  stream nextPutAll: (NeoJSONWriter toString: model analysisReport) ].
+    stream nextPutAll: (NeoJSONWriter toString: self analysisReport) ].
 ```
 
-## Tests and regeneration
+Files are written relative to the image's working directory. Choose new paths
+when retaining previous exports. `NeoJSONWriter` is available in the tested
+Moose image; the FAMIXNGSQL baseline does not separately declare NeoJSON.
 
-Load the `Tests` group. Run database scenarios only against a disposable database:
+Reload the model in a Playground with the metamodel and importer loaded:
+
+```smalltalk
+| restored |
+restored := 'mi.mse' asFileReference readStreamDo: [ :stream |
+    FmxSQLModel importFromMSEStream: stream ].
+restored inspect.
+```
+
+Read the separate report:
+
+```smalltalk
+'mi-analysis.json' asFileReference readStreamDo: [ :stream |
+    NeoJSONReader fromString: stream contents ].
+```
+
+MSE preserves modeled source and relations, but the analysis/error caches are
+not serialized. Use the companion JSON to inspect the original import's
+coverage; do not expect `restored analysisReport` to reconstruct it.
+
+The validation export was checked for unique IDs and missing references and
+reloaded with matching entity, routine, trigger and anchor counts. Routine/view
+source text matched exactly. Database-derived files under `artifacts/` are
+ignored by Git and are **not published in this repository**.
+
+## Tests
+
+Load the importer tests and their PgMetadata fixture support:
+
+```smalltalk
+Metacello new
+    baseline: 'FAMIXNGSQL';
+    repository: 'github://deem0n/FAMIXNGSQL:master/src';
+    load: 'Tests'.
+```
+
+The database scenario performs DDL. Create a **disposable database** in advance
+and configure it explicitly; do not use `mi` or another application database:
 
 ```smalltalk
 PgScenarioTest connectionParameters:
-  (PgConnection hostname: 'localhost' port: 5435
-    database: 'pgmetadata_validation_20260917' user: 'bi' password: nil).
+    (PgConnection
+        hostname: 'localhost'
+        port: 5435
+        database: 'pgmetadata_validation_20260917'
+        user: 'bi'
+        password: nil).
 ```
 
-Load `Generator` to modify the metamodel. Release references to existing models
-before regenerating; live class migration of large models can take minutes.
-Use `FmxSQLMetamodelGenerator new generateWithCleaning`, then export the package
-to an empty directory and replace the old generated package. Overlaying files
-can leave obsolete classes behind, including `FmxSQLUnknownSourceLanguage`,
-whose old trait no longer exists in Moose 13.
+The role must be allowed to create schemas, tables, routines and triggers in
+that database. Each scenario creates a UUID-named schema and drops it during
+teardown. The database itself must already exist.
 
-The original Pharo 7 code is available from the upstream repository/history.
-Installing modern Genie in that old image is not required for this migration.
+Run all importer test classes:
+
+```smalltalk
+| suite result |
+suite := TestSuite named: 'FAMIXNGSQL importer'.
+{ FmxSQLSymbolResolutionVisitorTest.
+  FmxSQLAnalysisReportingTest.
+  FmxSQLDatabaseImportTest }
+    do: [ :testClass | suite addTest: testClass suite ].
+result := suite run.
+result inspect.
+```
+
+All **40 importer tests** passed in the validated image. Coverage includes
+symbol resolution, overload candidates, a real PostgreSQL schema with triggers
+and constraint calls, timeouts, retained source, inverse relations, and MSE
+identity/source round trips. Dependency suites previously passed 24 PgMetadata,
+95 P3 and 246 PostgreSQLParser tests; see the audit for the validation scope.
+There is no established fresh-image/version CI matrix yet.
+
+## Metamodel development
+
+Generated entities live in `src/FamixNGSQL`; importer extensions live in
+`src/FamixNGSQL-Importer`. Change the generator in
+`src/FAMIXNGSQLMetamodelGenerator` when changing the metamodel, then regenerate
+and review the generated diff. Keep handwritten importer behavior separate.
+
+Load the generator:
+
+```smalltalk
+Metacello new
+    baseline: 'FAMIXNGSQL';
+    repository: 'github://deem0n/FAMIXNGSQL:master/src';
+    load: 'Generator'.
+```
+
+Construct its definitions without installing regenerated classes:
+
+```smalltalk
+FmxSQLMetamodelGenerator new define.
+```
+
+Perform actual regeneration in a disposable development image after releasing
+model instances. `FmxSQLMetamodelGenerator new generateWithCleaning` removes and
+recreates the generated package; reload the handwritten extensions afterwards.
+Live migration of a large model can take minutes. Extension-package ownership
+across regeneration still needs a regression check; it is tracked in
+[issue #8](https://github.com/deem0n/FAMIXNGSQL/issues/8).
+
+Export generated source to an empty directory and review replacement of the
+old generated package. Overlaying an export leaves stale definitions behind.
+In particular, `FmxSQLUnknownSourceLanguage` is obsolete: its former
+`FamixTUnknownSourceLanguage` trait no longer exists in the tested Moose image.
+Do not restore that class merely to silence an old-image load warning.
+
+The generator preserves namespace ownership, source-holder/anchor direction,
+CHECK/exclusion routine links and reciprocal associations. MSE regression tests
+must continue checking identity and inverse relations, not only whether an
+export can be parsed.
+
+## License and origins
+
+Distributed under the [MIT license](LICENSE). This fork builds on
+[Julien Delplanque's FAMIXNGSQL](https://github.com/juliendelplanque/FAMIXNGSQL),
+with updated metadata extraction, SQL parsing and Moose metamodel integration.
