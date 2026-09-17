@@ -1,32 +1,56 @@
+"
+## Relations
+======================
+
+### Outgoing dependencies
+| Relation | Origin | Opposite | Type | Comment |
+|---|
+| `outgoingTableReferences` | `FmxSQLTWithTableReference` | `source` | `FmxSQLTableReference` | |
+
+
+
+"
 Trait {
-	#name : #FmxSQLTWithTableReference,
+	#name : 'FmxSQLTWithTableReference',
 	#instVars : [
 		'#outgoingTableReferences => FMMany type: #FmxSQLTableReference opposite: #source'
 	],
-	#category : 'FamixNGSQL-Traits'
+	#category : 'FamixNGSQL-Traits',
+	#package : 'FamixNGSQL',
+	#tag : 'Traits'
 }
 
-{ #category : #meta }
+{ #category : 'meta' }
 FmxSQLTWithTableReference classSide >> annotation [
 
-	<MSEClass: #TWithTableReference super: #Trait>
+	<ignoreForCoverage>
+	<FMClass: #TWithTableReference super: #Object>
 	<package: #FamixNGSQL>
 	<generated>
-	^self
 ]
 
-{ #category : #accessing }
+{ #category : 'adding' }
+FmxSQLTWithTableReference >> addOutgoingTableReference: anObject [
+
+	<ignoreForCoverage>
+	<generated>
+	^ self outgoingTableReferences add: anObject
+]
+
+{ #category : 'accessing' }
 FmxSQLTWithTableReference >> outgoingTableReferences [
 	"Relation named: #outgoingTableReferences type: #FmxSQLTableReference opposite: #source"
 
+	<ignoreForCoverage>
 	<generated>
+	<derived>
 	^ outgoingTableReferences
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FmxSQLTWithTableReference >> outgoingTableReferences: anObject [
 
+	<ignoreForCoverage>
 	<generated>
 	outgoingTableReferences value: anObject
-
 ]

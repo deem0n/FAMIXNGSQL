@@ -1,1 +1,1 @@
-Package { #name : #FamixNGSQL }
+Package { #name : 'FamixNGSQL' }

@@ -1,45 +1,56 @@
+"
+## Relations
+======================
+
+### Children
+| Relation | Origin | Opposite | Type | Comment |
+|---|
+| `aliases` | `FmxSQLTWithAlias` | `parentBehaviouralEntity` | `FmxSQLAlias` | |
+
+
+
+"
 Trait {
-	#name : #FmxSQLTWithAlias,
+	#name : 'FmxSQLTWithAlias',
 	#instVars : [
 		'#aliases => FMMany type: #FmxSQLAlias opposite: #parentBehaviouralEntity'
 	],
-	#category : 'FamixNGSQL-Traits'
+	#category : 'FamixNGSQL-Traits',
+	#package : 'FamixNGSQL',
+	#tag : 'Traits'
 }
 
-{ #category : #meta }
+{ #category : 'meta' }
 FmxSQLTWithAlias classSide >> annotation [
 
-	<MSEClass: #TWithAlias super: #Trait>
+	<ignoreForCoverage>
+	<FMClass: #TWithAlias super: #Object>
 	<package: #FamixNGSQL>
 	<generated>
-	^self
 ]
 
-{ #category : #adding }
-FmxSQLTWithAlias >> addAliases: anObject [
+{ #category : 'adding' }
+FmxSQLTWithAlias >> addAlias: anObject [
+
+	<ignoreForCoverage>
 	<generated>
 	^ self aliases add: anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FmxSQLTWithAlias >> aliases [
 	"Relation named: #aliases type: #FmxSQLAlias opposite: #parentBehaviouralEntity"
 
+	<ignoreForCoverage>
 	<generated>
+	<derived>
 	^ aliases
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FmxSQLTWithAlias >> aliases: anObject [
 
+	<ignoreForCoverage>
 	<generated>
 	aliases value: anObject
-
-]
-
-{ #category : #navigation }
-FmxSQLTWithAlias >> aliasesGroup [
-	<generated>
-	<navigation: 'Aliases'>
-	^ MooseGroup withAll: self aliases asSet
 ]

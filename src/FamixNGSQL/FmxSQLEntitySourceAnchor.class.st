@@ -1,99 +1,102 @@
 "
 I am a source anchor which anchor source code held by an entity with immediate source.
+
+## Relations
+======================
+
+### Other
+| Relation | Origin | Opposite | Type | Comment |
+|---|
+| `element` | `FamixTSourceAnchor` | `sourceAnchor` | `FamixTSourceEntity` | Enable the accessibility to the famix entity that this class is a source pointer for|
+| `entity` | `FmxSQLEntitySourceAnchor` | `anchorsOnIntervalsOfCode` | `FmxSQLTWithEntitySourceAnchor` | |
+
+
+## Properties
+======================
+
+| Name | Type | Default value | Comment |
+|---|
+| `end` | `Number` | nil | |
+| `start` | `Number` | nil | |
+
 "
 Class {
-	#name : #FmxSQLEntitySourceAnchor,
-	#superclass : #FmxSQLEntity,
+	#name : 'FmxSQLEntitySourceAnchor',
+	#superclass : 'FmxSQLEntity',
 	#traits : 'FamixTSourceAnchor',
 	#classTraits : 'FamixTSourceAnchor classTrait',
 	#instVars : [
-		'#start => FMProperty',
 		'#end => FMProperty',
-		'#entity => FMOne type: #FmxSQLTWithEntitySourceAnchor opposite: #anchorsOnIntervalsOfCode'
+		'#entity => FMOne type: #FmxSQLTWithEntitySourceAnchor opposite: #anchorsOnIntervalsOfCode',
+		'#start => FMProperty'
 	],
-	#category : #'FamixNGSQL-Entities'
+	#category : 'FamixNGSQL-Entities',
+	#package : 'FamixNGSQL',
+	#tag : 'Entities'
 }
 
-{ #category : #meta }
+{ #category : 'meta' }
 FmxSQLEntitySourceAnchor class >> annotation [
 
-	<MSEClass: #EntitySourceAnchor super: #FmxSQLEntity>
+	<ignoreForCoverage>
+	<FMClass: #EntitySourceAnchor super: #FmxSQLEntity>
 	<package: #FamixNGSQL>
 	<generated>
-	^self
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FmxSQLEntitySourceAnchor >> end [
 
-	<MSEProperty: #end type: #Number>
+	<FMProperty: #end type: #Number>
+	<ignoreForCoverage>
 	<generated>
 	^ end
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FmxSQLEntitySourceAnchor >> end: anObject [
-
+	<ignoreForCoverage>
 	<generated>
 	end := anObject
-
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FmxSQLEntitySourceAnchor >> entity [
 	"Relation named: #entity type: #FmxSQLTWithEntitySourceAnchor opposite: #anchorsOnIntervalsOfCode"
 
+	<ignoreForCoverage>
 	<generated>
 	^ entity
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FmxSQLEntitySourceAnchor >> entity: anObject [
 
+	<ignoreForCoverage>
 	<generated>
 	entity := anObject
-
 ]
 
-{ #category : #accessing }
-FmxSQLEntitySourceAnchor >> extractString [
-	^ self entity source copyFrom: self start to: self end
-]
-
-{ #category : #accessing }
-FmxSQLEntitySourceAnchor >> interval [
-	^ self start to: self end
-]
-
-{ #category : #testing }
+{ #category : 'testing' }
 FmxSQLEntitySourceAnchor >> isEntitySourceAnchor [
 
+	<ignoreForCoverage>
 	<generated>
 	^ true
 ]
 
-{ #category : #accessing }
-FmxSQLEntitySourceAnchor >> sourceAnchor [
-	^ self
-]
-
-{ #category : #accessing }
-FmxSQLEntitySourceAnchor >> sourceAnchorOrReferenceGroupSourceAnchor [
-	^ self
-]
-
-{ #category : #accessing }
+{ #category : 'accessing' }
 FmxSQLEntitySourceAnchor >> start [
 
-	<MSEProperty: #start type: #Number>
+	<FMProperty: #start type: #Number>
+	<ignoreForCoverage>
 	<generated>
 	^ start
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FmxSQLEntitySourceAnchor >> start: anObject [
-
+	<ignoreForCoverage>
 	<generated>
 	start := anObject
-
 ]

@@ -1,38 +1,67 @@
 "
 I am an alias for a table. Eventually I also contain alias to columns.
+
+## Relations
+======================
+
+### Outgoing dependencies
+| Relation | Origin | Opposite | Type | Comment |
+|---|
+| `outgoingTableReferences` | `FmxSQLTWithTableReference` | `source` | `FmxSQLTableReference` | |
+| `outgoingViewReferences` | `FmxSQLTWithViewReference` | `source` | `FmxSQLViewReference` | |
+
+### Other
+| Relation | Origin | Opposite | Type | Comment |
+|---|
+| `columnAliases` | `FmxSQLColumnsContainerAlias` | `columnsContainerAlias` | `FmxSQLColumnAlias` | |
+
+
+
 "
 Class {
-	#name : #FmxSQLColumnsContainerAlias,
-	#superclass : #FmxSQLAlias,
+	#name : 'FmxSQLColumnsContainerAlias',
+	#superclass : 'FmxSQLAlias',
 	#traits : 'FmxSQLTWithTableReference + FmxSQLTWithViewReference',
 	#classTraits : 'FmxSQLTWithTableReference classTrait + FmxSQLTWithViewReference classTrait',
 	#instVars : [
 		'#columnAliases => FMMany type: #FmxSQLColumnAlias opposite: #columnsContainerAlias'
 	],
-	#category : 'FamixNGSQL-Entities'
+	#category : 'FamixNGSQL-Entities',
+	#package : 'FamixNGSQL',
+	#tag : 'Entities'
 }
 
-{ #category : #meta }
+{ #category : 'meta' }
 FmxSQLColumnsContainerAlias class >> annotation [
 
-	<MSEClass: #ColumnsContainerAlias super: #FmxSQLAlias>
+	<ignoreForCoverage>
+	<FMClass: #ColumnsContainerAlias super: #FmxSQLAlias>
 	<package: #FamixNGSQL>
 	<generated>
-	^self
 ]
 
-{ #category : #accessing }
+{ #category : 'adding' }
+FmxSQLColumnsContainerAlias >> addColumnAlias: anObject [
+
+	<ignoreForCoverage>
+	<generated>
+	^ self columnAliases add: anObject
+]
+
+{ #category : 'accessing' }
 FmxSQLColumnsContainerAlias >> columnAliases [
 	"Relation named: #columnAliases type: #FmxSQLColumnAlias opposite: #columnsContainerAlias"
 
+	<ignoreForCoverage>
 	<generated>
+	<derived>
 	^ columnAliases
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FmxSQLColumnsContainerAlias >> columnAliases: anObject [
 
+	<ignoreForCoverage>
 	<generated>
 	columnAliases value: anObject
-
 ]

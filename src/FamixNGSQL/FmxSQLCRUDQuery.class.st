@@ -10,139 +10,118 @@ The Update query is the UPDATE query in SQL.
 The Delete query is the DELETE query in SQL.
 
 My subclasses represent these four queries.
+
+## Relations
+======================
+
+### Parents
+| Relation | Origin | Opposite | Type | Comment |
+|---|
+| `container` | `FmxSQLCRUDQuery` | `queries` | `FmxSQLTQueryContainer` | |
+| `derivedTableDefining` | `FmxSQLCRUDQuery` | `query` | `FmxSQLDerivedTable` | |
+
+### Children
+| Relation | Origin | Opposite | Type | Comment |
+|---|
+| `clauses` | `FmxSQLCRUDQuery` | `query` | `FmxSQLClause` | |
+
+### Outgoing dependencies
+| Relation | Origin | Opposite | Type | Comment |
+|---|
+| `outgoingTableReferences` | `FmxSQLTWithTableReference` | `source` | `FmxSQLTableReference` | |
+| `outgoingViewReferences` | `FmxSQLTWithViewReference` | `source` | `FmxSQLViewReference` | |
+
+### Other
+| Relation | Origin | Opposite | Type | Comment |
+|---|
+| `outgoingNamespaceReference` | `FmxSQLTWithNamespaceReference` | `source` | `FmxSQLNamespaceReference` | |
+| `sourceAnchor` | `FamixTSourceEntity` | `element` | `FamixTSourceAnchor` | SourceAnchor entity linking to the original source code for this entity|
+
+
+
 "
 Class {
-	#name : #FmxSQLCRUDQuery,
-	#superclass : #FmxSQLEntity,
-	#traits : 'FamixTWithSourceAnchor + TDependencyQueries + TEntityMetaLevelDependency',
-	#classTraits : 'FamixTWithSourceAnchor classTrait + TDependencyQueries classTrait + TEntityMetaLevelDependency classTrait',
+	#name : 'FmxSQLCRUDQuery',
+	#superclass : 'FmxSQLEntity',
+	#traits : 'FamixTSourceEntity + FmxSQLTWithNamespaceReference + FmxSQLTWithTableReference + FmxSQLTWithViewReference + TEntityMetaLevelDependency',
+	#classTraits : 'FamixTSourceEntity classTrait + FmxSQLTWithNamespaceReference classTrait + FmxSQLTWithTableReference classTrait + FmxSQLTWithViewReference classTrait + TEntityMetaLevelDependency classTrait',
 	#instVars : [
-		'#derivedTableDefining => FMOne type: #FmxSQLDerivedTable opposite: #query',
 		'#clauses => FMMany type: #FmxSQLClause opposite: #query',
-		'#container => FMOne type: #FmxSQLTQueryContainer opposite: #queries'
+		'#container => FMOne type: #FmxSQLTQueryContainer opposite: #queries',
+		'#derivedTableDefining => FMOne type: #FmxSQLDerivedTable opposite: #query'
 	],
-	#category : #'FamixNGSQL-Entities'
+	#category : 'FamixNGSQL-Entities',
+	#package : 'FamixNGSQL',
+	#tag : 'Entities'
 }
 
-{ #category : #meta }
+{ #category : 'meta' }
 FmxSQLCRUDQuery class >> annotation [
 
-	<MSEClass: #CRUDQuery super: #FmxSQLEntity>
+	<ignoreForCoverage>
+	<FMClass: #CRUDQuery super: #FmxSQLEntity>
 	<package: #FamixNGSQL>
 	<generated>
-	^self
 ]
 
-{ #category : #meta }
-FmxSQLCRUDQuery class >> requirements [
+{ #category : 'adding' }
+FmxSQLCRUDQuery >> addClause: anObject [
 
-	<generated>
-	^ { FmxSQLCursor. FmxSQLDerivedTable. FmxSQLStoredProcedure. FmxSQLView }
-]
-
-{ #category : #adding }
-FmxSQLCRUDQuery >> addClauses: anObject [
+	<ignoreForCoverage>
 	<generated>
 	^ self clauses add: anObject
 ]
 
-{ #category : #accessing }
-FmxSQLCRUDQuery >> belongsTo [
-
-	<generated>
-	^ self container
-
-]
-
-{ #category : #accessing }
-FmxSQLCRUDQuery >> belongsTo: anObject [
-
-	<generated>
-	self container: anObject
-
-]
-
-{ #category : #accessing }
+{ #category : 'accessing' }
 FmxSQLCRUDQuery >> clauses [
 	"Relation named: #clauses type: #FmxSQLClause opposite: #query"
 
+	<ignoreForCoverage>
 	<generated>
+	<derived>
 	^ clauses
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FmxSQLCRUDQuery >> clauses: anObject [
 
+	<ignoreForCoverage>
 	<generated>
 	clauses value: anObject
-
 ]
 
-{ #category : #navigation }
-FmxSQLCRUDQuery >> clausesGroup [
-	<generated>
-	<navigation: 'Clauses'>
-	^ MooseGroup withAll: self clauses asSet
-]
-
-{ #category : #accessing }
+{ #category : 'accessing' }
 FmxSQLCRUDQuery >> container [
 	"Relation named: #container type: #FmxSQLTQueryContainer opposite: #queries"
 
+	<ignoreForCoverage>
 	<generated>
 	<container>
 	^ container
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FmxSQLCRUDQuery >> container: anObject [
 
+	<ignoreForCoverage>
 	<generated>
 	container := anObject
-
 ]
 
-{ #category : #navigation }
-FmxSQLCRUDQuery >> containerGroup [
-	<generated>
-	<navigation: 'Container'>
-	^ MooseGroup with: self container
-]
-
-{ #category : #accessing }
+{ #category : 'accessing' }
 FmxSQLCRUDQuery >> derivedTableDefining [
 	"Relation named: #derivedTableDefining type: #FmxSQLDerivedTable opposite: #query"
 
+	<ignoreForCoverage>
 	<generated>
 	<container>
 	^ derivedTableDefining
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FmxSQLCRUDQuery >> derivedTableDefining: anObject [
 
+	<ignoreForCoverage>
 	<generated>
 	derivedTableDefining := anObject
-
-]
-
-{ #category : #navigation }
-FmxSQLCRUDQuery >> derivedTableDefiningGroup [
-	<generated>
-	<navigation: 'DerivedTableDefining'>
-	^ MooseGroup with: self derivedTableDefining
-]
-
-{ #category : #testing }
-FmxSQLCRUDQuery >> isAnyBelongerSourced [
-	^ ({ FmxSQLView . FmxSQLStoredProcedure } anySatisfy: [ :any | self container isKindOf: any ])
-			or: [ (self derivedTableDefining ifNotNil: #isAnyBelongerSourced ifNil: [ false ])
-				or: [ self container isCursor and: [ { FmxSQLView . FmxSQLStoredProcedure } anySatisfy: [ :any | self container parentBehaviouralEntity isKindOf: any ] ] ] ]
-]
-
-{ #category : #accessing }
-FmxSQLCRUDQuery >> sourcedBelonger [
-	(self container isNotNil and: [ self container isCursor ])
-		ifTrue: [ ^ self container parentBehaviouralEntity ].
-	^ self container ifNil: [ self derivedTableDefining sourcedBelonger ]
 ]

@@ -1,15 +1,29 @@
+"
+## Relations
+======================
+
+### Other
+| Relation | Origin | Opposite | Type | Comment |
+|---|
+| `anchorsOnIntervalsOfCode` | `FmxSQLTWithEntitySourceAnchor` | `entity` | `FmxSQLEntitySourceAnchor` | |
+
+
+
+"
 Trait {
-	#name : #FmxSQLBehaviouralEntity,
+	#name : 'FmxSQLBehaviouralEntity',
 	#traits : 'FmxSQLTWithEntitySourceAnchor',
 	#classTraits : 'FmxSQLTWithEntitySourceAnchor classTrait',
-	#category : 'FamixNGSQL-Traits'
+	#category : 'FamixNGSQL-Traits',
+	#package : 'FamixNGSQL',
+	#tag : 'Traits'
 }
 
-{ #category : #meta }
+{ #category : 'meta' }
 FmxSQLBehaviouralEntity classSide >> annotation [
 
-	<MSEClass: #BehaviouralEntity super: #Trait>
+	<ignoreForCoverage>
+	<FMClass: #BehaviouralEntity super: #Object>
 	<package: #FamixNGSQL>
 	<generated>
-	^self
 ]

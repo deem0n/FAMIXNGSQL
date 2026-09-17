@@ -1,184 +1,135 @@
 "
 I am a view. I can be used transparently as a table but I do not hold data. My data are fetched by the SELECT query which defines myself.
+
+## Relations
+======================
+
+### Parents
+| Relation | Origin | Opposite | Type | Comment |
+|---|
+| `parentNamespace` | `FmxSQLTNamedEntity` | `namespaceEntities` | `FmxSQLNamespace` | |
+
+### Children
+| Relation | Origin | Opposite | Type | Comment |
+|---|
+| `columns` | `FmxSQLColumnsContainer` | `columnsContainer` | `FmxSQLTColumn` | |
+| `queries` | `FmxSQLTQueryContainer` | `container` | `FmxSQLCRUDQuery` | |
+| `query` | `FmxSQLView` | `viewDefining` | `FmxSQLSelectQuery` | |
+| `triggers` | `FmxSQLTWithTriggers` | `table` | `FmxSQLTrigger` | |
+
+### Incoming dependencies
+| Relation | Origin | Opposite | Type | Comment |
+|---|
+| `references` | `FmxSQLView` | `view` | `FmxSQLViewReference` | |
+
+### Other
+| Relation | Origin | Opposite | Type | Comment |
+|---|
+| `anchorsOnIntervalsOfCode` | `FmxSQLTWithEntitySourceAnchor` | `entity` | `FmxSQLEntitySourceAnchor` | |
+| `cursorParameters` | `FmxSQLAbstractType` | `type` | `FmxSQLCursorParameter` | |
+| `element` | `FamixTSourceAnchor` | `sourceAnchor` | `FamixTSourceEntity` | Enable the accessibility to the famix entity that this class is a source pointer for|
+| `localVariables` | `FmxSQLAbstractType` | `type` | `FmxSQLLocalVariable` | |
+| `parameters` | `FmxSQLAbstractType` | `type` | `FmxSQLParameter` | |
+| `storedProceduresReturning` | `FmxSQLAbstractType` | `returnType` | `FmxSQLStoredProcedure` | |
+
+
+## Properties
+======================
+
+| Name | Type | Default value | Comment |
+|---|
+| `isMaterialized` | `Boolean` | nil | |
+| `source` | `String` | nil | Actual source code of the source entity|
+
 "
 Class {
-	#name : #FmxSQLView,
-	#superclass : #FmxSQLNamedEntity,
-	#traits : 'FamixTNamespaceEntity + FamixTWithImmediateSource + FmxSQLAbstractType + FmxSQLBehaviouralEntity + FmxSQLColumnsContainer + FmxSQLTQueryContainer',
-	#classTraits : 'FamixTNamespaceEntity classTrait + FamixTWithImmediateSource classTrait + FmxSQLAbstractType classTrait + FmxSQLBehaviouralEntity classTrait + FmxSQLColumnsContainer classTrait + FmxSQLTQueryContainer classTrait',
+	#name : 'FmxSQLView',
+	#superclass : 'FmxSQLNamedEntity',
+	#traits : 'FamixTHasImmediateSource + FmxSQLAbstractType + FmxSQLBehaviouralEntity + FmxSQLColumnsContainer + FmxSQLTNamedEntity + FmxSQLTQueryContainer + FmxSQLTWithTriggers',
+	#classTraits : 'FamixTHasImmediateSource classTrait + FmxSQLAbstractType classTrait + FmxSQLBehaviouralEntity classTrait + FmxSQLColumnsContainer classTrait + FmxSQLTNamedEntity classTrait + FmxSQLTQueryContainer classTrait + FmxSQLTWithTriggers classTrait',
 	#instVars : [
+		'#isMaterialized => FMProperty',
 		'#query => FMOne type: #FmxSQLSelectQuery opposite: #viewDefining',
 		'#references => FMMany type: #FmxSQLViewReference opposite: #view'
 	],
-	#category : 'FamixNGSQL-Entities'
+	#category : 'FamixNGSQL-Entities',
+	#package : 'FamixNGSQL',
+	#tag : 'Entities'
 }
 
-{ #category : #meta }
+{ #category : 'meta' }
 FmxSQLView class >> annotation [
 
-	<MSEClass: #View super: #FmxSQLNamedEntity>
+	<ignoreForCoverage>
+	<FMClass: #View super: #FmxSQLNamedEntity>
 	<package: #FamixNGSQL>
 	<generated>
-	^self
 ]
 
-{ #category : #accessing }
-FmxSQLView >> allDependencies [
-	^ self viewsDependencies , self storedProceduresDependencies
+{ #category : 'adding' }
+FmxSQLView >> addReference: anObject [
+
+	<ignoreForCoverage>
+	<generated>
+	^ self references add: anObject
 ]
 
-{ #category : #accessing }
-FmxSQLView >> allDepending [
-	^ self viewsDepending , self storedProceduresDepending
+{ #category : 'accessing' }
+FmxSQLView >> isMaterialized [
+
+	<FMProperty: #isMaterialized type: #Boolean>
+	<ignoreForCoverage>
+	<generated>
+	^ isMaterialized
 ]
 
-{ #category : #accessing }
-FmxSQLView >> allStoredProceduresDependencies [
-	"Returns the stored procedures that I depend on directly and indirectly."
-	^ (self anyTreeIterator: #storedProceduresDependencies) allButFirst
+{ #category : 'accessing' }
+FmxSQLView >> isMaterialized: anObject [
+	<ignoreForCoverage>
+	<generated>
+	isMaterialized := anObject
 ]
 
-{ #category : #accessing }
-FmxSQLView >> allStoredProceduresDepending [
-	"Returns the stored procedures that I depend on directly and indirectly."
-	^ (self anyTreeIterator: #storedProceduresDepending) allButFirst
-]
-
-{ #category : #accessing }
-FmxSQLView >> allViewsDependencies [
-	"Returns the views that I depend on directly and indirectly."
-	^ (self anyTreeIterator: #viewsDependencies) allButFirst
-]
-
-{ #category : #accessing }
-FmxSQLView >> allViewsDepending [
-	"Returns the views that I depend on directly and indirectly."
-	^ (self anyTreeIterator: #viewsDepending) allButFirst
-]
-
-{ #category : #accessing }
-FmxSQLView >> columnsToColumnReferences [
-	| mapping |
-	mapping := Dictionary new.
-	(self query selectClause outgoingColumnReferences groupedBy: [ :ref | ref belongsToGroup ifNil: [ ref ] ]) keys do: [ :outgoingRef |
-		mapping
-			at: (self query selectClause aliases
-					detect: [ :alias | (outgoingRef isColumnReference and: [ alias outgoingColumnReferences anySatisfy: [ :ref | (ref sourceAnchor interval includesAll: outgoingRef sourceAnchor interval) or: [ outgoingRef sourceAnchor interval includesAll: ref sourceAnchor interval ] ] ]) or: [ alias outgoingReferencesGroupReferences includes: outgoingRef ] ]
-					ifFound: [ :alias | self columnNamed: alias name ]
-					ifNone: [ 
-						outgoingRef class = FmxSQLReferencesGroup
-							ifTrue: [ self columnNamed: outgoingRef incomingReferencesGroupReference first source name ]
-							ifFalse: [ self columnNamed: outgoingRef column name ] ])
-			ifPresent: [ self halt ]
-			ifAbsentPut: outgoingRef ].
-	^ mapping
-]
-
-{ #category : #testing }
-FmxSQLView >> dependsDirectlyOn: aFmxSQLView [
-	^ aFmxSQLView viewsDepending includes: self
-]
-
-{ #category : #testing }
-FmxSQLView >> dependsOn: aFmxSQLView [
-	^ TreeQuery breadthFirst matchAnywhere
-		predicate: self asTQPredicate;
-		runOn: aFmxSQLView childrenBlock: #viewsDepending
-]
-
-{ #category : #testing }
-FmxSQLView >> doesNameOfColumnComesFromAlias: aFmxSQLColumn [
-	| referenceOrReferenceGroup |
-	referenceOrReferenceGroup := (self columnsToColumnReferences at: aFmxSQLColumn).
-	referenceOrReferenceGroup class = FmxSQLReferencesGroup
-		ifTrue: [ ^ true ].
-	
-	^ referenceOrReferenceGroup column name ~= aFmxSQLColumn name
-]
-
-{ #category : #testing }
+{ #category : 'testing' }
 FmxSQLView >> isView [
 
+	<ignoreForCoverage>
 	<generated>
 	^ true
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FmxSQLView >> query [
 	"Relation named: #query type: #FmxSQLSelectQuery opposite: #viewDefining"
 
+	<ignoreForCoverage>
 	<generated>
+	<derived>
 	^ query
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FmxSQLView >> query: anObject [
 
+	<ignoreForCoverage>
 	<generated>
 	query := anObject
-
 ]
 
-{ #category : #navigation }
-FmxSQLView >> queryGroup [
-	<generated>
-	<navigation: 'Query'>
-	^ MooseGroup with: self query
-]
-
-{ #category : #accessing }
+{ #category : 'accessing' }
 FmxSQLView >> references [
 	"Relation named: #references type: #FmxSQLViewReference opposite: #view"
 
+	<ignoreForCoverage>
 	<generated>
+	<derived>
 	^ references
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FmxSQLView >> references: anObject [
 
+	<ignoreForCoverage>
 	<generated>
 	references value: anObject
-
-]
-
-{ #category : #accessing }
-FmxSQLView >> sourceCodeAsText [
-	^ PostgreSQLHighlighter highlightSelectQuery: self source
-]
-
-{ #category : #accessing }
-FmxSQLView >> storedProceduresDependencies [
-	"Returns the stored procedures that I depend on directly (I call them directly)."
-	^ ((self queryOutgoing: FmxSQLStoredProcedureCall) collect: [ :ref | ref to ]) asSet
-]
-
-{ #category : #accessing }
-FmxSQLView >> storedProceduresDepending [
-	"Returns the views that depends on myself directly (reference myself directly)."
-	^ ((self queryLocalIncoming: FmxSQLViewReference) collect: [ :ref | ref from sourcedBelonger ] thenSelect: [ :sourcedBelonger | sourcedBelonger isNotNil and: [ sourcedBelonger isStoredProcedure ] ]) asSet
-]
-
-{ #category : #accessing }
-FmxSQLView >> tablesReferenced [
-	^ (self queryOutgoing: FmxSQLTableReference)
-			collect: #table
-]
-
-{ #category : #accessing }
-FmxSQLView >> viewsDependencies [
-	"Returns the views that I depend on directly (I reference them directly)."
-	^ ((self queryOutgoing: FmxSQLViewReference) collect: [ :ref | ref to ]) asSet
-]
-
-{ #category : #accessing }
-FmxSQLView >> viewsDepending [
-	"Returns the views that depends on myself directly (reference myself directly)."
-	^ ((self queryLocalIncoming: FmxSQLViewReference) collect: [ :ref | ref source sourcedBelonger ] thenSelect: [ :sourcedBelonger | sourcedBelonger isNotNil and: [ sourcedBelonger isView ] ]) asSet
-]
-
-{ #category : #accessing }
-FmxSQLView >> viewsReferenced [
-	^ (self queryOutgoing: FmxSQLViewReference)
-			collect: #view
 ]

@@ -39,7 +39,7 @@ FmxSQLSymbolResolutionVisitor class >> model: aMooseModel view: aFmxSQLView [
 
 { #category : #'instance creation' }
 FmxSQLSymbolResolutionVisitor class >> model: aMooseModel view: aFmxSQLView errorReport: aPSQParsingReport [
-	^ (self model: aMooseModel function: aFmxSQLView)
+	^ (self model: aMooseModel view: aFmxSQLView)
 		errorReport: aPSQParsingReport;
 		yourself
 ]
@@ -126,7 +126,6 @@ FmxSQLSymbolResolutionVisitor >> createReferenceTo: anEntity from: aPSQLASTNode 
 	anchor := self createSourceAnchorFrom: aPSQLASTNode.
 	reference := (anEntity value createReferenceEntityFrom: self currentEntity)
 		sourceAnchor: anchor;
-		mooseModel: self model;
 		yourself.
 		
 	reference isColumnReference
@@ -203,6 +202,7 @@ FmxSQLSymbolResolutionVisitor >> findStoredProcedureNamed: anIdentifier [
 
 { #category : #finding }
 FmxSQLSymbolResolutionVisitor >> findTableNamed: anIdentifier [ 
+	(anIdentifier isKindOf: FmxSQLTable) ifTrue: [ ^ anIdentifier ].
 	^ (self model allWithType: FmxSQLTable) detect: [ :table | table name = anIdentifier ]  .
 ]
 
@@ -224,6 +224,7 @@ FmxSQLSymbolResolutionVisitor >> findTypeNamed: aName [
 
 { #category : #finding }
 FmxSQLSymbolResolutionVisitor >> findViewNamed: anIdentifier [
+	(anIdentifier isKindOf: FmxSQLView) ifTrue: [ ^ anIdentifier ].
 	^ (self model allWithType: FmxSQLView) detect: [ :table | table name = anIdentifier ]
 ]
 
@@ -445,7 +446,7 @@ FmxSQLSymbolResolutionVisitor >> visitPSQLASTAttributeAccess: aPSQLASTAttributeA
 				ifTrue: [ 
 					(self createEntity: FmxSQLLocalVariable)
 						name: identifiers identifier;
-						storedProcedure: self function.
+						parentBehaviouralEntity: self function.
 					self resolveAndLinkSilently: identifiers ]
 				ifFalse: [ self errorReport addError: anError ] ].
 	
@@ -510,7 +511,7 @@ FmxSQLSymbolResolutionVisitor >> visitPSQLASTCursorParameter: aPSQLASTCursorPara
 	parameter
 		name: (self visit: aPSQLASTCursorParameter parameterName);
 		type: (self findTypeNamed: (self visit: aPSQLASTCursorParameter type));
-		cursor: self currentEntity.
+		parentBehaviouralEntity: self currentEntity.
 	^ parameter
 ]
 
@@ -655,10 +656,27 @@ FmxSQLSymbolResolutionVisitor >> visitPSQLASTFromClauseItemType7: aPSQLASTFromCl
 ]
 
 { #category : #visiting }
-FmxSQLSymbolResolutionVisitor >> visitPSQLASTFunctionCall: aPSQLASTFunctionCall [
-	self createReferenceTo: (self findStoredProcedureNamed: (self visit: aPSQLASTFunctionCall functionIdentifier)) from: aPSQLASTFunctionCall.
-	self visitAll: aPSQLASTFunctionCall argumentsList.
-	Halt if: aPSQLASTFunctionCall argumentsDictionary notEmpty
+FmxSQLSymbolResolutionVisitor >> visitPSQLASTFunctionCall: aNode [
+	| identifier namespaceName routineName candidates call |
+	identifier := aNode functionIdentifier.
+	(identifier isKindOf: PSQLASTAttributeAccess)
+		ifTrue: [
+			namespaceName := self visit: identifier accessed.
+			routineName := self visit: identifier attributeIdentifier ]
+		ifFalse: [ routineName := self visit: identifier ].
+	candidates := (self model allWithSubTypesOf: FmxSQLStoredProcedure) select: [ :routine |
+		routine name = routineName and: [ namespaceName isNil or: [
+			routine parentNamespace notNil and: [ routine parentNamespace name = namespaceName ] ] ] ].
+	candidates ifEmpty: [
+		self errorReport addError: (Error new messageText: 'Unresolved routine call: ', routineName) ]
+	ifNotEmpty: [
+		call := self createReferenceTo: candidates first from: aNode.
+		call candidates: candidates asArray.
+		candidates size > 1 ifTrue: [
+			self errorReport addWarning: (Warning new messageText:
+				'Unresolved overload or search_path for ', routineName, ': ', candidates size asString, ' candidates') ] ].
+	self visitAll: aNode argumentsList.
+	self visitAll: aNode argumentsDictionary values
 ]
 
 { #category : #visiting }
@@ -1015,7 +1033,7 @@ FmxSQLSymbolResolutionVisitor >> visitPSQLPlpgSQLASTClassicDeclaration: aPSQLPlp
 	variable := self createEntity: variableClass from: aPSQLPlpgSQLASTClassicDeclaration identifier.
 	variable type: type.
 	variable parentBehaviouralEntity: self function.
-	self visit: aPSQLPlpgSQLASTClassicDeclaration defaultExpression thenDo: [ :e | Halt now ].
+	self visit: aPSQLPlpgSQLASTClassicDeclaration defaultExpression.
 	self
 		visit: aPSQLPlpgSQLASTClassicDeclaration identifier
 		thenDo: [ :name | variable name: name ].
@@ -1181,7 +1199,7 @@ FmxSQLSymbolResolutionVisitor >> visitPSQLPlpgSQLASTRowTypeDeclaration: aPSQLPlp
 	^ FmxSQLLocalVariable new
 		name: (aPSQLPlpgSQLASTRowTypeDeclaration identifier acceptVisitor: self);
 		type: (self findTableOrViewNamed: (aPSQLPlpgSQLASTRowTypeDeclaration tableIdentifier acceptVisitor: self));
-		storedProcedure: function;
+		parentBehaviouralEntity: function;
 		mooseModel: model;
 		yourself
 ]
@@ -1215,4 +1233,18 @@ FmxSQLSymbolResolutionVisitor >> visitPSQLPlpgSQLCursorUpdate: aPSQLPlpgSQLCurso
 { #category : #visiting }
 FmxSQLSymbolResolutionVisitor >> visitPSQPlpgSQLASTExit: aPSQLPlpgSQLASTExit [
 	^ self visit: aPSQLPlpgSQLASTExit booleanExpression thenDo: [ :res |  ]
+]
+
+{ #category : #visiting }
+FmxSQLSymbolResolutionVisitor >> visitPSQLPlpgSQLASTCursorOpenForExecute: aNode [
+	self errorReport addWarning: (Warning new messageText: 'Dynamic cursor SQL requires runtime values; query text was not analysed').
+	self visit: aNode cursorIdentifier.
+	self visit: aNode executeStatement.
+	self visitAll: aNode usingExpressions
+]
+
+{ #category : #visiting }
+FmxSQLSymbolResolutionVisitor >> visitPSQLPlpgSQLASTExecuteStatement: aNode [
+	self errorReport addWarning: (Warning new messageText: 'Dynamic SQL requires runtime values; query text was not analysed').
+	aNode childrenDo: [ :child | child acceptVisitor: self ]
 ]

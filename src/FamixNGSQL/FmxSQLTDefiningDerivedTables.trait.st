@@ -1,45 +1,56 @@
+"
+## Relations
+======================
+
+### Children
+| Relation | Origin | Opposite | Type | Comment |
+|---|
+| `derivedTablesDefined` | `FmxSQLTDefiningDerivedTables` | `parentQuery` | `FmxSQLDerivedTable` | |
+
+
+
+"
 Trait {
-	#name : #FmxSQLTDefiningDerivedTables,
+	#name : 'FmxSQLTDefiningDerivedTables',
 	#instVars : [
 		'#derivedTablesDefined => FMMany type: #FmxSQLDerivedTable opposite: #parentQuery'
 	],
-	#category : 'FamixNGSQL-Traits'
+	#category : 'FamixNGSQL-Traits',
+	#package : 'FamixNGSQL',
+	#tag : 'Traits'
 }
 
-{ #category : #meta }
+{ #category : 'meta' }
 FmxSQLTDefiningDerivedTables classSide >> annotation [
 
-	<MSEClass: #TDefiningDerivedTables super: #Trait>
+	<ignoreForCoverage>
+	<FMClass: #TDefiningDerivedTables super: #Object>
 	<package: #FamixNGSQL>
 	<generated>
-	^self
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 FmxSQLTDefiningDerivedTables >> addDerivedTablesDefined: anObject [
+
+	<ignoreForCoverage>
 	<generated>
 	^ self derivedTablesDefined add: anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FmxSQLTDefiningDerivedTables >> derivedTablesDefined [
 	"Relation named: #derivedTablesDefined type: #FmxSQLDerivedTable opposite: #parentQuery"
 
+	<ignoreForCoverage>
 	<generated>
+	<derived>
 	^ derivedTablesDefined
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FmxSQLTDefiningDerivedTables >> derivedTablesDefined: anObject [
 
+	<ignoreForCoverage>
 	<generated>
 	derivedTablesDefined value: anObject
-
-]
-
-{ #category : #navigation }
-FmxSQLTDefiningDerivedTables >> derivedTablesDefinedGroup [
-	<generated>
-	<navigation: 'DerivedTablesDefined'>
-	^ MooseGroup withAll: self derivedTablesDefined asSet
 ]

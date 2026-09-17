@@ -67,7 +67,10 @@ Class {
 		'tWithEntitySourceAnchor',
 		'tDefiningDerivedTables',
 		'qualifiedReference',
-		'tWithQualifiedReference'
+		'tWithQualifiedReference',
+		'tWithImmediateSource',
+		'tWithAccesses',
+		'tWithTriggers'
 	],
 	#category : #FAMIXNGSQLMetamodelGenerator
 }
@@ -77,18 +80,18 @@ FmxSQLMetamodelGenerator class >> generate [
 	"This method is just there to make regeneration of the MM easy."
 	<script>
 	[ super generate ] on: Warning do: [ :warning |
-		warning logCr.
-		warning resume ]
+		Transcript show: warning; cr.
+		warning resume]
 ]
 
 { #category : #accessing }
 FmxSQLMetamodelGenerator class >> packageName [
-	^ 'FamixNGSQL'
+	^ #'FamixNGSQL'
 ]
 
 { #category : #accessing }
 FmxSQLMetamodelGenerator class >> prefix [
-	^ 'FmxSQL'
+	^ #'FmxSQL'
 ]
 
 { #category : #'comments - SQL' }
@@ -209,6 +212,13 @@ FmxSQLMetamodelGenerator >> defineBehaviouralEntities [
 
 { #category : #'definition - behavioural' }
 FmxSQLMetamodelGenerator >> defineBehaviouralEntitiesProperties [
+	storedProcedure
+		property: #postgresOid type: #Number;
+		property: #languageName type: #String.
+	parameter
+		property: #position type: #Number;
+		property: #mode type: #String.
+	view property: #isMaterialized type: #Boolean.
 	trigger
 		property: #firingAction type: #String;
 		property: #when type: #String.
@@ -223,20 +233,27 @@ FmxSQLMetamodelGenerator >> defineBehaviouralEntitiesProperties [
 
 { #category : #'definition - behavioural' }
 FmxSQLMetamodelGenerator >> defineBehaviouralEntitiesRelations [
+	| queryRelation |
 	"A CheckConstraint can call StoredProcedures"
 	(checkConstraint property: #storedProceduresCalled)
 		*-*
 	(storedProcedure property: #checkConstraintsCalling).
 	
+	"An ExclusionConstraint can call StoredProcedures."
+	(exclusionConstraint property: #storedProceduresCalled)
+		*-* (storedProcedure property: #exclusionConstraintsCalling).
+
 	"A View is defined as a SelectQuery."
-	((view property: #query)
-		<>-
-	(selectQuery property: #viewDefining)) withoutPrimaryContainer.
+	queryRelation := (view property: #query)
+		<>- (selectQuery property: #viewDefining).
+	queryRelation derived.
+	queryRelation oppositeSide notDerived.
 	
 	"A DerivedTable is defined as a CRUD query."
-	((derivedTable property: #query)
-		<>-
-	(crudQuery property: #derivedTableDefining)) withoutPrimaryContainer.
+	queryRelation := (derivedTable property: #query)
+		<>- (crudQuery property: #derivedTableDefining).
+	queryRelation derived.
+	queryRelation oppositeSide notDerived.
 	
 	"A SelectQuery can define multiple derived tables."
 	(tDefiningDerivedTables property: #derivedTablesDefined)
@@ -278,7 +295,7 @@ FmxSQLMetamodelGenerator >> defineBehaviouralEntitiesRelations [
 	"A Trigger is contained in a Table. This is composition because, if the Table is removed,
 	 the Trigger should be as well because it makes no sense to have a a trigger reacting to
 	events of a non-existing table."
-	(table property: #triggers)
+	(tWithTriggers property: #triggers)
 		<>-*
 	(trigger property: #table).
 	
@@ -297,20 +314,25 @@ FmxSQLMetamodelGenerator >> defineBehaviouralEntitiesRelations [
 FmxSQLMetamodelGenerator >> defineBehaviouralHierarchy [
 	"Abstract entities inheritance relations."
 	behaviouralEntity --|> tWithEntitySourceAnchor.
-	crudQuery --|> entity.
-	crudQuery --|> #TWithSourceAnchor.
+	table --|> tWithTriggers.
+	view --|> tWithTriggers.
+	"crudQuery --|> entity." "FamixTEntity is deprecated"
+	crudQuery --|> #TSourceEntity.
 	crudQuery --|> #TEntityMetaLevelDependency.
-	crudQuery --|> #TDependencyQueries.
+	crudQuery --|> tWithNamespaceReference.
+	crudQuery --|> tWithTableReference.
+	crudQuery --|> tWithViewReference.
+	"crudQuery --|> #TDependencyQueries." "Now you only need to use TEntityMetaLevelDependency"
 	"Concrete structural entities inheritance relations."
-	checkConstraint --|> constraint.
-	checkConstraint --|> #TWithImmediateSource.
+	checkConstraint --|> tWithImmediateSource.
+	exclusionConstraint --|> tWithImmediateSource.
 	"Concrete behavioural entities inheritance relations."
 	view --|> behaviouralEntity.
 	view --|> tAbstractType.
 	view --|> tColumnsContainer.
 	view --|> tQueryContainer.
-	view --|> #TNamespaceEntity.
-	view --|> #TWithImmediateSource.
+	view --|> tNamedEntity .
+	view --|> tWithImmediateSource.
 	view --|> namedEntity.
 	
 	derivedTable --|> namedEntity.
@@ -321,27 +343,27 @@ FmxSQLMetamodelGenerator >> defineBehaviouralHierarchy [
 	storedProcedure --|> behaviouralEntity.
 	storedProcedure --|> tQueryContainer.
 	storedProcedure --|> namedEntity.
-	storedProcedure--|> #TNamespaceEntity.
+	storedProcedure--|> tNamedEntity.
 	storedProcedure --|> #TWithReferences.
 	storedProcedure --|> #TInvocable.
 	storedProcedure --|> #TWithInvocations.
 	storedProcedure --|> #TWithParameters.
 	storedProcedure --|> #TWithLocalVariables.
-	storedProcedure --|> #TWithAccesses.
+	storedProcedure --|> tWithAccesses.
 	storedProcedure --|> tWithTableReference.
 	storedProcedure --|> tWithAlias.
 	storedProcedure --|> tWithCursor.
 	storedProcedure --|> tWithCursorReference.
 	storedProcedure --|> tWithColumnReference. "For COPY TYPE feature of Postgres."
 	storedProcedure --|> tWithViewReference.
-	storedProcedure --|> #TWithImmediateSource.
+	storedProcedure --|> tWithImmediateSource.
 	storedProcedure --|> tWithNamespaceReference.
 	
 	triggerStoredProcedure --|> storedProcedure.
 	
 	trigger --|> namedEntity.
 	trigger --|> behaviouralEntity.
-	trigger --|> #TNamespaceEntity.
+	trigger --|> tNamedEntity.
 	
 	selectQuery --|> crudQuery.
 	selectQuery --|> tDefiningDerivedTables.
@@ -394,14 +416,14 @@ FmxSQLMetamodelGenerator >> defineBehaviouralHierarchy [
 	columnAlias --|> tWithReferencesGroupReference.
 	columnAlias --|> tColumn.
 	
-	referencesGroup --|> entity.
-	referencesGroup --|> #TWithSourceAnchor.
+	"referencesGroup --|> entity." "FamixTEntity is deprecated"
+	referencesGroup --|> #TSourceEntity.
 	referencesGroup --|> #TEntityMetaLevelDependency.
-	referencesGroup --|> #TDependencyQueries.
+	"referencesGroup --|> #TDependencyQueries."
 	
 	foreignTable --|> table.
 	
-	entitySourceAnchor --|> entity.
+	"entitySourceAnchor --|> entity." "FamixTEntity is deprecated"
 	entitySourceAnchor --|> #TSourceAnchor
 ]
 
@@ -417,7 +439,7 @@ FmxSQLMetamodelGenerator >> defineBehaviouralReferenceRelations [
 		
 	"A stored procedure call can contain other references (in its arguments)."
 	((storedProcedureCall property: #arguments)
-		<>-* (reference property: #storedProcedureContainer)) withoutPrimaryContainer.
+		<>-* (reference property: #storedProcedureContainer)).
 
 	"A Local variable access must point a local variable."
 	(localVariableAccess property: #localVariable) target
@@ -473,8 +495,8 @@ FmxSQLMetamodelGenerator >> defineBehaviouralReferencesHierarchy [
 	referencesGroupReference --|> reference.
 	referencesGroupReference --|> tReferencesGroupReference.
 	referencesGroupReference  --|> #TEntityMetaLevelDependency.
-	referencesGroupReference --|> #TDependencyQueries.
-	qualifiedReference --|> entity.
+	"referencesGroupReference --|> #TDependencyQueries."
+	"qualifiedReference --|> entity." "FamixTEntity is deprecated"
 	qualifiedReference --|> #TSourceEntity.
 	namespaceReference --|> tWithQualifiedReference
 ]
@@ -484,6 +506,8 @@ FmxSQLMetamodelGenerator >> defineBehaviouralTraits [
 	tWithDerivedTableReference := builder
 		newTraitNamed: #TWithDerivedTableReference.
 	tWithViewReference := builder newTraitNamed: #TWithViewReference.
+	tWithImmediateSource := #THasImmediateSource.
+	tWithTriggers := builder newTraitNamed: #TWithTriggers.
 	tWithAlias := builder newTraitNamed: #TWithAlias.
 	tWithCursor := builder newTraitNamed: #TWithCursor.
 	tWithCursorReference := builder newTraitNamed: #TWithCursorReference.
@@ -496,7 +520,11 @@ FmxSQLMetamodelGenerator >> defineBehaviouralTraits [
 	tDefiningDerivedTables := builder
 		newTraitNamed: #TDefiningDerivedTables.
 	tWithQualifiedReference := builder
-		newTraitNamed: #TWithQualifiedReference
+		newTraitNamed: #TWithQualifiedReference.
+	
+"model is generated, but missed some traits. They are defined in Generator class, but we are not inherited from it :-("
+    tWithAccesses := #TWithAccesses.
+
 ]
 
 { #category : #'definition - behavioural' }
@@ -508,14 +536,13 @@ FmxSQLMetamodelGenerator >> defineBehaviouralTraitsRelations [
 	(tWithCursorReference property: #outgoingCursorReferences)
 		-* (cursorReference property: #source) source.
 	((tWithAlias property: #aliases)
-		<>-* (alias property: #parentBehaviouralEntity))
-		withoutPrimaryContainer.
+		<>-* (alias property: #parentBehaviouralEntity)).
 	(tWithCursor property: #cursors)
 		<>-* (cursor property: #parentBehaviouralEntity).
 	(tWithReferencesGroupReference
 		property: #outgoingReferencesGroupReferences)
-		<>-* (tReferencesGroupReference property: #source).
-	(tReferencesGroupReference property: #referencesGroup)
+		<>-* (tReferencesGroupReference property: #source) source.
+	(tReferencesGroupReference property: #referencesGroup) target
 		*- (referencesGroup property: #incomingReferencesGroupReference).
 	(entitySourceAnchor property: #entity)
 		*- (tWithEntitySourceAnchor property: #anchorsOnIntervalsOfCode).
@@ -615,11 +642,11 @@ FmxSQLMetamodelGenerator >> defineClausesEntities [
 { #category : #'definition - behavioural' }
 FmxSQLMetamodelGenerator >> defineClausesHierarchy [
 	"Defining all kinds of clauses"
-	clause --|> entity.
+	"clause --|> entity." "FamixTEntity is deprecated"
 	clause --|> tWithAlias.
-	clause --|> #TWithSourceAnchor.
+	clause --|> #TSourceEntity.
 	clause --|> #TEntityMetaLevelDependency.
-	clause --|> #TDependencyQueries.
+	"clause --|> #TDependencyQueries."
 	
 	fromClause --|> clause.
 	fromClause --|> tWithTableReference.
@@ -627,13 +654,13 @@ FmxSQLMetamodelGenerator >> defineClausesHierarchy [
 	fromClause --|> tWithDerivedTableReference.
 	fromClause --|> tWithColumnReference. "Because of join clause"
 	fromClause --|> tWithReferencesGroupReference.
-	fromClause --|> #TWithAccesses. "Because of join clause"
+	fromClause --|> tWithAccesses. "Because of join clause"
 	fromClause --|> #TWithInvocations. "Because of join clause"
 	fromClause --|> tWithNamespaceReference.
 	
 	whereClause --|> clause.
 	whereClause --|> tWithColumnReference.
-	whereClause --|> #TWithAccesses.
+	whereClause --|> tWithAccesses.
 	whereClause --|> #TWithInvocations.
 	whereClause --|> tWithTableReference. "For table.column ref."
 	whereClause --|> tWithViewReference. "For view.column ref."
@@ -644,18 +671,18 @@ FmxSQLMetamodelGenerator >> defineClausesHierarchy [
 	returningClause --|> clause.
 	returningClause --|> tWithColumnReference.
 	returningClause --|> tWithReferencesGroupReference.
-	returningClause --|> #TWithAccesses.
+	returningClause --|> tWithAccesses.
 	returningClause --|> #TWithInvocations.
 	
 	setClause --|> clause.
 	setClause --|> tWithDerivedTableReference.
 	setClause --|> tWithColumnReference.
-	setClause --|> #TWithAccesses.
+	setClause --|> tWithAccesses.
 	setClause --|> #TWithInvocations.
 	
 	selectClause --|> clause.
 	selectClause --|> tWithColumnReference.
-	selectClause --|> #TWithAccesses.
+	selectClause --|> tWithAccesses.
 	selectClause --|> #TWithInvocations.
 	selectClause --|> tWithTableReference. "Through table.column ref."
 	selectClause --|> tWithDerivedTableReference. "For aliased_derived_table.column ref."
@@ -667,7 +694,7 @@ FmxSQLMetamodelGenerator >> defineClausesHierarchy [
 	groupByClause --|> tWithTableReference. "For table.column ref."
 	groupByClause --|> tWithViewReference. "For view.column ref."
 	groupByClause --|> tWithReferencesGroupReference.
-	groupByClause --|> #TWithAccesses.
+	groupByClause --|> tWithAccesses.
 	groupByClause --|> #TWithInvocations.
 	groupByClause --|> tWithNamespaceReference.
 	
@@ -676,7 +703,7 @@ FmxSQLMetamodelGenerator >> defineClausesHierarchy [
 	havingClause --|> tWithTableReference. "For table.column ref."
 	havingClause --|> tWithViewReference. "For view.column ref."
 	havingClause --|> tWithReferencesGroupReference.
-	havingClause --|> #TWithAccesses.
+	havingClause --|> tWithAccesses.
 	havingClause --|> #TWithInvocations.
 	havingClause --|> tWithNamespaceReference.
 	
@@ -685,7 +712,7 @@ FmxSQLMetamodelGenerator >> defineClausesHierarchy [
 	orderByClause --|> tWithTableReference. "For table.column ref."
 	orderByClause --|> tWithViewReference. "For view.column ref."
 	orderByClause --|> tWithReferencesGroupReference.
-	orderByClause --|> #TWithAccesses.
+	orderByClause --|> tWithAccesses.
 	orderByClause --|> #TWithInvocations.
 	orderByClause --|> tWithNamespaceReference.
 	
@@ -716,7 +743,7 @@ FmxSQLMetamodelGenerator >> defineClausesHierarchy [
 	valuesClause --|> clause.
 	valuesClause --|> tWithDerivedTableReference.
 	valuesClause --|> tWithColumnReference.
-	valuesClause --|> #TWithAccesses.
+	valuesClause --|> tWithAccesses.
 	valuesClause --|> #TWithInvocations.
 	
 	usingClause --|> clause.

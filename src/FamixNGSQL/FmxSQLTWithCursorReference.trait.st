@@ -1,32 +1,56 @@
+"
+## Relations
+======================
+
+### Outgoing dependencies
+| Relation | Origin | Opposite | Type | Comment |
+|---|
+| `outgoingCursorReferences` | `FmxSQLTWithCursorReference` | `source` | `FmxSQLCursorReference` | |
+
+
+
+"
 Trait {
-	#name : #FmxSQLTWithCursorReference,
+	#name : 'FmxSQLTWithCursorReference',
 	#instVars : [
 		'#outgoingCursorReferences => FMMany type: #FmxSQLCursorReference opposite: #source'
 	],
-	#category : 'FamixNGSQL-Traits'
+	#category : 'FamixNGSQL-Traits',
+	#package : 'FamixNGSQL',
+	#tag : 'Traits'
 }
 
-{ #category : #meta }
+{ #category : 'meta' }
 FmxSQLTWithCursorReference classSide >> annotation [
 
-	<MSEClass: #TWithCursorReference super: #Trait>
+	<ignoreForCoverage>
+	<FMClass: #TWithCursorReference super: #Object>
 	<package: #FamixNGSQL>
 	<generated>
-	^self
 ]
 
-{ #category : #accessing }
+{ #category : 'adding' }
+FmxSQLTWithCursorReference >> addOutgoingCursorReference: anObject [
+
+	<ignoreForCoverage>
+	<generated>
+	^ self outgoingCursorReferences add: anObject
+]
+
+{ #category : 'accessing' }
 FmxSQLTWithCursorReference >> outgoingCursorReferences [
 	"Relation named: #outgoingCursorReferences type: #FmxSQLCursorReference opposite: #source"
 
+	<ignoreForCoverage>
 	<generated>
+	<derived>
 	^ outgoingCursorReferences
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FmxSQLTWithCursorReference >> outgoingCursorReferences: anObject [
 
+	<ignoreForCoverage>
 	<generated>
 	outgoingCursorReferences value: anObject
-
 ]

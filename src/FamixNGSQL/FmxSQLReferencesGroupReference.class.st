@@ -1,52 +1,42 @@
 "
 TODO
+
+## Relations
+======================
+
+### Parents
+| Relation | Origin | Opposite | Type | Comment |
+|---|
+| `source` | `FmxSQLTReferencesGroupReference` | `outgoingReferencesGroupReferences` | `FmxSQLTWithReferencesGroupReference` | |
+
+### Association source
+| Relation | Origin | Opposite | Type | Comment |
+|---|
+| `source` | `FmxSQLTReferencesGroupReference` | `outgoingReferencesGroupReferences` | `FmxSQLTWithReferencesGroupReference` | |
+
+### Association target
+| Relation | Origin | Opposite | Type | Comment |
+|---|
+| `referencesGroup` | `FmxSQLTReferencesGroupReference` | `incomingReferencesGroupReference` | `FmxSQLReferencesGroup` | |
+
+
+
 "
 Class {
-	#name : #FmxSQLReferencesGroupReference,
-	#superclass : #FmxSQLReference,
-	#traits : 'FmxSQLTReferencesGroupReference + TDependencyQueries + TEntityMetaLevelDependency',
-	#classTraits : 'FmxSQLTReferencesGroupReference classTrait + TDependencyQueries classTrait + TEntityMetaLevelDependency classTrait',
-	#category : 'FamixNGSQL-Entities'
+	#name : 'FmxSQLReferencesGroupReference',
+	#superclass : 'FmxSQLReference',
+	#traits : 'FmxSQLTReferencesGroupReference + TEntityMetaLevelDependency',
+	#classTraits : 'FmxSQLTReferencesGroupReference classTrait + TEntityMetaLevelDependency classTrait',
+	#category : 'FamixNGSQL-Entities',
+	#package : 'FamixNGSQL',
+	#tag : 'Entities'
 }
 
-{ #category : #meta }
+{ #category : 'meta' }
 FmxSQLReferencesGroupReference class >> annotation [
 
-	<MSEClass: #ReferencesGroupReference super: #FmxSQLReference>
+	<ignoreForCoverage>
+	<FMClass: #ReferencesGroupReference super: #FmxSQLReference>
 	<package: #FamixNGSQL>
 	<generated>
-	^self
-]
-
-{ #category : #meta }
-FmxSQLReferencesGroupReference class >> requirements [
-
-	<generated>
-	^ { FmxSQLColumnAlias. FmxSQLFromClause. FmxSQLGroupByClause. FmxSQLHavingClause. FmxSQLOrderByClause. FmxSQLReturningClause. FmxSQLWhereClause }
-]
-
-{ #category : #accessing }
-FmxSQLReferencesGroupReference >> belongsTo [
-
-	<generated>
-	^ self source
-
-]
-
-{ #category : #accessing }
-FmxSQLReferencesGroupReference >> belongsTo: anObject [
-
-	<generated>
-	self source: anObject
-
-]
-
-{ #category : #accessing }
-FmxSQLReferencesGroupReference >> from [
-	^ self source
-]
-
-{ #category : #accessing }
-FmxSQLReferencesGroupReference >> to [
-	^ self referencesGroup
 ]

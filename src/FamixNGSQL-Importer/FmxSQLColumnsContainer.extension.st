@@ -9,3 +9,8 @@ FmxSQLColumnsContainer >> isColumnsContainer [
 FmxSQLColumnsContainer >> reachableEntities [
 	^ self columns
 ]
+
+{ #category : #'*FamixNGSQL-Importer' }
+FmxSQLColumnsContainer >> columnNamed: aName [
+	^ self columns detect: [ :column | column name = aName ]
+]

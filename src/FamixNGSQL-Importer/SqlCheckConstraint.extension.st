@@ -5,7 +5,7 @@ SqlCheckConstraint >> asFmxSQLEntityIn: aMooseModel withMappingdict: pgToFamixEn
 	| constraint |
 	constraint :=  FmxSQLCheckConstraint new
 			name: self name;
-			table: (pgToFamixEntities at: self constrainedColumns anyOne) columnsContainer;
+			table: (pgToFamixEntities at: self owner);
 			source: self code;
 			mooseModel: aMooseModel;
 			yourself.

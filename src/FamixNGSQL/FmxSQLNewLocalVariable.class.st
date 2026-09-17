@@ -1,19 +1,32 @@
 "
 I model the special NEW local variable accessible from inside trigger stored procedure.
+
+## Relations
+======================
+
+### Children
+| Relation | Origin | Opposite | Type | Comment |
+|---|
+| `columns` | `FmxSQLColumnsContainer` | `columnsContainer` | `FmxSQLTColumn` | |
+
+
+
 "
 Class {
-	#name : #FmxSQLNewLocalVariable,
-	#superclass : #FmxSQLLocalVariable,
+	#name : 'FmxSQLNewLocalVariable',
+	#superclass : 'FmxSQLLocalVariable',
 	#traits : 'FmxSQLColumnsContainer',
 	#classTraits : 'FmxSQLColumnsContainer classTrait',
-	#category : 'FamixNGSQL-Entities'
+	#category : 'FamixNGSQL-Entities',
+	#package : 'FamixNGSQL',
+	#tag : 'Entities'
 }
 
-{ #category : #meta }
+{ #category : 'meta' }
 FmxSQLNewLocalVariable class >> annotation [
 
-	<MSEClass: #NewLocalVariable super: #FmxSQLLocalVariable>
+	<ignoreForCoverage>
+	<FMClass: #NewLocalVariable super: #FmxSQLLocalVariable>
 	<package: #FamixNGSQL>
 	<generated>
-	^self
 ]

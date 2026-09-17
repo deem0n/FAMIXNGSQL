@@ -1,36 +1,29 @@
 "
 I represent a UNIQUE constraint as defined in SQL standard.
+
+
 "
 Class {
-	#name : #FmxSQLUniqueConstraint,
-	#superclass : #FmxSQLConstraint,
-	#category : 'FamixNGSQL-Entities'
+	#name : 'FmxSQLUniqueConstraint',
+	#superclass : 'FmxSQLConstraint',
+	#category : 'FamixNGSQL-Entities',
+	#package : 'FamixNGSQL',
+	#tag : 'Entities'
 }
 
-{ #category : #meta }
+{ #category : 'meta' }
 FmxSQLUniqueConstraint class >> annotation [
 
-	<MSEClass: #UniqueConstraint super: #FmxSQLConstraint>
+	<ignoreForCoverage>
+	<FMClass: #UniqueConstraint super: #FmxSQLConstraint>
 	<package: #FamixNGSQL>
 	<generated>
-	^self
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FmxSQLUniqueConstraint >> isUniqueConstraint [
 
+	<ignoreForCoverage>
 	<generated>
 	^ true
-]
-
-{ #category : #printing }
-FmxSQLUniqueConstraint >> mooseNameOn: aStream [
-	aStream << $".
-	super mooseNameOn: aStream.
-	aStream << '" UNIQUE ('.
-	(self outgoingColumnReferences collect: #column) do: [ :c |
-		aStream << c name ] separatedBy: [ aStream << ', ' ].
-	aStream
-		<< ') #';
-		<< self mooseID.
 ]

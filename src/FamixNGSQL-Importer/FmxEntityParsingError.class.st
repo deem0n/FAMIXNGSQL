@@ -9,6 +9,11 @@ Class {
 }
 
 { #category : #accessing }
+FmxEntityParsingError >> messageText [
+	^ parseError ifNil: [ super messageText ] ifNotNil: [ parseError messageText ]
+]
+
+{ #category : #accessing }
 FmxEntityParsingError >> entity [
 	^ entity
 ]

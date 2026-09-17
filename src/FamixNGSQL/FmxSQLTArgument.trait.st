@@ -1,13 +1,15 @@
 Trait {
-	#name : #FmxSQLTArgument,
-	#category : 'FamixNGSQL-Traits'
+	#name : 'FmxSQLTArgument',
+	#category : 'FamixNGSQL-Traits',
+	#package : 'FamixNGSQL',
+	#tag : 'Traits'
 }
 
-{ #category : #meta }
+{ #category : 'meta' }
 FmxSQLTArgument classSide >> annotation [
 
-	<MSEClass: #TArgument super: #Trait>
+	<ignoreForCoverage>
+	<FMClass: #TArgument super: #Object>
 	<package: #FamixNGSQL>
 	<generated>
-	^self
 ]

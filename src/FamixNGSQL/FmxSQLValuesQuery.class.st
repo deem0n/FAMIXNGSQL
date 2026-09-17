@@ -1,17 +1,21 @@
 "
 I am a VALUES query.
+
+
 "
 Class {
-	#name : #FmxSQLValuesQuery,
-	#superclass : #FmxSQLCRUDQuery,
-	#category : 'FamixNGSQL-Entities'
+	#name : 'FmxSQLValuesQuery',
+	#superclass : 'FmxSQLCRUDQuery',
+	#category : 'FamixNGSQL-Entities',
+	#package : 'FamixNGSQL',
+	#tag : 'Entities'
 }
 
-{ #category : #meta }
+{ #category : 'meta' }
 FmxSQLValuesQuery class >> annotation [
 
-	<MSEClass: #ValuesQuery super: #FmxSQLCRUDQuery>
+	<ignoreForCoverage>
+	<FMClass: #ValuesQuery super: #FmxSQLCRUDQuery>
 	<package: #FamixNGSQL>
 	<generated>
-	^self
 ]
