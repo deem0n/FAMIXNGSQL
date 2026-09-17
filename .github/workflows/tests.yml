@@ -44,3 +44,11 @@ jobs:
           smalltalk-image: ${{ matrix.image }}
       - name: Load and test in a clean image
         run: smalltalkci -s '${{ matrix.image }}' .smalltalk.ston
+      - name: Upload JUnit results
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: ${{ matrix.image }}-test-results
+          path: FAMIXNGSQL-2-Pharo13-Moose13.xml
+          if-no-files-found: warn
+          retention-days: 14

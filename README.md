@@ -1,9 +1,12 @@
 # FAMIXNGSQL
 
+[![Tests](https://github.com/deem0n/FAMIXNGSQL/actions/workflows/tests.yml/badge.svg)](https://github.com/deem0n/FAMIXNGSQL/actions/workflows/tests.yml)
+
 FAMIXNGSQL builds a FAMIX model of a PostgreSQL database: schemas, tables, views,
 constraints, routines, triggers, source code and references between entities.
-The current `master` includes the Pharo 13 / Moose 13 migration and the updated
-PgMetadata and PostgreSQLParser integrations.
+Version **2.0.0** includes the Pharo 13 / Moose 13 migration and the updated
+PgMetadata and PostgreSQLParser integrations. See the [changelog](CHANGELOG.md)
+for breaking changes from `v1.0.0`.
 
 The import has two stages:
 
@@ -31,32 +34,43 @@ Validated on **2026-09-17**:
 | PostgreSQLParser | `f9d1b0850cb7cde2839760d87f54f04ba9de315e`, group `core-no-gui` |
 | SymbolResolver | `c6eb29c46cd36cabb8dff5d19329085ee8fa38c7` |
 | P3 | `d45f0d358f41ff809fd85f26046a63630a3a7bef`, synchronized with upstream `svenvc/P3` |
+| Famix | `4fd41546375e0ab86a4920eff547cc898e22db0b`, the Moose 13 core used for validation |
+| PetitParser | `5bdaf9f36793bf355e863c1accfbcc6162a6b034` |
 
-Tests ran in an **existing Pharo 13/Moose 13 image**. A complete Metacello install
-in a fresh image has not yet been validated. Pharo 7, Pharo 10, other Moose
-versions and other PostgreSQL versions are not certified by this migration.
+Validation includes the existing Pharo 13/Moose 13 image and clean CI installs
+in **Pharo64-13** and **Moose64-13**, each with PostgreSQL 15. Pharo 7, Pharo 10,
+other Moose versions and other PostgreSQL versions are not certified by this
+migration.
 Historical implementations remain available in Git history and the
 [original upstream repository](https://github.com/juliendelplanque/FAMIXNGSQL).
 
 PgMetadata alone does not require Moose, but the FAMIXNGSQL importer does.
-The baseline pins PgMetadata, PostgreSQLParser and SymbolResolver to commits.
-Famix (`development`), PetitParser and the transitive P3 dependency (`master`)
-still use moving branches, so this is not yet a fully pinned dependency stack.
+The baseline specifies commit revisions for PgMetadata, PostgreSQLParser,
+SymbolResolver, Famix and PetitParser. Upstream baselines still reference
+moving branches, including Fame, P3 and other transitive dependencies, so this
+is not yet a fully frozen dependency stack. The table records the revisions
+observed during validation.
 Deleting this repository's merged development branches does not remove the
 pinned dependency commits.
 
 ## Installation
 
-In a Pharo 13/Moose 13 Playground:
+In a Pharo 13 or Moose 13/Pharo 13 Playground:
 
 ```smalltalk
 Metacello new
     baseline: 'FAMIXNGSQL';
-    repository: 'github://deem0n/FAMIXNGSQL:master/src';
+    repository: 'github://deem0n/FAMIXNGSQL:v2.0.0/src';
     load: 'Core'.
 ```
 
 Keep `/src` in this repository URL. The default group also loads `Core`.
+Use `:master/src` instead when intentionally testing unreleased development.
+
+To start with Moose preinstalled, download the official
+[Moose 13 / Pharo 13 image](https://github.com/moosetechnology/Moose/releases/download/continuous/Moose13-development-Pharo64-13.zip)
+or select it in Pharo Launcher. It is a rolling **development** image, not an
+immutable Moose 13 release. smalltalkCI selects it with `Moose64-13`.
 
 | Group | Purpose |
 | --- | --- |
@@ -279,7 +293,7 @@ Load the importer tests and their PgMetadata fixture support:
 ```smalltalk
 Metacello new
     baseline: 'FAMIXNGSQL';
-    repository: 'github://deem0n/FAMIXNGSQL:master/src';
+    repository: 'github://deem0n/FAMIXNGSQL:v2.0.0/src';
     load: 'Tests'.
 ```
 
@@ -318,7 +332,41 @@ symbol resolution, overload candidates, a real PostgreSQL schema with triggers
 and constraint calls, timeouts, retained source, inverse relations, and MSE
 identity/source round trips. Dependency suites previously passed 24 PgMetadata,
 95 P3 and 246 PostgreSQLParser tests; see the audit for the validation scope.
-There is no established fresh-image/version CI matrix yet.
+
+## Continuous integration
+
+[GitHub Actions](https://github.com/deem0n/FAMIXNGSQL/actions/workflows/tests.yml)
+and [.travis.yml](.travis.yml) use the same [.smalltalk.ston](.smalltalk.ston).
+Both test `Pharo64-13` and the ready-made `Moose64-13` image on Linux, against a
+disposable PostgreSQL 15 container. This is a two-image compatibility matrix;
+it does not establish support for other Pharo or Moose versions.
+
+Each job loads `Tests` and `GeneratorTests` from the checked-out source and runs
+**65 tests**: 40 importer, 1 generator-selection and 24 PgMetadata tests. Tests
+that need a database always use explicit `FAMIXNGSQL_TEST_*` settings. Missing
+settings fail the job instead of falling back to a local/application database.
+The container contains no application data and is discarded after the job.
+
+GitHub Actions runs on pushes, pull requests and manual **Run workflow**
+requests. JUnit XML reports are uploaded as artifacts for each image. Travis
+requires this repository to be enabled in the owner's Travis account; the YAML
+configuration alone does not activate that external service.
+
+To run the same suite locally with smalltalkCI and an existing disposable
+database, set the connection parameters explicitly:
+
+```sh
+export FAMIXNGSQL_TEST_HOST=127.0.0.1
+export FAMIXNGSQL_TEST_PORT=55432
+export FAMIXNGSQL_TEST_DATABASE=famixngsql_ci
+export FAMIXNGSQL_TEST_USER=famixngsql_ci
+export FAMIXNGSQL_TEST_PASSWORD=famixngsql_ci
+smalltalkci -s Moose64-13 .smalltalk.ston
+```
+
+Substitute your disposable database's settings. `Pharo64-13` selects the plain
+image installation path. The passwords in the CI configurations are only for
+the disposable service created inside each job.
 
 ## Metamodel development
 
@@ -332,7 +380,7 @@ Load the generator:
 ```smalltalk
 Metacello new
     baseline: 'FAMIXNGSQL';
-    repository: 'github://deem0n/FAMIXNGSQL:master/src';
+    repository: 'github://deem0n/FAMIXNGSQL:v2.0.0/src';
     load: 'Generator'.
 ```
 
@@ -354,7 +402,7 @@ The selection regression can be checked without regenerating classes:
 ```smalltalk
 Metacello new
     baseline: 'FAMIXNGSQL';
-    repository: 'github://deem0n/FAMIXNGSQL:master/src';
+    repository: 'github://deem0n/FAMIXNGSQL:v2.0.0/src';
     load: 'GeneratorTests'.
 FmxSQLMetamodelGeneratorTest suite run inspect.
 ```

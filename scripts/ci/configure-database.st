@@ -1,5 +1,10 @@
 "Only explicit CI settings are accepted: never fall back to an application database."
 | environment required value |
+(Smalltalk version beginsWith: 'Pharo13.') ifFalse: [
+	self error: 'This CI target requires Pharo 13' ].
+Smalltalk globals at: #MooseVersion ifPresent: [ :versionClass |
+	versionClass current major = 13 ifFalse: [
+		self error: 'The prebuilt Moose CI target requires Moose 13' ] ].
 environment := Smalltalk os environment.
 required := [ :name |
 	value := environment at: name ifAbsent: [ self error: 'Missing CI setting: ', name ].

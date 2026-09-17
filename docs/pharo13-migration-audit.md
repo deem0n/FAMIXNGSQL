@@ -93,8 +93,8 @@ complete PostgreSQL semantics or dependency coverage.
 
 The MSE artifact retains source and structural/reference relations. A separate
 JSON report records per-entity status and diagnostics. Local database artifacts
-are ignored by Git. No fresh-image Metacello install or legacy UI validation has
-been performed.
+are ignored by Git. Legacy UI validation has not been performed. Fresh-image
+validation was added during release preparation; see the CI section below.
 
 ## Remaining work
 
@@ -107,7 +107,8 @@ been performed.
   explicitly and its targets are not guessed.
 - Remove remaining visitor Halts with supported semantics and regression tests;
   the importer currently records them as failures and continues.
-- Pin/validate the complete dependency stack in a fresh image before a release.
+- Freeze the remaining transitive dependency branches. Clean-image validation
+  now passes on the two CI targets described below.
 
 ## Export integrity fixes
 
@@ -124,3 +125,18 @@ reference IDs. Reloaded model counts match: 70,143 entities, 569 triggers,
 Routine and view source text was checked for exact equality after reloading.
 The snapshots are `artifacts/mi-20260917.mse` and
 `artifacts/mi-20260917-analysis.json` in the local working repository.
+
+## Release CI validation (2026-09-17)
+
+GitHub Actions run [35272163591](https://github.com/deem0n/FAMIXNGSQL/actions/runs/35272163591)
+loaded the checkout in both plain `Pharo64-13` and official prebuilt
+`Moose64-13` images. Both jobs passed all 65 tests: 40 importer tests, the
+generator-selection regression and 24 PgMetadata tests, against PostgreSQL 15
+in disposable containers. This supersedes the earlier fresh-image validation
+gap; it does not extend the supported matrix to older Pharo/Moose versions.
+
+Travis and GitHub Actions share `.smalltalk.ston`. Travis execution requires
+the repository's external Travis integration to be enabled separately.
+
+The first CI attempt passed the tests but failed writing JUnit XML because the
+suite name contained a slash. The suite name is now filesystem-safe.
