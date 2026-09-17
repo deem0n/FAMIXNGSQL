@@ -63,6 +63,7 @@ Keep `/src` in this repository URL. The default group also loads `Core`.
 | `Core` | Generated SQL metamodel and importer with their dependencies |
 | `Tests` | Core, importer tests and PgMetadata scenario-test support |
 | `Generator` | Core and the metamodel generator |
+| `GeneratorTests` | Generator plus its global-regeneration selection regression test |
 | `LegacyUI` | Historical GT Inspector, analysis, Telescope and connection-manager packages |
 
 `LegacyUI` has not been ported or validated on the current image. Core usage does
@@ -339,6 +340,23 @@ Construct its definitions without installing regenerated classes:
 
 ```smalltalk
 FmxSQLMetamodelGenerator new define.
+```
+
+`FmxSQLStructuralMetamodelGenerator` is an abstract base, so Moose's global
+regeneration selects only the concrete `FmxSQLMetamodelGenerator`. If an older
+loaded version reports `SubclassResponsibility` for the base class's `prefix`,
+load the updated generator, abandon the failed regeneration, and start it again.
+Its already-created generator list still contains the abstract class; resuming
+that old operation does not rebuild the list.
+
+The selection regression can be checked without regenerating classes:
+
+```smalltalk
+Metacello new
+    baseline: 'FAMIXNGSQL';
+    repository: 'github://deem0n/FAMIXNGSQL:master/src';
+    load: 'GeneratorTests'.
+FmxSQLMetamodelGeneratorTest suite run inspect.
 ```
 
 Perform actual regeneration in a disposable development image after releasing

@@ -20,6 +20,12 @@ analysis.
 
 ## Compatibility changes reviewed
 
+- Mark `FmxSQLStructuralMetamodelGenerator` abstract while keeping its concrete
+  subclass `FmxSQLMetamodelGenerator` eligible for generation. Otherwise Moose's
+  global regeneration attempts to instantiate the structural base and signals
+  `SubclassResponsibility` for `prefix`. The `GeneratorTests` group verifies
+  selection without installing regenerated classes; its regression failed
+  before the fix and passed afterwards in the running Pharo 13 image.
 - Regenerate the checked-in `FamixNGSQL` package on current Moose. Its old
   `FmxSQLUnknownSourceLanguage` definition referenced the removed
   `FamixTUnknownSourceLanguage` trait and caused a post-mortem load warning.

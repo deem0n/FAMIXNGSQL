@@ -12,6 +12,8 @@ BaselineOfFAMIXNGSQL >> baseline: spec [
 		do: [ spec
 				package: #FAMIXNGSQLMetamodelGenerator
 					with: [ spec requires: #('Famix') ];
+				package: #'FAMIXNGSQLMetamodelGenerator-Tests'
+					with: [ spec requires: #('FAMIXNGSQLMetamodelGenerator') ];
 				package: #'FamixNGSQL-Importer'
 					with: [ spec
 						requires: #('FamixNGSQL' 'PostgreSQLParser' 'PgMetadata' 'SymbolResolver' 'PetitParser') ];
@@ -62,6 +64,7 @@ BaselineOfFAMIXNGSQL >> baseline: spec [
 				group: 'default' with: #('Core');
 				group: 'Core' with: #('FamixNGSQL' 'FamixNGSQL-Importer');
 				group: 'Generator' with: #('Core' 'FAMIXNGSQLMetamodelGenerator');
+				group: 'GeneratorTests' with: #('Generator' 'FAMIXNGSQLMetamodelGenerator-Tests');
 				group: 'Tests' with: #('Core' 'FamixNGSQL-Importer-Tests');
 				group: 'LegacyUI' with: #('Core' 'FamixNGSQL-GTInspectorExtension' 'FAMIXNGSQLAnalysis' 'FAMIXNGSQLAnalysis-ConnectionsManager') ]
 ]
