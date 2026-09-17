@@ -1,45 +1,61 @@
+"
+## Relations
+======================
+
+### Children
+| Relation | Origin | Opposite | Type | Comment |
+|---|
+| `outgoingReferencesGroupReferences` | `FmxSQLTWithReferencesGroupReference` | `source` | `FmxSQLTReferencesGroupReference` | |
+
+### Outgoing dependencies
+| Relation | Origin | Opposite | Type | Comment |
+|---|
+| `outgoingReferencesGroupReferences` | `FmxSQLTWithReferencesGroupReference` | `source` | `FmxSQLTReferencesGroupReference` | |
+
+
+
+"
 Trait {
-	#name : #FmxSQLTWithReferencesGroupReference,
+	#name : 'FmxSQLTWithReferencesGroupReference',
 	#instVars : [
 		'#outgoingReferencesGroupReferences => FMMany type: #FmxSQLTReferencesGroupReference opposite: #source'
 	],
-	#category : #'FamixNGSQL-Traits'
+	#category : 'FamixNGSQL-Traits',
+	#package : 'FamixNGSQL',
+	#tag : 'Traits'
 }
 
-{ #category : #meta }
+{ #category : 'meta' }
 FmxSQLTWithReferencesGroupReference classSide >> annotation [
 
+	<ignoreForCoverage>
 	<FMClass: #TWithReferencesGroupReference super: #Object>
 	<package: #FamixNGSQL>
 	<generated>
-	^self
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 FmxSQLTWithReferencesGroupReference >> addOutgoingReferencesGroupReference: anObject [
+
+	<ignoreForCoverage>
 	<generated>
 	^ self outgoingReferencesGroupReferences add: anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FmxSQLTWithReferencesGroupReference >> outgoingReferencesGroupReferences [
 	"Relation named: #outgoingReferencesGroupReferences type: #FmxSQLTReferencesGroupReference opposite: #source"
 
+	<ignoreForCoverage>
 	<generated>
 	<derived>
 	^ outgoingReferencesGroupReferences
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FmxSQLTWithReferencesGroupReference >> outgoingReferencesGroupReferences: anObject [
 
+	<ignoreForCoverage>
 	<generated>
 	outgoingReferencesGroupReferences value: anObject
-]
-
-{ #category : #navigation }
-FmxSQLTWithReferencesGroupReference >> outgoingReferencesGroupReferencesGroup [
-	<generated>
-	<navigation: 'OutgoingReferencesGroupReferences'>
-	^ MooseSpecializedGroup withAll: self outgoingReferencesGroupReferences asSet
 ]

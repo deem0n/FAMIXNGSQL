@@ -1,24 +1,29 @@
 "
 I am a join clause
+
+
 "
 Class {
-	#name : #FmxSQLJoinClause,
-	#superclass : #FmxSQLClause,
-	#category : 'FamixNGSQL-Entities'
+	#name : 'FmxSQLJoinClause',
+	#superclass : 'FmxSQLClause',
+	#category : 'FamixNGSQL-Entities',
+	#package : 'FamixNGSQL',
+	#tag : 'Entities'
 }
 
-{ #category : #meta }
+{ #category : 'meta' }
 FmxSQLJoinClause class >> annotation [
 
+	<ignoreForCoverage>
 	<FMClass: #JoinClause super: #FmxSQLClause>
 	<package: #FamixNGSQL>
 	<generated>
-	^self
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FmxSQLJoinClause >> isJoinClause [
 
+	<ignoreForCoverage>
 	<generated>
 	^ true
 ]

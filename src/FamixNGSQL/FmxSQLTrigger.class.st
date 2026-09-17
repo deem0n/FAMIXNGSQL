@@ -1,91 +1,119 @@
 "
 I am a trigger. A trigger allows to define actions to performs when a specific event occurs on a table. Because a trigger can not exist without the table to which it listens to events, a trigger is contained in a table.
+
+## Relations
+======================
+
+### Parents
+| Relation | Origin | Opposite | Type | Comment |
+|---|
+| `parentNamespace` | `FmxSQLTNamedEntity` | `namespaceEntities` | `FmxSQLNamespace` | |
+| `table` | `FmxSQLTrigger` | `triggers` | `FmxSQLTWithTriggers` | |
+
+### Other
+| Relation | Origin | Opposite | Type | Comment |
+|---|
+| `anchorsOnIntervalsOfCode` | `FmxSQLTWithEntitySourceAnchor` | `entity` | `FmxSQLEntitySourceAnchor` | |
+| `storedProcedure` | `FmxSQLTrigger` | `triggers` | `FmxSQLTriggerStoredProcedure` | |
+
+
+## Properties
+======================
+
+| Name | Type | Default value | Comment |
+|---|
+| `firingAction` | `String` | nil | |
+| `when` | `String` | nil | |
+
 "
 Class {
-	#name : #FmxSQLTrigger,
-	#superclass : #FmxSQLNamedEntity,
+	#name : 'FmxSQLTrigger',
+	#superclass : 'FmxSQLNamedEntity',
 	#traits : 'FmxSQLBehaviouralEntity + FmxSQLTNamedEntity',
 	#classTraits : 'FmxSQLBehaviouralEntity classTrait + FmxSQLTNamedEntity classTrait',
 	#instVars : [
 		'#firingAction => FMProperty',
-		'#when => FMProperty',
 		'#storedProcedure => FMOne type: #FmxSQLTriggerStoredProcedure opposite: #triggers',
-		'#table => FMOne type: #FmxSQLTable opposite: #triggers'
+		'#table => FMOne type: #FmxSQLTWithTriggers opposite: #triggers',
+		'#when => FMProperty'
 	],
-	#category : #'FamixNGSQL-Entities'
+	#category : 'FamixNGSQL-Entities',
+	#package : 'FamixNGSQL',
+	#tag : 'Entities'
 }
 
-{ #category : #meta }
+{ #category : 'meta' }
 FmxSQLTrigger class >> annotation [
 
+	<ignoreForCoverage>
 	<FMClass: #Trigger super: #FmxSQLNamedEntity>
 	<package: #FamixNGSQL>
 	<generated>
-	^self
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FmxSQLTrigger >> firingAction [
 
 	<FMProperty: #firingAction type: #String>
+	<ignoreForCoverage>
 	<generated>
 	^ firingAction
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FmxSQLTrigger >> firingAction: anObject [
+	<ignoreForCoverage>
 	<generated>
 	firingAction := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FmxSQLTrigger >> storedProcedure [
 	"Relation named: #storedProcedure type: #FmxSQLTriggerStoredProcedure opposite: #triggers"
 
+	<ignoreForCoverage>
 	<generated>
 	^ storedProcedure
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FmxSQLTrigger >> storedProcedure: anObject [
 
+	<ignoreForCoverage>
 	<generated>
 	storedProcedure := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FmxSQLTrigger >> table [
-	"Relation named: #table type: #FmxSQLTable opposite: #triggers"
+	"Relation named: #table type: #FmxSQLTWithTriggers opposite: #triggers"
 
+	<ignoreForCoverage>
 	<generated>
 	<container>
 	^ table
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FmxSQLTrigger >> table: anObject [
 
+	<ignoreForCoverage>
 	<generated>
 	table := anObject
 ]
 
-{ #category : #navigation }
-FmxSQLTrigger >> tableGroup [
-	<generated>
-	<navigation: 'Table'>
-	^ MooseSpecializedGroup with: self table
-]
-
-{ #category : #accessing }
+{ #category : 'accessing' }
 FmxSQLTrigger >> when [
 
 	<FMProperty: #when type: #String>
+	<ignoreForCoverage>
 	<generated>
 	^ when
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FmxSQLTrigger >> when: anObject [
+	<ignoreForCoverage>
 	<generated>
 	when := anObject
 ]

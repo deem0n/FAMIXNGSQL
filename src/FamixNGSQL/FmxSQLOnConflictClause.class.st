@@ -1,24 +1,29 @@
 "
 I am a on conflict clause
+
+
 "
 Class {
-	#name : #FmxSQLOnConflictClause,
-	#superclass : #FmxSQLClause,
-	#category : 'FamixNGSQL-Entities'
+	#name : 'FmxSQLOnConflictClause',
+	#superclass : 'FmxSQLClause',
+	#category : 'FamixNGSQL-Entities',
+	#package : 'FamixNGSQL',
+	#tag : 'Entities'
 }
 
-{ #category : #meta }
+{ #category : 'meta' }
 FmxSQLOnConflictClause class >> annotation [
 
+	<ignoreForCoverage>
 	<FMClass: #OnConflictClause super: #FmxSQLClause>
 	<package: #FamixNGSQL>
 	<generated>
-	^self
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FmxSQLOnConflictClause >> isOnConflictClause [
 
+	<ignoreForCoverage>
 	<generated>
 	^ true
 ]

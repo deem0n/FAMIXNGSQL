@@ -1,24 +1,29 @@
 "
 I am a with clause
+
+
 "
 Class {
-	#name : #FmxSQLWithClause,
-	#superclass : #FmxSQLClause,
-	#category : 'FamixNGSQL-Entities'
+	#name : 'FmxSQLWithClause',
+	#superclass : 'FmxSQLClause',
+	#category : 'FamixNGSQL-Entities',
+	#package : 'FamixNGSQL',
+	#tag : 'Entities'
 }
 
-{ #category : #meta }
+{ #category : 'meta' }
 FmxSQLWithClause class >> annotation [
 
+	<ignoreForCoverage>
 	<FMClass: #WithClause super: #FmxSQLClause>
 	<package: #FamixNGSQL>
 	<generated>
-	^self
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FmxSQLWithClause >> isWithClause [
 
+	<ignoreForCoverage>
 	<generated>
 	^ true
 ]

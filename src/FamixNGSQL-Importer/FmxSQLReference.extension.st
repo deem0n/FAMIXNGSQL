@@ -9,3 +9,13 @@ FmxSQLReference >> reference [
 FmxSQLReference >> resolveAsPartOfTheQuery: aFmxSQLInsertQuery [ 
 	self shouldBeImplemented.
 ]
+
+{ #category : #'*FamixNGSQL-Importer' }
+FmxSQLReference >> from [
+	^ self source
+]
+
+{ #category : #'*FamixNGSQL-Importer' }
+FmxSQLReference >> to [
+	^ self target
+]

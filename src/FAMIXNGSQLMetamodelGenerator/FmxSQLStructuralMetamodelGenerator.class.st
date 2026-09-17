@@ -174,6 +174,8 @@ FmxSQLStructuralMetamodelGenerator >> defineStructuralHierarchy [
 	"Abstract entities inheritance relations."
 	structuralEntity --|> namedEntity.
 	structuralEntity --|> tNamedEntity.
+	namedEntity --|> #TCanBeStub.
+	namedEntity --|> #TEntityMetaLevelDependency.
 	
 	constraint --|> structuralEntity.
 	constraint --|> tWithColumnReference.
@@ -226,7 +228,9 @@ FmxSQLStructuralMetamodelGenerator >> defineStructuralReferenceProperties [
 
 { #category : #'definition - structural' }
 FmxSQLStructuralMetamodelGenerator >> defineStructuralReferencesHierarchy [
+	association --|> #TAssociation.
 	reference --|> association.
+	reference --|> #TSourceEntity.
 	reference --|> tArgument.
 	tableReference --|> reference.
 	columnReference --|> reference.
@@ -255,6 +259,8 @@ FmxSQLStructuralMetamodelGenerator >> defineStructuralTraits [
 
 { #category : #'definition - structural' }
 FmxSQLStructuralMetamodelGenerator >> defineStructuralTraitsRelations [
+	(namespace property: #namespaceEntities)
+		<>-* (tNamedEntity property: #parentNamespace).
 	"A columns container contains columns."
 	(tColumnsContainer property: #columns)
 		<>-* (tColumn property: #columnsContainer).

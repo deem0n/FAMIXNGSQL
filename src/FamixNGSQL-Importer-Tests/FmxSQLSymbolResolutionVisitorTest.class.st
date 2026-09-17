@@ -98,9 +98,7 @@ FmxSQLSymbolResolutionVisitorTest >> parseAndVisitView: aViewCode [
 { #category : #running }
 FmxSQLSymbolResolutionVisitorTest >> setUp [
 	super setUp.
-	model := MooseModel new
-					metamodel: FmxSQLMetamodelGenerator metamodel;
-					yourself.
+	model := FmxSQLModel new.
 	function := FmxSQLStoredProcedure new.
 	function mooseModel: model.
 	function name: 'currentFunction'.
@@ -588,7 +586,7 @@ FmxSQLSymbolResolutionVisitorTest >> testSelectWithSubqueryAliasing2 [
 
 { #category : #parsing }
 FmxSQLSymbolResolutionVisitorTest >> testStoredProcedureInvocation [
-	self createStoredProcedure: 'myFunction'.
+	self createStoredProcedure: 'myfunction'.
 	self
 		parseAndVisitFunction:
 			' DECLARE
@@ -680,4 +678,20 @@ BEGIN
 	SELECT * INTO line FROM t WHERE t.c1 = 1;
 	c := line.c1 + line.c2;
 END;'.
+]
+
+{ #category : #tests }
+FmxSQLSymbolResolutionVisitorTest >> testQualifiedCallPreservesOverloadCandidates [
+	| namespace otherNamespace one two unrelated call |
+	namespace := FmxSQLNamespace new name: 'app'; mooseModel: model; yourself.
+	otherNamespace := FmxSQLNamespace new name: 'other'; mooseModel: model; yourself.
+	one := (self createStoredProcedure: 'f') parentNamespace: namespace.
+	two := (self createStoredProcedure: 'f') parentNamespace: namespace.
+	unrelated := (self createStoredProcedure: 'f') parentNamespace: otherNamespace.
+	self parseAndVisitFunction: 'BEGIN app.f(1); END;'.
+	call := (model allWithType: FmxSQLStoredProcedureCall) anyOne.
+	self assert: call candidates size equals: 2.
+	self assert: (call candidates includes: one).
+	self assert: (call candidates includes: two).
+	self deny: (call candidates includes: unrelated)
 ]

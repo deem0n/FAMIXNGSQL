@@ -14,7 +14,9 @@ BaselineOfFAMIXNGSQL >> baseline: spec [
 					with: [ spec requires: #('Famix') ];
 				package: #'FamixNGSQL-Importer'
 					with: [ spec
-						requires: #('PostgreSQLParser' 'PgMetadata' 'SymbolResolver' 'PetitParser') ];
+						requires: #('FamixNGSQL' 'PostgreSQLParser' 'PgMetadata' 'SymbolResolver' 'PetitParser') ];
+				package: #'FamixNGSQL-Importer-Tests'
+					with: [ spec requires: #('FamixNGSQL-Importer' 'PgMetadata-Tests') ];
 				package: #'FamixNGSQL-GTInspectorExtension'
 					with: [ spec requires: #('FamixNGSQL-Importer') ];
 				package: #FAMIXNGSQLAnalysis
@@ -33,8 +35,8 @@ BaselineOfFAMIXNGSQL >> baseline: spec [
 			spec
 				baseline: 'PostgreSQLParser'
 				with: [ spec
-						repository: 'github://juliendelplanque/PostgreSQLParser/src';
-						loads: #('core') ].
+						repository: 'github://deem0n/PostgreSQLParser:f9d1b0850cb7cde2839760d87f54f04ba9de315e/src';
+						loads: #('core-no-gui') ].
 			spec
 				baseline: 'PetitParser'
 				with: [ spec
@@ -42,7 +44,11 @@ BaselineOfFAMIXNGSQL >> baseline: spec [
 						repository: 'github://moosetechnology/PetitParser/src' ].
 			spec
 				baseline: 'PgMetadata'
-				with: [ spec repository: 'github://olivierauverlot/PgMetadata' ].
+				with: [ spec
+					repository: 'github://deem0n/PgMetadata:5abe3134238b4f84f7d1e02e28d9aee45aee5c61';
+					loads: #('Core') ].
+			spec project: 'PgMetadata-Tests' copyFrom: 'PgMetadata'
+				with: [ spec loads: #('Tests') ].
 			spec
 				baseline: 'DBConnectionsManager'
 				with: [ spec
@@ -51,5 +57,11 @@ BaselineOfFAMIXNGSQL >> baseline: spec [
 			spec
 				baseline: 'TelescopeCytoscape'
 				with: [ spec
-						repository: 'github://TelescopeSt/TelescopeCytoscape:v2.x.x/src' ] ]
+						repository: 'github://TelescopeSt/TelescopeCytoscape:v2.x.x/src' ].
+			spec
+				group: 'default' with: #('Core');
+				group: 'Core' with: #('FamixNGSQL' 'FamixNGSQL-Importer');
+				group: 'Generator' with: #('Core' 'FAMIXNGSQLMetamodelGenerator');
+				group: 'Tests' with: #('Core' 'FamixNGSQL-Importer-Tests');
+				group: 'LegacyUI' with: #('Core' 'FamixNGSQL-GTInspectorExtension' 'FAMIXNGSQLAnalysis' 'FAMIXNGSQLAnalysis-ConnectionsManager') ]
 ]

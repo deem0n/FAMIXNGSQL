@@ -1,107 +1,140 @@
+"
+## Relations
+======================
+
+### Other
+| Relation | Origin | Opposite | Type | Comment |
+|---|
+| `cursorParameters` | `FmxSQLAbstractType` | `type` | `FmxSQLCursorParameter` | |
+| `localVariables` | `FmxSQLAbstractType` | `type` | `FmxSQLLocalVariable` | |
+| `parameters` | `FmxSQLAbstractType` | `type` | `FmxSQLParameter` | |
+| `storedProceduresReturning` | `FmxSQLAbstractType` | `returnType` | `FmxSQLStoredProcedure` | |
+
+
+
+"
 Trait {
-	#name : #FmxSQLAbstractType,
+	#name : 'FmxSQLAbstractType',
 	#instVars : [
-		'#storedProceduresReturning => FMMany type: #FmxSQLStoredProcedure opposite: #returnType',
+		'#cursorParameters => FMMany type: #FmxSQLCursorParameter opposite: #type',
 		'#localVariables => FMMany type: #FmxSQLLocalVariable opposite: #type',
 		'#parameters => FMMany type: #FmxSQLParameter opposite: #type',
-		'#cursorParameters => FMMany type: #FmxSQLCursorParameter opposite: #type'
+		'#storedProceduresReturning => FMMany type: #FmxSQLStoredProcedure opposite: #returnType'
 	],
-	#category : #'FamixNGSQL-Traits'
+	#category : 'FamixNGSQL-Traits',
+	#package : 'FamixNGSQL',
+	#tag : 'Traits'
 }
 
-{ #category : #meta }
+{ #category : 'meta' }
 FmxSQLAbstractType classSide >> annotation [
 
+	<ignoreForCoverage>
 	<FMClass: #AbstractType super: #Object>
 	<package: #FamixNGSQL>
 	<generated>
-	^self
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 FmxSQLAbstractType >> addCursorParameter: anObject [
+
+	<ignoreForCoverage>
 	<generated>
 	^ self cursorParameters add: anObject
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 FmxSQLAbstractType >> addLocalVariable: anObject [
+
+	<ignoreForCoverage>
 	<generated>
 	^ self localVariables add: anObject
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 FmxSQLAbstractType >> addParameter: anObject [
+
+	<ignoreForCoverage>
 	<generated>
 	^ self parameters add: anObject
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 FmxSQLAbstractType >> addStoredProceduresReturning: anObject [
+
+	<ignoreForCoverage>
 	<generated>
 	^ self storedProceduresReturning add: anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FmxSQLAbstractType >> cursorParameters [
 	"Relation named: #cursorParameters type: #FmxSQLCursorParameter opposite: #type"
 
+	<ignoreForCoverage>
 	<generated>
 	<derived>
 	^ cursorParameters
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FmxSQLAbstractType >> cursorParameters: anObject [
 
+	<ignoreForCoverage>
 	<generated>
 	cursorParameters value: anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FmxSQLAbstractType >> localVariables [
 	"Relation named: #localVariables type: #FmxSQLLocalVariable opposite: #type"
 
+	<ignoreForCoverage>
 	<generated>
 	<derived>
 	^ localVariables
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FmxSQLAbstractType >> localVariables: anObject [
 
+	<ignoreForCoverage>
 	<generated>
 	localVariables value: anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FmxSQLAbstractType >> parameters [
 	"Relation named: #parameters type: #FmxSQLParameter opposite: #type"
 
+	<ignoreForCoverage>
 	<generated>
 	<derived>
 	^ parameters
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FmxSQLAbstractType >> parameters: anObject [
 
+	<ignoreForCoverage>
 	<generated>
 	parameters value: anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FmxSQLAbstractType >> storedProceduresReturning [
 	"Relation named: #storedProceduresReturning type: #FmxSQLStoredProcedure opposite: #returnType"
 
+	<ignoreForCoverage>
 	<generated>
 	<derived>
 	^ storedProceduresReturning
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FmxSQLAbstractType >> storedProceduresReturning: anObject [
 
+	<ignoreForCoverage>
 	<generated>
 	storedProceduresReturning value: anObject
 ]

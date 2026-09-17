@@ -1,6 +1,12 @@
 Extension { #name : #FmxSQLStoredProcedure }
 
 { #category : #'*FamixNGSQL-Importer' }
+FmxSQLStoredProcedure >> sourceText [
+	"Synthetic catalog stubs need not have source, including during MSE export."
+	^ self source ifNil: [ '' ]
+]
+
+{ #category : #'*FamixNGSQL-Importer' }
 FmxSQLStoredProcedure >> createReferenceEntityFrom: aFmxSQLEntity [
 	aFmxSQLEntity class = PSQLASTIgnoredLocalVariableNullObject
 		ifTrue: [ ^ self ].

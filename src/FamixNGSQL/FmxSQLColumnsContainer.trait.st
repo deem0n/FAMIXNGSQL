@@ -1,48 +1,58 @@
 "
 I am an abstract super class for entities that contain columns. Two of my well-known subclasses are the table and the view.
+
+## Relations
+======================
+
+### Children
+| Relation | Origin | Opposite | Type | Comment |
+|---|
+| `columns` | `FmxSQLColumnsContainer` | `columnsContainer` | `FmxSQLTColumn` | |
+
+
+
 "
 Trait {
-	#name : #FmxSQLColumnsContainer,
+	#name : 'FmxSQLColumnsContainer',
 	#instVars : [
 		'#columns => FMMany type: #FmxSQLTColumn opposite: #columnsContainer'
 	],
-	#category : #'FamixNGSQL-Traits'
+	#category : 'FamixNGSQL-Traits',
+	#package : 'FamixNGSQL',
+	#tag : 'Traits'
 }
 
-{ #category : #meta }
+{ #category : 'meta' }
 FmxSQLColumnsContainer classSide >> annotation [
 
+	<ignoreForCoverage>
 	<FMClass: #ColumnsContainer super: #Object>
 	<package: #FamixNGSQL>
 	<generated>
-	^self
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 FmxSQLColumnsContainer >> addColumn: anObject [
+
+	<ignoreForCoverage>
 	<generated>
 	^ self columns add: anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FmxSQLColumnsContainer >> columns [
 	"Relation named: #columns type: #FmxSQLTColumn opposite: #columnsContainer"
 
+	<ignoreForCoverage>
 	<generated>
 	<derived>
 	^ columns
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FmxSQLColumnsContainer >> columns: anObject [
 
+	<ignoreForCoverage>
 	<generated>
 	columns value: anObject
-]
-
-{ #category : #navigation }
-FmxSQLColumnsContainer >> columnsGroup [
-	<generated>
-	<navigation: 'Columns'>
-	^ MooseSpecializedGroup withAll: self columns asSet
 ]

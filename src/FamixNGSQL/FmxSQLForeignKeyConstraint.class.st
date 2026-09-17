@@ -1,49 +1,67 @@
 "
 I represent a FOREIGN KEY constraint as defined in SQL standard.
+
+## Relations
+======================
+
+### Outgoing dependencies
+| Relation | Origin | Opposite | Type | Comment |
+|---|
+| `outgoingForeignKeyColumnReferences` | `FmxSQLForeignKeyConstraint` | `foreignKeyConstraintSource` | `FmxSQLColumnReference` | |
+
+
+
 "
 Class {
-	#name : #FmxSQLForeignKeyConstraint,
-	#superclass : #FmxSQLConstraint,
+	#name : 'FmxSQLForeignKeyConstraint',
+	#superclass : 'FmxSQLConstraint',
 	#instVars : [
 		'#outgoingForeignKeyColumnReferences => FMMany type: #FmxSQLColumnReference opposite: #foreignKeyConstraintSource'
 	],
-	#category : #'FamixNGSQL-Entities'
+	#category : 'FamixNGSQL-Entities',
+	#package : 'FamixNGSQL',
+	#tag : 'Entities'
 }
 
-{ #category : #meta }
+{ #category : 'meta' }
 FmxSQLForeignKeyConstraint class >> annotation [
 
+	<ignoreForCoverage>
 	<FMClass: #ForeignKeyConstraint super: #FmxSQLConstraint>
 	<package: #FamixNGSQL>
 	<generated>
-	^self
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 FmxSQLForeignKeyConstraint >> addOutgoingForeignKeyColumnReference: anObject [
+
+	<ignoreForCoverage>
 	<generated>
 	^ self outgoingForeignKeyColumnReferences add: anObject
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FmxSQLForeignKeyConstraint >> isForeignKeyConstraint [
 
+	<ignoreForCoverage>
 	<generated>
 	^ true
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FmxSQLForeignKeyConstraint >> outgoingForeignKeyColumnReferences [
 	"Relation named: #outgoingForeignKeyColumnReferences type: #FmxSQLColumnReference opposite: #foreignKeyConstraintSource"
 
+	<ignoreForCoverage>
 	<generated>
 	<derived>
 	^ outgoingForeignKeyColumnReferences
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FmxSQLForeignKeyConstraint >> outgoingForeignKeyColumnReferences: anObject [
 
+	<ignoreForCoverage>
 	<generated>
 	outgoingForeignKeyColumnReferences value: anObject
 ]

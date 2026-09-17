@@ -1,45 +1,56 @@
+"
+## Relations
+======================
+
+### Children
+| Relation | Origin | Opposite | Type | Comment |
+|---|
+| `cursors` | `FmxSQLTWithCursor` | `parentBehaviouralEntity` | `FmxSQLCursor` | |
+
+
+
+"
 Trait {
-	#name : #FmxSQLTWithCursor,
+	#name : 'FmxSQLTWithCursor',
 	#instVars : [
 		'#cursors => FMMany type: #FmxSQLCursor opposite: #parentBehaviouralEntity'
 	],
-	#category : #'FamixNGSQL-Traits'
+	#category : 'FamixNGSQL-Traits',
+	#package : 'FamixNGSQL',
+	#tag : 'Traits'
 }
 
-{ #category : #meta }
+{ #category : 'meta' }
 FmxSQLTWithCursor classSide >> annotation [
 
+	<ignoreForCoverage>
 	<FMClass: #TWithCursor super: #Object>
 	<package: #FamixNGSQL>
 	<generated>
-	^self
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 FmxSQLTWithCursor >> addCursor: anObject [
+
+	<ignoreForCoverage>
 	<generated>
 	^ self cursors add: anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FmxSQLTWithCursor >> cursors [
 	"Relation named: #cursors type: #FmxSQLCursor opposite: #parentBehaviouralEntity"
 
+	<ignoreForCoverage>
 	<generated>
 	<derived>
 	^ cursors
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FmxSQLTWithCursor >> cursors: anObject [
 
+	<ignoreForCoverage>
 	<generated>
 	cursors value: anObject
-]
-
-{ #category : #navigation }
-FmxSQLTWithCursor >> cursorsGroup [
-	<generated>
-	<navigation: 'Cursors'>
-	^ MooseSpecializedGroup withAll: self cursors asSet
 ]

@@ -1,24 +1,29 @@
 "
 I am a limit clause
+
+
 "
 Class {
-	#name : #FmxSQLLimitClause,
-	#superclass : #FmxSQLClause,
-	#category : 'FamixNGSQL-Entities'
+	#name : 'FmxSQLLimitClause',
+	#superclass : 'FmxSQLClause',
+	#category : 'FamixNGSQL-Entities',
+	#package : 'FamixNGSQL',
+	#tag : 'Entities'
 }
 
-{ #category : #meta }
+{ #category : 'meta' }
 FmxSQLLimitClause class >> annotation [
 
+	<ignoreForCoverage>
 	<FMClass: #LimitClause super: #FmxSQLClause>
 	<package: #FamixNGSQL>
 	<generated>
-	^self
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FmxSQLLimitClause >> isLimitClause [
 
+	<ignoreForCoverage>
 	<generated>
 	^ true
 ]
