@@ -29,7 +29,7 @@ BaselineOfFAMIXNGSQL >> baseline: spec [
 			spec
 				baseline: 'Famix'
 				with: [ spec
-						repository: 'github://moosetechnology/Famix:development/src';
+						repository: 'github://moosetechnology/Famix:4fd41546375e0ab86a4920eff547cc898e22db0b/src';
 						loads: #('Core' 'Basic') ].
 			spec
 				baseline: 'SymbolResolver'
@@ -43,7 +43,7 @@ BaselineOfFAMIXNGSQL >> baseline: spec [
 				baseline: 'PetitParser'
 				with: [ spec
 						loads: #('Preprocessor');
-						repository: 'github://moosetechnology/PetitParser/src' ].
+						repository: 'github://moosetechnology/PetitParser:5bdaf9f36793bf355e863c1accfbcc6162a6b034/src' ].
 			spec
 				baseline: 'PgMetadata'
 				with: [ spec

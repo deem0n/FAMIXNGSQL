@@ -1,0 +1,46 @@
+name: Tests
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: ${{ matrix.image }} / PostgreSQL 15
+    runs-on: ubuntu-22.04
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        image: [Pharo64-13, Moose64-13]
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_DB: famixngsql_ci
+          POSTGRES_USER: famixngsql_ci
+          POSTGRES_PASSWORD: famixngsql_ci
+        ports:
+          - 55432:5432
+        options: >-
+          --health-cmd "pg_isready -U famixngsql_ci -d famixngsql_ci"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 12
+    env:
+      FAMIXNGSQL_TEST_HOST: 127.0.0.1
+      FAMIXNGSQL_TEST_PORT: '55432'
+      FAMIXNGSQL_TEST_DATABASE: famixngsql_ci
+      FAMIXNGSQL_TEST_USER: famixngsql_ci
+      FAMIXNGSQL_TEST_PASSWORD: famixngsql_ci
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: hpi-swa/setup-smalltalkCI@c0a3a3b942ac515b6c3846ca2f65802d353757ef # v1
+        with:
+          smalltalk-image: ${{ matrix.image }}
+      - name: Load and test in a clean image
+        run: smalltalkci -s '${{ matrix.image }}' .smalltalk.ston

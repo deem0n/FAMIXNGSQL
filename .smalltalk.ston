@@ -1,9 +1,19 @@
 SmalltalkCISpec {
+    #name : 'FAMIXNGSQL 2 - Pharo 13 / Moose 13 core',
     #loading : [
         SCIMetacelloLoadSpec {
             #baseline : 'FAMIXNGSQL',
             #directory : 'src',
+            #load : [ 'Tests', 'GeneratorTests' ],
+            #onConflict : #useIncoming,
+            #onUpgrade : #useIncoming,
             #platforms : [ #pharo ]
         }
-    ]
+    ],
+    #preTesting : 'scripts/ci/configure-database.st',
+    #testing : {
+        #packages : [ 'FamixNGSQL-Importer-Tests', 'FAMIXNGSQLMetamodelGenerator-Tests', 'PgMetadata-tests' ],
+        #defaultTimeout : 120,
+        #failOnZeroTests : true
+    }
 }

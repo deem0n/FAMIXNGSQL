@@ -1,18 +1,27 @@
 language: smalltalk
-sudo: false
-
+dist: jammy
+os: linux
+services:
+  - docker
+smalltalk:
+  - Pharo64-13
+  - Moose64-13
+smalltalk_edge:
+  source: hpi-swa/smalltalkCI
+  branch: master
+env:
+  global:
+    - FAMIXNGSQL_TEST_HOST=127.0.0.1
+    - FAMIXNGSQL_TEST_PORT=55432
+    - FAMIXNGSQL_TEST_DATABASE=famixngsql_ci
+    - FAMIXNGSQL_TEST_USER=famixngsql_ci
+    - FAMIXNGSQL_TEST_PASSWORD=famixngsql_ci
+before_script:
+  - docker run --detach --name famixngsql-postgres --publish 127.0.0.1:55432:5432 --env POSTGRES_DB=famixngsql_ci --env POSTGRES_USER=famixngsql_ci --env POSTGRES_PASSWORD=famixngsql_ci postgres:15
+  - bash scripts/ci/wait-for-postgres.sh
+script:
+  - smalltalkci .smalltalk.ston
 notifications:
     email:
         on_success: never
         on_failure: always
-
-os:
-    - linux
-    - osx
-
-smalltalk_edge:
-    source: peteruhnak/smalltalkCI
-    branch: master
-
-smalltalk:
-    - Pharo-7.0
