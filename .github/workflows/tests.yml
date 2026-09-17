@@ -38,7 +38,7 @@ jobs:
       FAMIXNGSQL_TEST_USER: famixngsql_ci
       FAMIXNGSQL_TEST_PASSWORD: famixngsql_ci
     steps:
-      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - uses: hpi-swa/setup-smalltalkCI@c0a3a3b942ac515b6c3846ca2f65802d353757ef # v1
         with:
           smalltalk-image: ${{ matrix.image }}
@@ -46,7 +46,7 @@ jobs:
         run: smalltalkci -s '${{ matrix.image }}' .smalltalk.ston
       - name: Upload JUnit results
         if: always()
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: ${{ matrix.image }}-test-results
           path: FAMIXNGSQL-2-Pharo13-Moose13.xml
