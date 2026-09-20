@@ -23,9 +23,9 @@ Status: review and integration candidate, not a published release. Track all wor
 
 ## Dependencies and merge order
 
-All PRs target deem0n forks first. Famix #1/#2 and MooseIDE #1–#4 are independent review units. The draft [Famix #3](https://github.com/deem0n/Famix/pull/3) and [MooseIDE #5](https://github.com/deem0n/MooseIDE/pull/5) combine them solely for qualification; merge individual fixes first. SQL #25 and #26 can be reviewed independently. SQL #27 is stacked on #25, and #28–#31 on #27; retarget each to master after its prerequisite is merged.
+All PRs target deem0n forks first. Famix #1/#2 plus the pre-existing namespace hierarchy and Fame fixes, and MooseIDE #1–#4 are independent review units. The draft [Famix #3](https://github.com/deem0n/Famix/pull/3) and [MooseIDE #5](https://github.com/deem0n/MooseIDE/pull/5) combine them solely for qualification; merge individual fixes first. SQL #25 and #26 can be reviewed independently. SQL #27 is stacked on #25, and #28–#31 on #27; retarget each to master after its prerequisite is merged.
 
-This branch combines the SQL fixes and pins Famix `50bb4f82506561512c5fa4692285bf01592732bd`. The Moose CI preparation script additionally pins complete changed MooseIDE packages at `0078da66db3575346e3a25402a90684686234f07`. These are immutable qualification commits containing the separate PRs, not moving upstream development branches. After review, ensure the same fixes are reachable from the fork default branches and refresh pins if review changes them.
+This branch combines the SQL fixes and pins Famix `717dd2585713467ea11a0dab729d1b1459801017`. The Moose CI preparation script additionally pins complete changed MooseIDE packages at `0078da66db3575346e3a25402a90684686234f07`. These are immutable qualification commits containing the separate PRs, not moving upstream development branches. After review, ensure the same fixes are reachable from the fork default branches and refresh pins if review changes them.
 
 ## Validation and release gates
 
@@ -49,3 +49,5 @@ The issue/PR set implements discovered incompatibilities. It does not imply univ
 Qualified Moose names change lookup/cache/export identifiers; see [naming migration](sql-moose-names.md). The unsupported LegacyUI load group is retired. Core stays independent of GUI packages; optional standard-tool adapters and Roassal 3 views use `MooseIDE`/`MooseIDETests` groups and require MooseIDE already installed. SQL CoUsage, dead-code and duplication use explicit SQL presets; see [working snippets](mooseide-integration.md). The generic OO defaults must not be assumed to carry SQL semantics.
 
 Qualification scope is Pharo 13/Moose 13/PostgreSQL 15. Do not advertise Pharo 7–12, Moose 12, Pharo 14 or other PostgreSQL versions as supported by v3 until their own clean matrix is green. Famix's broader fork matrix is separate evidence, not full-stack SQL qualification.
+
+The two pre-existing Famix fixes are also required: upstream [#1150](https://github.com/moosetechnology/Famix/pull/1150) (namespace hierarchy) and [#1149](https://github.com/moosetechnology/Famix/pull/1149) (Fame group inspection). Their existing branches are included in the qualification pin, with `FamixNamespaceGroupHierarchyTest` and `MooseGroupTest` required in combined CI. The original audit image already had these fixes; omitting them from a clean installation would regress it.

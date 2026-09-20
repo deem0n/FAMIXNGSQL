@@ -15,7 +15,7 @@ SmalltalkCISpec {
     #preTesting : 'scripts/ci/configure-database.st',
     #testing : {
         #packages : [ 'FamixNGSQL-Importer-Tests', 'FAMIXNGSQLMetamodelGenerator-Tests', 'PgMetadata-tests', 'FamixNGSQL-MooseIDE-Tests' ],
-        #classes : [ #MiMetaBrowserRegressionTest, #MiModelReportRegressionTest, #MiLayerApplicabilityTest, #MiApplicationTest, #MiButterflyMapModelTest, #MiButterflyMapBrowserTest, #MooseGroupNameCloudTest, #MQNavigationContainmentTest ],
+        #classes : [ #MiMetaBrowserRegressionTest, #MiModelReportRegressionTest, #MiLayerApplicabilityTest, #MiApplicationTest, #MiButterflyMapModelTest, #MiButterflyMapBrowserTest, #MooseGroupNameCloudTest, #MQNavigationContainmentTest, #FamixNamespaceGroupHierarchyTest, #MooseGroupTest ],
         #defaultTimeout : 120,
         #failOnZeroTests : true
     }
