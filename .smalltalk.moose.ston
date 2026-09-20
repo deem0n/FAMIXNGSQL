@@ -3,14 +3,6 @@ SmalltalkCISpec {
     #preLoading : 'scripts/ci/prepare-moose.st',
     #loading : [
         SCIMetacelloLoadSpec {
-            #baseline : 'MooseIDE',
-            #repository : 'github://deem0n/MooseIDE:0078da66db3575346e3a25402a90684686234f07/src',
-            #load : [ 'default' ],
-            #onConflict : #useIncoming,
-            #onUpgrade : #useIncoming,
-            #platforms : [ #pharo ]
-        },
-        SCIMetacelloLoadSpec {
             #baseline : 'FAMIXNGSQL',
             #directory : 'src',
             #load : [ 'Tests', 'GeneratorTests', 'MooseIDETests' ],
