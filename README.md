@@ -152,22 +152,21 @@ remain represented as catalog entities with source.
 
 ## Explore an imported model
 
-The following snippets run in the model Inspector, with `self` bound to the
-`FmxSQLModel` returned by `buildModel`.
+The following snippets run in the model Inspector, with `model` bound to the
+`FmxSQLModel` returned by `buildModel` (see above [Connect and build a model](#connect-and-build-a-model)).
 
 Count selected entity kinds:
 
 ```smalltalk
-Dictionary new
-    at: #entities put: self entities size;
-    at: #namespaces put: (self allWithType: FmxSQLNamespace) size;
-    at: #tables put: (self allWithType: FmxSQLTable) size;
-    at: #foreignTables put: (self allWithType: FmxSQLForeignTable) size;
-    at: #views put: (self allWithType: FmxSQLView) size;
-    at: #routines put:
-        ((self allWithSubTypesOf: FmxSQLStoredProcedure) reject: #isStub) size;
-    at: #triggers put: (self allWithType: FmxSQLTrigger) size;
-    yourself.
+Dictionary newFrom: {
+    #entities   -> model entities size .
+    #namespaces -> (model allWithType: FmxSQLNamespace) size .
+    #tables     -> (model allWithType: FmxSQLTable) size .
+    #foreignTables -> (model allWithType: FmxSQLForeignTable) size .
+    #views      -> (model allWithType: FmxSQLView) size .
+    #routines   -> ((model allWithSubTypesOf: FmxSQLStoredProcedure) reject: #isStub) size .
+    #triggers   -> (model allWithType: FmxSQLTrigger) size
+	}
 ```
 
 Model counts can include synthetic/system stubs; they need not equal a direct
