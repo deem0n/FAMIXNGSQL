@@ -1,4 +1,5 @@
 "Use immutable archive dependencies, independent of prebuilt Iceberg checkouts.
  Only affects the disposable CI image."
 Iceberg enableMetacelloIntegration: false.
-IceRepository registry copy do: #unregister.
+IceRepository registry copy do: [ :repository |
+    IceRepository unregisterRepository: repository ifAbsent: [ ] ].
