@@ -488,3 +488,7 @@ export can be parsed.
 Distributed under the [MIT license](LICENSE). This fork builds on
 [Julien Delplanque's FAMIXNGSQL](https://github.com/juliendelplanque/FAMIXNGSQL),
 with updated metadata extraction, SQL parsing and Moose metamodel integration.
+
+## v3.0.0 qualification
+
+See the [release plan and issue/PR map](docs/v3-release-plan.md) for the compatibility audit, separate fixes, breaking changes and release gates. This branch is an integration candidate; v3.0.0 is not released.
