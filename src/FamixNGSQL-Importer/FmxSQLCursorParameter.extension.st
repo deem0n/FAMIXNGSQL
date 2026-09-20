@@ -8,3 +8,13 @@ FmxSQLCursorParameter >> createReferenceEntityFrom: aFmxSQLEntity [
 		mooseModel: aFmxSQLEntity mooseModel;
 		yourself.
 ]
+
+{ #category : #'*FamixNGSQL-Importer' }
+FmxSQLCursorParameter >> mooseNameOn: aStream [
+	aStream nextPutAll: (FmxSQLMooseName nameFor: self)
+]
+
+{ #category : #'*FamixNGSQL-Importer' }
+FmxSQLCursorParameter >> hasUniqueMooseNameInModel [
+	^ FmxSQLMooseName isUniqueFor: self
+]

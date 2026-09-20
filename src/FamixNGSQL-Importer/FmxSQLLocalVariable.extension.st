@@ -16,3 +16,13 @@ FmxSQLLocalVariable >> createReferenceEntityFrom: aFmxSQLEntity [
 FmxSQLLocalVariable >> reachableEntities [
 	^ self type ifNil: [ #() ] ifNotNil: [ :aType | aType reachableEntities ]
 ]
+
+{ #category : #'*FamixNGSQL-Importer' }
+FmxSQLLocalVariable >> mooseNameOn: aStream [
+	aStream nextPutAll: (FmxSQLMooseName nameFor: self)
+]
+
+{ #category : #'*FamixNGSQL-Importer' }
+FmxSQLLocalVariable >> hasUniqueMooseNameInModel [
+	^ FmxSQLMooseName isUniqueFor: self
+]

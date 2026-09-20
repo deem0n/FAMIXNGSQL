@@ -13,3 +13,18 @@ FmxSQLNamespace >> createReferenceEntityFrom: aFmxSQLEntity [
 FmxSQLNamespace >> reachableEntities [
 	^ self namespaceEntities
 ]
+
+{ #category : #'*FamixNGSQL-Importer' }
+FmxSQLNamespace >> mooseName [
+	^ FmxSQLMooseName nameFor: self
+]
+
+{ #category : #'*FamixNGSQL-Importer' }
+FmxSQLNamespace >> mooseNameOn: aStream [
+	aStream nextPutAll: (FmxSQLMooseName nameFor: self)
+]
+
+{ #category : #'*FamixNGSQL-Importer' }
+FmxSQLNamespace >> hasUniqueMooseNameInModel [
+	^ FmxSQLMooseName isUniqueFor: self
+]
