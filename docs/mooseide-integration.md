@@ -22,3 +22,18 @@ fork-first v3 development work, not a published v3 release.
 
 GitHub CI loads these optional tests in the ready-made Moose image. The plain
 Pharo job continues to test Core without GUI dependencies.
+
+## SQL CoUsage
+
+Select **SQL relation references** as the inner-box extractor in the standard
+CoUsage map settings, or use:
+
+```smalltalk
+FmxSQLCoUsageExtractor openOn: (model allWithType: FmxSQLStoredProcedure).
+```
+
+Containers are routines, views or tables; inner boxes are referenced database
+tables/views. Column references are projected to their owning relation, and
+foreign keys contribute referenced relations. Repeated references retain usage
+counts. Empty results mean no modeled references, not proof that dynamic SQL has
+no dependencies. The helper rejects mixed/unsupported input before opening.
