@@ -2,7 +2,7 @@
  The prebuilt image contains their Java/Smalltalk test model dependencies."
 | repository loader |
 repository := MCGitHubRepository location:
-    'github://deem0n/Famix:717dd2585713467ea11a0dab729d1b1459801017/src'.
+    'github://deem0n/Famix:a4c7ab04868fc924bb0ca470142c60d8576f6a17/src'.
 loader := MCVersionLoader new.
 #('Famix-Visualizations' 'Famix-Visualizations-Tests' 'Moose-Core-Tests' 'Moose-Query-Test') do: [ :packageName |
     loader addVersion: (repository packageNamed: packageName) ].

@@ -25,7 +25,7 @@ Status: review and integration candidate, not a published release. Track all wor
 
 All PRs target deem0n forks first. Famix #1/#2 plus the pre-existing namespace hierarchy and Fame fixes, and MooseIDE #1–#4 are independent review units. The draft [Famix #3](https://github.com/deem0n/Famix/pull/3) and [MooseIDE #5](https://github.com/deem0n/MooseIDE/pull/5) combine them solely for qualification; merge individual fixes first. SQL #25 and #26 can be reviewed independently. SQL #27 is stacked on #25, and #28–#31 on #27; retarget each to master after its prerequisite is merged.
 
-This branch combines the SQL fixes and pins Famix `717dd2585713467ea11a0dab729d1b1459801017`. The Moose CI preparation script additionally pins complete changed MooseIDE packages at `0078da66db3575346e3a25402a90684686234f07`. These are immutable qualification commits containing the separate PRs, not moving upstream development branches. After review, ensure the same fixes are reachable from the fork default branches and refresh pins if review changes them.
+This branch combines the SQL fixes and pins Famix `a4c7ab04868fc924bb0ca470142c60d8576f6a17`. The Moose CI preparation script additionally pins complete changed MooseIDE packages at `0078da66db3575346e3a25402a90684686234f07`. These are immutable qualification commits containing the separate PRs, not moving upstream development branches. After review, ensure the same fixes are reachable from the fork default branches and refresh pins if review changes them.
 
 ## Validation and release gates
 
@@ -51,3 +51,5 @@ Qualified Moose names change lookup/cache/export identifiers; see [naming migrat
 Qualification scope is Pharo 13/Moose 13/PostgreSQL 15. Do not advertise Pharo 7–12, Moose 12, Pharo 14 or other PostgreSQL versions as supported by v3 until their own clean matrix is green. Famix's broader fork matrix is separate evidence, not full-stack SQL qualification.
 
 The two pre-existing Famix fixes are also required: upstream [#1150](https://github.com/moosetechnology/Famix/pull/1150) (namespace hierarchy) and [#1149](https://github.com/moosetechnology/Famix/pull/1149) (Fame group inspection). Their existing branches are included in the qualification pin, with `FamixNamespaceGroupHierarchyTest` and `MooseGroupTest` required in combined CI. The original audit image already had these fixes; omitting them from a clean installation would regress it.
+
+Fork preservation PRs: [Famix #4](https://github.com/deem0n/Famix/pull/4) for namespace hierarchy and [Famix #5](https://github.com/deem0n/Famix/pull/5) for the already upstream-merged Fame fix. As requested in upstream #1150 review, the extra namespace workflow/configuration is removed while the seven regression tests are retained; the existing combined Moose CI runs them.

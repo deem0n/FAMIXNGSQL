@@ -33,7 +33,7 @@ BaselineOfFAMIXNGSQL >> baseline: spec [
 			spec
 				baseline: 'Famix'
 				with: [ spec
-						repository: 'github://deem0n/Famix:717dd2585713467ea11a0dab729d1b1459801017/src';
+						repository: 'github://deem0n/Famix:a4c7ab04868fc924bb0ca470142c60d8576f6a17/src';
 						loads: #('Core' 'Basic') ].
 			spec
 				baseline: 'SymbolResolver'
