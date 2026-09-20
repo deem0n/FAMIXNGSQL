@@ -11,6 +11,7 @@ SmalltalkCISpec {
             #platforms : [ #pharo ]
         }
     ],
+    #postLoading : 'scripts/ci/load-famix-regressions.st',
     #preTesting : 'scripts/ci/configure-database.st',
     #testing : {
         #packages : [ 'FamixNGSQL-Importer-Tests', 'FAMIXNGSQLMetamodelGenerator-Tests', 'PgMetadata-tests', 'FamixNGSQL-MooseIDE-Tests' ],
