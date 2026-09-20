@@ -19,6 +19,10 @@ BaselineOfFAMIXNGSQL >> baseline: spec [
 						requires: #('FamixNGSQL' 'PostgreSQLParser' 'PgMetadata' 'SymbolResolver' 'PetitParser') ];
 				package: #'FamixNGSQL-Importer-Tests'
 					with: [ spec requires: #('FamixNGSQL-Importer' 'PgMetadata-Tests') ];
+				package: #'FamixNGSQL-MooseIDE'
+					with: [ spec requires: #('FamixNGSQL-Importer') ];
+				package: #'FamixNGSQL-MooseIDE-Tests'
+					with: [ spec requires: #('FamixNGSQL-MooseIDE') ];
 				package: #'FamixNGSQL-GTInspectorExtension'
 					with: [ spec requires: #('FamixNGSQL-Importer') ];
 				package: #FAMIXNGSQLAnalysis
@@ -29,7 +33,7 @@ BaselineOfFAMIXNGSQL >> baseline: spec [
 			spec
 				baseline: 'Famix'
 				with: [ spec
-						repository: 'github://moosetechnology/Famix:4fd41546375e0ab86a4920eff547cc898e22db0b/src';
+						repository: 'github://deem0n/Famix:b0a762751dd06ebe46f98d016943613d28c18d82/src';
 						loads: #('Core' 'Basic') ].
 			spec
 				baseline: 'SymbolResolver'
@@ -66,5 +70,7 @@ BaselineOfFAMIXNGSQL >> baseline: spec [
 				group: 'Generator' with: #('Core' 'FAMIXNGSQLMetamodelGenerator');
 				group: 'GeneratorTests' with: #('Generator' 'FAMIXNGSQLMetamodelGenerator-Tests');
 				group: 'Tests' with: #('Core' 'FamixNGSQL-Importer-Tests');
+				group: 'MooseIDE' with: #('Core' 'FamixNGSQL-MooseIDE');
+				group: 'MooseIDETests' with: #('MooseIDE' 'FamixNGSQL-MooseIDE-Tests');
 				group: 'LegacyUI' with: #('Core' 'FamixNGSQL-GTInspectorExtension' 'FAMIXNGSQLAnalysis' 'FAMIXNGSQLAnalysis-ConnectionsManager') ]
 ]
