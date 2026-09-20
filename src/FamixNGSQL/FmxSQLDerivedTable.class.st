@@ -14,7 +14,7 @@ I am a derived table. A derived table is a temporary table created to store temp
 |---|
 | `columns` | `FmxSQLColumnsContainer` | `columnsContainer` | `FmxSQLTColumn` | |
 | `queries` | `FmxSQLTQueryContainer` | `container` | `FmxSQLCRUDQuery` | |
-| `query` | `FmxSQLDerivedTable` | `derivedTableDefining` | `FmxSQLCRUDQuery` | |
+| `sqlQuery` | `FmxSQLDerivedTable` | `derivedTableDefining` | `FmxSQLCRUDQuery` | |
 
 ### Incoming dependencies
 | Relation | Origin | Opposite | Type | Comment |
@@ -36,7 +36,7 @@ Class {
 	#classTraits : 'FmxSQLBehaviouralEntity classTrait + FmxSQLColumnsContainer classTrait + FmxSQLTQueryContainer classTrait',
 	#instVars : [
 		'#parentQuery => FMOne type: #FmxSQLTDefiningDerivedTables opposite: #derivedTablesDefined',
-		'#query => FMOne type: #FmxSQLCRUDQuery opposite: #derivedTableDefining',
+		'#sqlQuery => FMOne type: #FmxSQLCRUDQuery opposite: #derivedTableDefining',
 		'#references => FMMany type: #FmxSQLDerivedTableReference opposite: #derivedTable'
 	],
 	#category : 'FamixNGSQL-Entities',
@@ -80,21 +80,21 @@ FmxSQLDerivedTable >> parentQuery: anObject [
 ]
 
 { #category : 'accessing' }
-FmxSQLDerivedTable >> query [
-	"Relation named: #query type: #FmxSQLCRUDQuery opposite: #derivedTableDefining"
+FmxSQLDerivedTable >> sqlQuery [
+	"Relation named: #sqlQuery type: #FmxSQLCRUDQuery opposite: #derivedTableDefining"
 
 	<ignoreForCoverage>
 	<generated>
 	<derived>
-	^ query
+	^ sqlQuery
 ]
 
 { #category : 'accessing' }
-FmxSQLDerivedTable >> query: anObject [
+FmxSQLDerivedTable >> sqlQuery: anObject [
 
 	<ignoreForCoverage>
 	<generated>
-	query := anObject
+	sqlQuery := anObject
 ]
 
 { #category : 'accessing' }

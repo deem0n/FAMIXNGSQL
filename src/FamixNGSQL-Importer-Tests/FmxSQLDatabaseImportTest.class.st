@@ -37,7 +37,7 @@ CREATE TRIGGER view_insert INSTEAD OF INSERT ON {1}.account_view FOR EACH ROW EX
 	self assert: routine parameters size equals: 1.
 	self assert: routine parameters anyOne position equals: 1.
 	self assert: (routine source includesSubstring: 'UPDATE').
-	self assert: view query isNotNil.
+	self assert: view sqlQuery isNotNil.
 	trigger := view triggers anyOne.
 	self assert: trigger table identicalTo: view.
 	self assert: trigger storedProcedure queries isNotEmpty.

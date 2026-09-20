@@ -35,7 +35,7 @@ PSQLASTValuesNullObject >> mooseModel: aMooseModel [
 ]
 
 { #category : #'null pattern' }
-PSQLASTValuesNullObject >> query [
+PSQLASTValuesNullObject >> sqlQuery [
 	"Used in #visitPSQLASTFromClauseItemType2: method of the importer."
 	^ FmxSQLValuesQuery new
 		mooseModel: self mooseModel;

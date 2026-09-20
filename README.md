@@ -200,6 +200,36 @@ Inspect each trigger's owner and invoked routine:
 The `table` relation also accepts a view, including the owner of an
 `INSTEAD OF` trigger.
 
+### SQL queries and Moose navigation (master after v2.0.0)
+
+SQL relations use `sqlQuery` so that `query` remains available for Moose's
+navigation API:
+
+| Entity | SQL accessor | Meaning |
+| --- | --- | --- |
+| `FmxSQLView` | `sqlQuery` / `sqlQuery:` | SELECT query defining the view |
+| `FmxSQLDerivedTable` | `sqlQuery` / `sqlQuery:` | Query defining the derived table |
+| `FmxSQLClause` and subclasses | `sqlQuery` / `sqlQuery:` | Query containing the clause |
+| `FmxSQLCursor` | `sqlQuery` | Single query in the cursor's `queries` collection |
+
+For example, in a view's Inspector:
+
+```smalltalk
+self sqlQuery. "Parsed SQL definition; can be nil after incomplete analysis"
+self query. "MooseQuery navigation object"
+self queryLocal: #in with: FmxSQLViewReference.
+```
+
+This is a breaking change from v2.0.0: update SQL-domain callers of `query`
+and `query:`. There are no compatibility aliases or MSE property translations.
+The parser AST API is unchanged. The metamodel generator defines the new names,
+including the opposite relations, so regeneration preserves them.
+
+Use a fresh image and rebuild models from PostgreSQL, or explicitly preserve
+and restore the old slot values when upgrading a populated image. Older MSE
+files that contain a clause's `query` property require migration before import;
+new exports use `sqlQuery`. Keep the old image/export until migration is verified.
+
 ## Understand analysis coverage
 
 In the model Inspector:

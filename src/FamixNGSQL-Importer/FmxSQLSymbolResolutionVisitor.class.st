@@ -47,7 +47,7 @@ FmxSQLSymbolResolutionVisitor class >> model: aMooseModel view: aFmxSQLView erro
 { #category : #'entity creation' }
 FmxSQLSymbolResolutionVisitor >> createClause: aClauseClass from: aPSQLASTClauseNode [
 	^ (self createEntity: aClauseClass from: aPSQLASTClauseNode)
-		query: self currentEntity;
+		sqlQuery: self currentEntity;
 		yourself
 ]
 
@@ -112,7 +112,7 @@ FmxSQLSymbolResolutionVisitor >> createQueryContainedByCurrentEntity: aClass fro
 		ifFalse: [ "Otherwise we need to create a reference to a DerivedTable"
 			|derivedTable|
 			derivedTable := (self createEntity: FmxSQLDerivedTable)
-									query: newQuery;
+									sqlQuery: newQuery;
 									parentQuery: (self solver detect: [ :scope | scope entity isKindOf: FmxSQLCRUDQuery ]) entity;
 									yourself.
 			self createReferenceTo: derivedTable from: anASTNode
@@ -384,9 +384,9 @@ FmxSQLSymbolResolutionVisitor >> visitPSQLASTAliasDefinition: aPSQLASTAliasDefin
 		
 	visitResult class = SREntityScope "The definition is a derived table..."
 		ifTrue: [ |query derivedTable|
-			query := visitResult entity query.
+			query := visitResult entity sqlQuery.
 			derivedTable := (self createEntity: FmxSQLDerivedTable)
-									query: query;
+									sqlQuery: query;
 									parentQuery: (self solver peekScopeAtIndex: 3) entity;
 									yourself.
 			^ PSQLDerivedTableToBeAliasedByColumn alias: alias entity: derivedTable astNode: aPSQLASTAliasDefinition definition ].
@@ -537,7 +537,7 @@ FmxSQLSymbolResolutionVisitor >> visitPSQLASTDeleteQuery: aPSQLASTDeleteQuery [
 				thenDo: [ :tableName | "Here we create manually the FROM clause because in the AST we do not model the FROM clause of a DELETE query with a node. We directly store the identifier of the table." 
 					| fromClause fromClauseScope |
 					fromClause := self createEntity: FmxSQLFromClause from: aPSQLASTDeleteQuery tableName.
-					fromClause query: self currentEntity.
+					fromClause sqlQuery: self currentEntity.
 					fromClauseScope := SREntityScope currentEntity: fromClause.
 					scopeManager pushScope: fromClauseScope andDoAsCurrentEntity: [ self createReferenceTo: (self findTableOrViewNamed: tableName) from: aPSQLASTDeleteQuery tableName ].
 					 ].
@@ -612,9 +612,9 @@ FmxSQLSymbolResolutionVisitor >> visitPSQLASTFromClauseItemType1: aPSQLASTFromCl
 FmxSQLSymbolResolutionVisitor >> visitPSQLASTFromClauseItemType2: aPSQLASTFromClauseItemType2 [
 	| alias fmxAlias valueOrSelect derivedTable |
 	alias := self visit: aPSQLASTFromClauseItemType2 alias.
-	valueOrSelect := (self visit: aPSQLASTFromClauseItemType2 valuesOrSelect) entity query.
+	valueOrSelect := (self visit: aPSQLASTFromClauseItemType2 valuesOrSelect) entity sqlQuery.
 	derivedTable := (self createEntity: FmxSQLDerivedTable)
-							query: valueOrSelect;
+							sqlQuery: valueOrSelect;
 							parentQuery: (self solver peekScopeAtIndex: 2) entity;
 							yourself.
 	fmxAlias := self
@@ -795,7 +795,7 @@ FmxSQLSymbolResolutionVisitor >> visitPSQLASTSelectIntoQuery: aPSQLASTSelectInto
 	recordLocalVariable class = FmxSQLRecordLocalVariable
 		ifFalse: [ ^ toReturn ].
 	recordLocalVariable
-		queryBoundTo: toReturn entity query.
+		queryBoundTo: toReturn entity sqlQuery.
 	^ toReturn
 ]
 
@@ -817,7 +817,7 @@ FmxSQLSymbolResolutionVisitor >> visitPSQLASTSelectQuery: aPSQLASTSelectQuery [
 			self
 				useCurrentEntity:
 					((self createEntity: FmxSQLSelectClause)
-						query: selectQuery;
+						sqlQuery: selectQuery;
 						yourself)
 				during: [ |aliasesToBeDefined|
 					aliasesToBeDefined := OrderedCollection new.
@@ -849,7 +849,7 @@ FmxSQLSymbolResolutionVisitor >> visitPSQLASTSelectQuery: aPSQLASTSelectQuery [
 FmxSQLSymbolResolutionVisitor >> visitPSQLASTSelectWhereClause: aPSQLASTSelectWhereClause [
 	| whereClause |
 	whereClause := self createEntity: FmxSQLWhereClause from: aPSQLASTSelectWhereClause.
-	whereClause query: self currentEntity.
+	whereClause sqlQuery: self currentEntity.
 	self
 		useCurrentEntity: whereClause
 		during: [ self visit: aPSQLASTSelectWhereClause condition ].
@@ -931,7 +931,7 @@ FmxSQLSymbolResolutionVisitor >> visitPSQLASTUpdateQuery: aPSQLASTUpdateQuery [
 			self flag: #TODO;
 				useCurrentEntity:
 					((self createEntity: FmxSQLSetClause)
-						query: self currentEntity;
+						sqlQuery: self currentEntity;
 						yourself)
 				during: [ self visit: aPSQLASTUpdateQuery setClause ].
 			self visit: aPSQLASTUpdateQuery whereClause.

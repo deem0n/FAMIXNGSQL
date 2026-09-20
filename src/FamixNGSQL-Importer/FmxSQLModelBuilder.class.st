@@ -414,7 +414,7 @@ FmxSQLModelBuilder >> visitViewsDefinitionsFor: aMooseModel [
 		view := pgToFamixEntities at: pgView.
 		visitor := FmxSQLSymbolResolutionVisitor
 			model: aMooseModel view: view errorReport: self errorReport.
-		self analyse: view during: [ view query: (pgView ast acceptVisitor: visitor) entity query ]
+		self analyse: view during: [ view sqlQuery: (pgView ast acceptVisitor: visitor) entity sqlQuery ]
 	] displayingProgress: 'Symbol resolution for views'
 ]
 

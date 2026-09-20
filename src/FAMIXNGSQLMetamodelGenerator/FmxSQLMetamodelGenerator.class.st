@@ -244,13 +244,13 @@ FmxSQLMetamodelGenerator >> defineBehaviouralEntitiesRelations [
 		*-* (storedProcedure property: #exclusionConstraintsCalling).
 
 	"A View is defined as a SelectQuery."
-	queryRelation := (view property: #query)
+	queryRelation := (view property: #sqlQuery)
 		<>- (selectQuery property: #viewDefining).
 	queryRelation derived.
 	queryRelation oppositeSide notDerived.
 	
 	"A DerivedTable is defined as a CRUD query."
-	queryRelation := (derivedTable property: #query)
+	queryRelation := (derivedTable property: #sqlQuery)
 		<>- (crudQuery property: #derivedTableDefining).
 	queryRelation derived.
 	queryRelation oppositeSide notDerived.
@@ -447,7 +447,7 @@ FmxSQLMetamodelGenerator >> defineBehaviouralReferenceRelations [
 
 	"A query contains multiple clauses"
 	(crudQuery property: #clauses)
-		<>-* (clause property: #query).
+		<>-* (clause property: #sqlQuery).
 
 	"A QueryContainer contains multiple queries"
 	(tQueryContainer property: #queries)

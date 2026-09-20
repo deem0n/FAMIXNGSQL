@@ -14,7 +14,7 @@ I am a view. I can be used transparently as a table but I do not hold data. My d
 |---|
 | `columns` | `FmxSQLColumnsContainer` | `columnsContainer` | `FmxSQLTColumn` | |
 | `queries` | `FmxSQLTQueryContainer` | `container` | `FmxSQLCRUDQuery` | |
-| `query` | `FmxSQLView` | `viewDefining` | `FmxSQLSelectQuery` | |
+| `sqlQuery` | `FmxSQLView` | `viewDefining` | `FmxSQLSelectQuery` | |
 | `triggers` | `FmxSQLTWithTriggers` | `table` | `FmxSQLTrigger` | |
 
 ### Incoming dependencies
@@ -49,7 +49,7 @@ Class {
 	#classTraits : 'FamixTHasImmediateSource classTrait + FmxSQLAbstractType classTrait + FmxSQLBehaviouralEntity classTrait + FmxSQLColumnsContainer classTrait + FmxSQLTNamedEntity classTrait + FmxSQLTQueryContainer classTrait + FmxSQLTWithTriggers classTrait',
 	#instVars : [
 		'#isMaterialized => FMProperty',
-		'#query => FMOne type: #FmxSQLSelectQuery opposite: #viewDefining',
+		'#sqlQuery => FMOne type: #FmxSQLSelectQuery opposite: #viewDefining',
 		'#references => FMMany type: #FmxSQLViewReference opposite: #view'
 	],
 	#category : 'FamixNGSQL-Entities',
@@ -99,21 +99,21 @@ FmxSQLView >> isView [
 ]
 
 { #category : 'accessing' }
-FmxSQLView >> query [
-	"Relation named: #query type: #FmxSQLSelectQuery opposite: #viewDefining"
+FmxSQLView >> sqlQuery [
+	"Relation named: #sqlQuery type: #FmxSQLSelectQuery opposite: #viewDefining"
 
 	<ignoreForCoverage>
 	<generated>
 	<derived>
-	^ query
+	^ sqlQuery
 ]
 
 { #category : 'accessing' }
-FmxSQLView >> query: anObject [
+FmxSQLView >> sqlQuery: anObject [
 
 	<ignoreForCoverage>
 	<generated>
-	query := anObject
+	sqlQuery := anObject
 ]
 
 { #category : 'accessing' }

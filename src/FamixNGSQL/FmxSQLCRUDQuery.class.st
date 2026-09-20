@@ -18,12 +18,12 @@ My subclasses represent these four queries.
 | Relation | Origin | Opposite | Type | Comment |
 |---|
 | `container` | `FmxSQLCRUDQuery` | `queries` | `FmxSQLTQueryContainer` | |
-| `derivedTableDefining` | `FmxSQLCRUDQuery` | `query` | `FmxSQLDerivedTable` | |
+| `derivedTableDefining` | `FmxSQLCRUDQuery` | `sqlQuery` | `FmxSQLDerivedTable` | |
 
 ### Children
 | Relation | Origin | Opposite | Type | Comment |
 |---|
-| `clauses` | `FmxSQLCRUDQuery` | `query` | `FmxSQLClause` | |
+| `clauses` | `FmxSQLCRUDQuery` | `sqlQuery` | `FmxSQLClause` | |
 
 ### Outgoing dependencies
 | Relation | Origin | Opposite | Type | Comment |
@@ -46,9 +46,9 @@ Class {
 	#traits : 'FamixTSourceEntity + FmxSQLTWithNamespaceReference + FmxSQLTWithTableReference + FmxSQLTWithViewReference + TEntityMetaLevelDependency',
 	#classTraits : 'FamixTSourceEntity classTrait + FmxSQLTWithNamespaceReference classTrait + FmxSQLTWithTableReference classTrait + FmxSQLTWithViewReference classTrait + TEntityMetaLevelDependency classTrait',
 	#instVars : [
-		'#clauses => FMMany type: #FmxSQLClause opposite: #query',
+		'#clauses => FMMany type: #FmxSQLClause opposite: #sqlQuery',
 		'#container => FMOne type: #FmxSQLTQueryContainer opposite: #queries',
-		'#derivedTableDefining => FMOne type: #FmxSQLDerivedTable opposite: #query'
+		'#derivedTableDefining => FMOne type: #FmxSQLDerivedTable opposite: #sqlQuery'
 	],
 	#category : 'FamixNGSQL-Entities',
 	#package : 'FamixNGSQL',
@@ -74,7 +74,7 @@ FmxSQLCRUDQuery >> addClause: anObject [
 
 { #category : 'accessing' }
 FmxSQLCRUDQuery >> clauses [
-	"Relation named: #clauses type: #FmxSQLClause opposite: #query"
+	"Relation named: #clauses type: #FmxSQLClause opposite: #sqlQuery"
 
 	<ignoreForCoverage>
 	<generated>
@@ -110,7 +110,7 @@ FmxSQLCRUDQuery >> container: anObject [
 
 { #category : 'accessing' }
 FmxSQLCRUDQuery >> derivedTableDefining [
-	"Relation named: #derivedTableDefining type: #FmxSQLDerivedTable opposite: #query"
+	"Relation named: #derivedTableDefining type: #FmxSQLDerivedTable opposite: #sqlQuery"
 
 	<ignoreForCoverage>
 	<generated>

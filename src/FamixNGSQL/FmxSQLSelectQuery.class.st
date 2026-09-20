@@ -7,7 +7,7 @@ I am a SELECT query.
 ### Parents
 | Relation | Origin | Opposite | Type | Comment |
 |---|
-| `viewDefining` | `FmxSQLSelectQuery` | `query` | `FmxSQLView` | |
+| `viewDefining` | `FmxSQLSelectQuery` | `sqlQuery` | `FmxSQLView` | |
 
 ### Children
 | Relation | Origin | Opposite | Type | Comment |
@@ -29,7 +29,7 @@ Class {
 	#classTraits : 'FmxSQLTDefiningDerivedTables classTrait',
 	#instVars : [
 		'#recordLocalVariables => FMMany type: #FmxSQLRecordLocalVariable opposite: #queryBoundTo',
-		'#viewDefining => FMOne type: #FmxSQLView opposite: #query'
+		'#viewDefining => FMOne type: #FmxSQLView opposite: #sqlQuery'
 	],
 	#category : 'FamixNGSQL-Entities',
 	#package : 'FamixNGSQL',
@@ -73,7 +73,7 @@ FmxSQLSelectQuery >> recordLocalVariables: anObject [
 
 { #category : 'accessing' }
 FmxSQLSelectQuery >> viewDefining [
-	"Relation named: #viewDefining type: #FmxSQLView opposite: #query"
+	"Relation named: #viewDefining type: #FmxSQLView opposite: #sqlQuery"
 
 	<ignoreForCoverage>
 	<generated>

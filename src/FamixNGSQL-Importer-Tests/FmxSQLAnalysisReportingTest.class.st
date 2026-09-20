@@ -76,14 +76,14 @@ FmxSQLAnalysisReportingTest >> testQueryRelationsSurviveMSERoundTripWithoutDupli
 	derived := FmxSQLDerivedTable new mooseModel: model; yourself.
 	viewQuery := FmxSQLSelectQuery new mooseModel: model; yourself.
 	derivedQuery := FmxSQLSelectQuery new mooseModel: model; yourself.
-	view query: viewQuery.
-	derived query: derivedQuery.
+	view sqlQuery: viewQuery.
+	derived sqlQuery: derivedQuery.
 	self assert: viewQuery viewDefining identicalTo: view.
 	self assert: derivedQuery derivedTableDefining identicalTo: derived.
 	serialized := String streamContents: [ :stream | model exportToMSEStream: stream ].
 	restored := FmxSQLModel importFromMSEStream: serialized readStream.
 	self assert: restored size equals: model size.
 	self assert: (restored allWithType: FmxSQLSelectQuery) size equals: 2.
-	self assert: (restored allWithType: FmxSQLView) anyOne query viewDefining identicalTo: (restored allWithType: FmxSQLView) anyOne.
-	self assert: (restored allWithType: FmxSQLDerivedTable) anyOne query derivedTableDefining identicalTo: (restored allWithType: FmxSQLDerivedTable) anyOne
+	self assert: (restored allWithType: FmxSQLView) anyOne sqlQuery viewDefining identicalTo: (restored allWithType: FmxSQLView) anyOne.
+	self assert: (restored allWithType: FmxSQLDerivedTable) anyOne sqlQuery derivedTableDefining identicalTo: (restored allWithType: FmxSQLDerivedTable) anyOne
 ]

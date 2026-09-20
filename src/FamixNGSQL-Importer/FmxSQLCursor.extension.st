@@ -10,7 +10,7 @@ FmxSQLCursor >> createReferenceEntityFrom: aFmxSQLEntity [
 ]
 
 { #category : #'*FamixNGSQL-Importer' }
-FmxSQLCursor >> query [
+FmxSQLCursor >> sqlQuery [
 	self assert: self queries size = 1.
 	^ self queries first
 ]

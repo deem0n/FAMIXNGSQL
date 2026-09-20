@@ -7,7 +7,7 @@ I am an abstract clause
 ### Parents
 | Relation | Origin | Opposite | Type | Comment |
 |---|
-| `query` | `FmxSQLClause` | `clauses` | `FmxSQLCRUDQuery` | |
+| `sqlQuery` | `FmxSQLClause` | `clauses` | `FmxSQLCRUDQuery` | |
 
 ### Children
 | Relation | Origin | Opposite | Type | Comment |
@@ -28,7 +28,7 @@ Class {
 	#traits : 'FamixTSourceEntity + FmxSQLTWithAlias + TEntityMetaLevelDependency',
 	#classTraits : 'FamixTSourceEntity classTrait + FmxSQLTWithAlias classTrait + TEntityMetaLevelDependency classTrait',
 	#instVars : [
-		'#query => FMOne type: #FmxSQLCRUDQuery opposite: #clauses'
+		'#sqlQuery => FMOne type: #FmxSQLCRUDQuery opposite: #clauses'
 	],
 	#category : 'FamixNGSQL-Entities',
 	#package : 'FamixNGSQL',
@@ -45,19 +45,19 @@ FmxSQLClause class >> annotation [
 ]
 
 { #category : 'accessing' }
-FmxSQLClause >> query [
-	"Relation named: #query type: #FmxSQLCRUDQuery opposite: #clauses"
+FmxSQLClause >> sqlQuery [
+	"Relation named: #sqlQuery type: #FmxSQLCRUDQuery opposite: #clauses"
 
 	<ignoreForCoverage>
 	<generated>
 	<container>
-	^ query
+	^ sqlQuery
 ]
 
 { #category : 'accessing' }
-FmxSQLClause >> query: anObject [
+FmxSQLClause >> sqlQuery: anObject [
 
 	<ignoreForCoverage>
 	<generated>
-	query := anObject
+	sqlQuery := anObject
 ]

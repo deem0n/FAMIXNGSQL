@@ -285,11 +285,11 @@ END;'.
 	self assert: function outgoingCursorReferences size equals: 1.
 	self assert: function outgoingCursorReferences first class equals: FmxSQLCursorReference.
 	cursor := function outgoingCursorReferences first cursor.
-	self assert: cursor query class equals: FmxSQLSelectQuery.
-	self assert: cursor query clauses size equals: 2.
+	self assert: cursor sqlQuery class equals: FmxSQLSelectQuery.
+	self assert: cursor sqlQuery clauses size equals: 2.
 	self
 		find: FmxSQLFromClause
-		in: cursor query clauses
+		in: cursor sqlQuery clauses
 		thenDo: [ :fromClause | 
 			self assert: fromClause outgoingTableReferences size equals: 1.
 			self assert: fromClause outgoingTableReferences first class equals: FmxSQLTableReference.
@@ -315,10 +315,10 @@ END;'.
 	self assert: function accesses size equals: 1.
 	self assert: function accesses first class equals: FmxSQLLocalVariableAccess.
 	cursor := function outgoingCursorReferences first cursor.
-	self assert: cursor query class equals: FmxSQLSelectQuery.
+	self assert: cursor sqlQuery class equals: FmxSQLSelectQuery.
 	self
 		find: FmxSQLFromClause
-		in: cursor query clauses
+		in: cursor sqlQuery clauses
 		thenDo: [ :fromClause | 
 			self assert: fromClause outgoingTableReferences size equals: 1.
 			self assert: fromClause outgoingTableReferences first class equals: FmxSQLTableReference.
@@ -344,10 +344,10 @@ END;'.
 	self assert: cursor parameters size equals: 1.
 	self assert: cursor parameters first name equals: 'curs_param'.
 	self assert: cursor parameters first type name equals: 'integer'.
-	self assert: cursor query class equals: FmxSQLSelectQuery.
+	self assert: cursor sqlQuery class equals: FmxSQLSelectQuery.
 	self
 		find: FmxSQLFromClause
-		in: cursor query clauses
+		in: cursor sqlQuery clauses
 		thenDo: [ :fromClause | 
 			self assert: fromClause outgoingTableReferences size equals: 1.
 			self assert: fromClause outgoingTableReferences first class equals: FmxSQLTableReference.
@@ -365,10 +365,10 @@ FmxSQLSymbolResolutionVisitorTest >> testCursorWithParameterDeclarationAndAccess
 BEGIN
 END;'.
 	cursor := function outgoingCursorReferences first cursor.
-	self assert: cursor query clauses size equals: 2.
+	self assert: cursor sqlQuery clauses size equals: 2.
 	self
 		find: FmxSQLSelectClause
-		in: cursor query clauses
+		in: cursor sqlQuery clauses
 		thenDo: [ :selectClause | 
 			self assert: selectClause accesses size equals: 1.
 			self assert: selectClause accesses first class equals: FmxSQLCursorParameterAccess.
