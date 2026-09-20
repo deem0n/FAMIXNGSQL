@@ -1,0 +1,22 @@
+SmalltalkCISpec {
+    #name : 'FAMIXNGSQL-2-Pharo13-Moose13',
+    #preLoading : 'scripts/ci/prepare-moose.st',
+    #loading : [
+        SCIMetacelloLoadSpec {
+            #baseline : 'FAMIXNGSQL',
+            #directory : 'src',
+            #load : [ 'Tests', 'GeneratorTests', 'MooseIDETests' ],
+            #onConflict : #useIncoming,
+            #onUpgrade : #useIncoming,
+            #platforms : [ #pharo ]
+        }
+    ],
+    #postLoading : 'scripts/ci/load-famix-regressions.st',
+    #preTesting : 'scripts/ci/configure-database.st',
+    #testing : {
+        #packages : [ 'FamixNGSQL-Importer-Tests', 'FAMIXNGSQLMetamodelGenerator-Tests', 'PgMetadata-tests', 'FamixNGSQL-MooseIDE-Tests' ],
+        #classes : [ #MiMetaBrowserRegressionTest, #MiModelReportRegressionTest, #MiLayerApplicabilityTest, #MiApplicationTest, #MiButterflyMapModelTest, #MiButterflyMapBrowserTest, #MooseGroupNameCloudTest, #MQNavigationContainmentTest, #FamixNamespaceGroupHierarchyTest, #MooseGroupTest ],
+        #defaultTimeout : 120,
+        #failOnZeroTests : true
+    }
+}
