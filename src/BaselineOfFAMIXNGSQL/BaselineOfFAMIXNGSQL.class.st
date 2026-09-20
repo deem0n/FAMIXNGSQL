@@ -71,6 +71,5 @@ BaselineOfFAMIXNGSQL >> baseline: spec [
 				group: 'GeneratorTests' with: #('Generator' 'FAMIXNGSQLMetamodelGenerator-Tests');
 				group: 'Tests' with: #('Core' 'FamixNGSQL-Importer-Tests');
 				group: 'MooseIDE' with: #('Core' 'FamixNGSQL-MooseIDE');
-				group: 'MooseIDETests' with: #('MooseIDE' 'FamixNGSQL-MooseIDE-Tests');
-				group: 'LegacyUI' with: #('Core' 'FamixNGSQL-GTInspectorExtension' 'FAMIXNGSQLAnalysis' 'FAMIXNGSQLAnalysis-ConnectionsManager') ]
+				group: 'MooseIDETests' with: #('MooseIDE' 'FamixNGSQL-MooseIDE-Tests') ]
 ]

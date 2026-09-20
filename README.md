@@ -78,9 +78,10 @@ immutable Moose 13 release. smalltalkCI selects it with `Moose64-13`.
 | `Tests` | Core, importer tests and PgMetadata scenario-test support |
 | `Generator` | Core and the metamodel generator |
 | `GeneratorTests` | Generator plus its global-regeneration selection regression test |
-| `LegacyUI` | Historical GT Inspector, analysis, Telescope and connection-manager packages |
+| `MooseIDE` | Optional standard Moose tool adapters and Roassal 3 SQL views (requires Moose 13) |
+| `MooseIDETests` | Optional tool and visualization regression tests |
 
-`LegacyUI` has not been ported or validated on the current image. Core usage does
+The unsupported `LegacyUI` load group is removed for v3. Historical sources remain archived in `src`; use the [Roassal 3 SQL views](docs/mooseide-integration.md) instead. Core usage does
 not require those UI packages or a Genie MCP server. Loading modern Genie in a
 historical Pharo 7 image is not part of the installation procedure.
 
