@@ -4,7 +4,7 @@
 repository := MCGitHubRepository location:
     'github://deem0n/Famix:50bb4f82506561512c5fa4692285bf01592732bd/src'.
 loader := MCVersionLoader new.
-#('Moose-Core-Tests' 'Moose-Query-Test') do: [ :packageName |
+#('Famix-Visualizations' 'Moose-Core-Tests' 'Moose-Query-Test') do: [ :packageName |
     loader addVersion: (repository packageNamed: packageName) ].
 loader load.
 #(MiMetaBrowserRegressionTest MiModelReportRegressionTest MiLayerApplicabilityTest

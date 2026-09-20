@@ -2,12 +2,13 @@
 
 In a Moose 13 / Pharo 13 image with MooseIDE already installed, load the `MooseIDE`
 group of FAMIXNGSQL. `MooseIDETests` adds its regression tests. The plain `Core`
-group does not load these packages or require the Moose UI.
+group does not load these packages or require the Moose UI. The snippet pins the
+review candidate; use `master` only after its prerequisite PRs are merged.
 
 ```smalltalk
 Metacello new
     baseline: 'FAMIXNGSQL';
-    repository: 'github://deem0n/FAMIXNGSQL:master/src';
+    repository: 'github://deem0n/FAMIXNGSQL:0b6dadb15b57b59de0d33c89f5aab790bb93dd5c/src';
     load: 'MooseIDE'.
 ```
 
@@ -37,6 +38,7 @@ tables/views. Column references are projected to their owning relation, and
 foreign keys contribute referenced relations. Repeated references retain usage
 counts. Empty results mean no modeled references, not proof that dynamic SQL has
 no dependencies. The helper rejects mixed/unsupported input before opening.
+
 ## Dead-code candidates
 
 Use `FmxSQLDeadCodeRule openOn: routines` to open the standard Dead Code browser
@@ -55,6 +57,7 @@ rule externalEntryPoints: knownExternalRoots.
 The remaining results are candidates, not proof that routines can be dropped.
 This integration does not execute database DDL or remove definitions. Existing
 non-SQL dead-code rules retain their behavior.
+
 ## SQL duplication analysis
 
 Choose **PostgreSQL** as the source cleaner in the standard Duplication Browser settings, or open it with the preset:
@@ -65,6 +68,7 @@ FmxSQLReplicationCleaner openOn: (model entities select: [ :entity |
 ```
 
 The cleaner preserves SQL literals, quoted identifiers and dollar-quoted bodies; removes line and nested block comments; and keeps original line numbers. Whitespace inside literals stays significant. It assumes PostgreSQL `standard_conforming_strings = on`; explicit `E` strings support escaped quotes. Unterminated lexical input raises an error instead of silently changing its meaning. Dollar-quoted bodies are compared verbatim, without recursively interpreting their language. This is lexical clone detection, not semantic SQL equivalence. Thresholds remain configurable in the standard browser.
+
 ## Roassal 3 SQL views
 
 The builders return unopened `RSCanvas` objects. Use any imported SQL model; there is no global `mi` dependency or implicit schema filter. For large databases pass a deliberately selected model, since all matching entities are drawn.
