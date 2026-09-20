@@ -21,8 +21,8 @@ I am an abstract object that represent a reference made to another entity in the
 Class {
 	#name : 'FmxSQLReference',
 	#superclass : 'FmxSQLAssociation',
-	#traits : 'FamixTSourceEntity + FmxSQLTArgument',
-	#classTraits : 'FamixTSourceEntity classTrait + FmxSQLTArgument classTrait',
+	#traits : 'FamixTSourceEntity + FmxSQLTArgument + TEntityMetaLevelDependency',
+	#classTraits : 'FamixTSourceEntity classTrait + FmxSQLTArgument classTrait + TEntityMetaLevelDependency classTrait',
 	#instVars : [
 		'#belongsToGroup => FMOne type: #FmxSQLReferencesGroup opposite: #references',
 		'#storedProcedureContainer => FMOne type: #FmxSQLStoredProcedureCall opposite: #arguments'

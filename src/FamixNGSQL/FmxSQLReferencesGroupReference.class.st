@@ -25,8 +25,8 @@ TODO
 Class {
 	#name : 'FmxSQLReferencesGroupReference',
 	#superclass : 'FmxSQLReference',
-	#traits : 'FmxSQLTReferencesGroupReference + TEntityMetaLevelDependency',
-	#classTraits : 'FmxSQLTReferencesGroupReference classTrait + TEntityMetaLevelDependency classTrait',
+	#traits : 'FmxSQLTReferencesGroupReference',
+	#classTraits : 'FmxSQLTReferencesGroupReference classTrait',
 	#category : 'FamixNGSQL-Entities',
 	#package : 'FamixNGSQL',
 	#tag : 'Entities'

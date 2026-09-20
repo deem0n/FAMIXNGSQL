@@ -230,6 +230,31 @@ and restore the old slot values when upgrading a populated image. Older MSE
 files that contain a clause's `query` property require migration before import;
 new exports use `sqlQuery`. Keep the old image/export until migration is verified.
 
+### Standard Moose Architectural Map (master after v2.0.0)
+
+In a Moose 13 image, execute this in the imported model's Inspector:
+
+```smalltalk
+| schemas browser |
+schemas := (self allWithType: FmxSQLNamespace) reject: [ :schema |
+    (schema name beginsWith: 'pg_') or: [ schema name = 'information_schema' ] ].
+browser := MiArchitecturalMapBrowser new.
+browser open.
+browser followEntity: schemas.
+browser beFrozen.
+```
+
+This uses the standard browser, model, builder and default containment query.
+SQL references implement Moose's dependency-query protocol because they can be
+contained in routine arguments and expression groups. The map can therefore
+discover association types and follow SQL bodies without custom map adapters.
+Double-click a schema to expand or collapse it. Freezing keeps the map on the
+selected schemas when another Moose browser changes its selection.
+
+The diagram reflects dependencies present in the imported model; incomplete
+source analysis still limits the relationships available to display. The plain
+Pharo `Core` installation does not include the Architectural Map UI.
+
 ## Understand analysis coverage
 
 In the model Inspector:

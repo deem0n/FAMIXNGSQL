@@ -494,8 +494,6 @@ FmxSQLMetamodelGenerator >> defineBehaviouralReferencesHierarchy [
 	columnAliasAccess --|> tWithQualifiedReference.
 	referencesGroupReference --|> reference.
 	referencesGroupReference --|> tReferencesGroupReference.
-	referencesGroupReference  --|> #TEntityMetaLevelDependency.
-	"referencesGroupReference --|> #TDependencyQueries."
 	"qualifiedReference --|> entity." "FamixTEntity is deprecated"
 	qualifiedReference --|> #TSourceEntity.
 	namespaceReference --|> tWithQualifiedReference

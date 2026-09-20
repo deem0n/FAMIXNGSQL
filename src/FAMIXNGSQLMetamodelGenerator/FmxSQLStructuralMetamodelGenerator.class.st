@@ -236,6 +236,9 @@ FmxSQLStructuralMetamodelGenerator >> defineStructuralReferencesHierarchy [
 	association --|> #TAssociation.
 	reference --|> association.
 	reference --|> #TSourceEntity.
+	"References can be contained in argument lists and expression groups.
+	They must participate in Moose's containment and dependency queries."
+	reference --|> #TEntityMetaLevelDependency.
 	reference --|> tArgument.
 	tableReference --|> reference.
 	columnReference --|> reference.
