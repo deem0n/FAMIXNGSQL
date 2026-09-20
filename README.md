@@ -152,10 +152,9 @@ remain represented as catalog entities with source.
 
 ## Explore an imported model
 
-The following snippets run in the model Inspector, with `model` bound to the
-`FmxSQLModel` returned by `buildModel` (see above [Connect and build a model](#connect-and-build-a-model)).
-
-Count selected entity kinds:
+In the same Playground used in [Connect and build a model](#connect-and-build-a-model),
+`model` refers to the `FmxSQLModel` returned by `buildModel`. Count selected entity
+kinds with:
 
 ```smalltalk
 Dictionary newFrom: {
@@ -172,6 +171,10 @@ Dictionary newFrom: {
 Model counts can include synthetic/system stubs; they need not equal a direct
 count of application catalog rows. `allWithType:` selects the exact class,
 whereas `allWithSubTypesOf:` includes specialized entities.
+
+The remaining examples in this section run in the model Inspector, where `self`
+refers to the inspected model. To run the counting example there, replace `model`
+with `self`; do not assign to `self`.
 
 Inspect routines, including trigger routines, with their source and parameters:
 
