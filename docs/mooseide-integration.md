@@ -8,7 +8,7 @@ review candidate; use `master` only after its prerequisite PRs are merged.
 ```smalltalk
 Metacello new
     baseline: 'FAMIXNGSQL';
-    repository: 'github://deem0n/FAMIXNGSQL:0b6dadb15b57b59de0d33c89f5aab790bb93dd5c/src';
+    repository: 'github://deem0n/FAMIXNGSQL:4a3e0dcb11e7ce06684ba19d4addb61976b96498/src';
     load: 'MooseIDE'.
 ```
 
