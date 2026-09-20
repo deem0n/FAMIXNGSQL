@@ -55,3 +55,13 @@ rule externalEntryPoints: knownExternalRoots.
 The remaining results are candidates, not proof that routines can be dropped.
 This integration does not execute database DDL or remove definitions. Existing
 non-SQL dead-code rules retain their behavior.
+## SQL duplication analysis
+
+Choose **PostgreSQL** as the source cleaner in the standard Duplication Browser settings, or open it with the preset:
+
+```smalltalk
+FmxSQLReplicationCleaner openOn: (model entities select: [ :entity |
+    entity hasSourceAnchor and: [ entity sourceAnchor hasSourceText ] ]).
+```
+
+The cleaner preserves SQL literals, quoted identifiers and dollar-quoted bodies; removes line and nested block comments; and keeps original line numbers. Whitespace inside literals stays significant. It assumes PostgreSQL `standard_conforming_strings = on`; explicit `E` strings support escaped quotes. Unterminated lexical input raises an error instead of silently changing its meaning. Dollar-quoted bodies are compared verbatim, without recursively interpreting their language. This is lexical clone detection, not semantic SQL equivalence. Thresholds remain configurable in the standard browser.
