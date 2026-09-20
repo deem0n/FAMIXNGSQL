@@ -65,3 +65,16 @@ FmxSQLReplicationCleaner openOn: (model entities select: [ :entity |
 ```
 
 The cleaner preserves SQL literals, quoted identifiers and dollar-quoted bodies; removes line and nested block comments; and keeps original line numbers. Whitespace inside literals stays significant. It assumes PostgreSQL `standard_conforming_strings = on`; explicit `E` strings support escaped quotes. Unterminated lexical input raises an error instead of silently changing its meaning. Dollar-quoted bodies are compared verbatim, without recursively interpreting their language. This is lexical clone detection, not semantic SQL equivalence. Thresholds remain configurable in the standard browser.
+## Roassal 3 SQL views
+
+The builders return unopened `RSCanvas` objects. Use any imported SQL model; there is no global `mi` dependency or implicit schema filter. For large databases pass a deliberately selected model, since all matching entities are drawn.
+
+```smalltalk
+(FmxSQLRoassalViews schemaTablesIn: model) openWithTitle: 'Schemas and tables'.
+(FmxSQLRoassalViews foreignKeysIn: model) openWithTitle: 'Foreign keys'.
+(FmxSQLRoassalViews routineCallsIn: model) openWithTitle: 'Routine call candidates'.
+```
+
+Schema boxes contain table boxes, like class/method nesting examples. Foreign-key arrows point from the referencing table to the referenced table; composite references collapse to one edge. Call arrows point from the enclosing routine to every candidate routine, including trigger routines. Candidate edges are static-analysis evidence, not proof of runtime calls. Disconnected entities remain visible; endpoints outside the supplied model are omitted. Edges are placed above nodes, and no entities or relationships are changed. Empty models yield empty canvases.
+
+The historical Roassal 2/GT/Telescope sources remain in the repository for migration reference, but the unsupported `LegacyUI` load group is retired in v3. These Roassal 3 builders use current association APIs and replace the advertised visualization entry points.
