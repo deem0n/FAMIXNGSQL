@@ -1,5 +1,6 @@
 SmalltalkCISpec {
     #name : 'FAMIXNGSQL-2-Pharo13-Moose13',
+    #preLoading : 'scripts/ci/prepare-moose.st',
     #loading : [
         SCIMetacelloLoadSpec {
             #baseline : 'FAMIXNGSQL',
